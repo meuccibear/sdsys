@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="../images/favicon.png" type="image/png">
+
+  <title>广告信息发布系统-客户管理</title>
+
+  <link href="../css/style.default.css" rel="stylesheet">
+  <link href="../css/table/bootstrap-table.min.css" rel="stylesheet">
+  <link href="../js/ztree/metroStyle.css" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="../js/html5shiv.js"></script>
+  <script src="../js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="stickyheader leftpanel-collapsed">
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+
+<section>
+  
+  <div class="leftpanel sticky-leftpanel">
+    
+    <div class="logopanel">
+        <h1><span>ADSYS</span></h1>
+    </div><!-- logopanel -->
+    
+    <div class="leftpanelinner">
+        
+        <!-- This is only visible to small devices -->
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
+            <div class="media userlogged">
+                <img alt="" src="../images/photos/loggeduser.png" class="media-object">
+                <div class="media-body">
+                    <h4 id="adsys_name_l"></h4>
+                </div>
+            </div>
+          
+            <h5 class="sidebartitle actitle">Account</h5>
+            <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+              <li><a href="profile.html"><i class="fa fa-user"></i> <span>个人信息</span></a></li>
+              <li><a href="help"><i class="fa fa-question-circle"></i> <span>使用帮助</span></a></li>
+              <li><a href="javascript:sysLogout();"><i class="fa fa-sign-out"></i> <span>安全退出</span></a></li>
+            </ul>
+        </div>
+      
+      <h5 class="sidebartitle">菜单</h5>
+      <ul class="nav nav-pills nav-stacked nav-bracket">
+        <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
+        <li class="active"><a href="customer.html"><i class="fa fa-th-list"></i> <span>客户管理</span></a></li>
+	<li><a href="devices.html"><i class="fa fa-sitemap"></i> <span>设备管理</span></a></li>
+	<li><a href="user.html"><i class="fa fa-edit"></i> <span>管理员列表</span></a></li>
+        
+      </ul>
+    </div><!-- leftpanelinner -->
+  </div><!-- leftpanel -->
+  
+  <div class="mainpanel">
+    
+    <div class="headerbar">
+      
+      <a class="menutoggle"><i class="fa fa-bars"></i></a>
+      
+      
+      <div class="header-right">
+        <ul class="headermenu">
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <img src="../images/photos/loggeduser.png" alt="" />
+                <span id="adsys_name"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> 个人信息</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 使用帮助</a></li>
+                <li><a href="javascript:sysLogout();"><i class="glyphicon glyphicon-log-out"></i> 安全退出</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div><!-- header-right -->
+      
+    </div><!-- headerbar -->
+        
+    <div class="pageheader">
+      <h2><i class="fa fa-table"></i> 客户管理 <span>管理客户信息</span></h2>
+      <div class="breadcrumb-wrapper">
+        <ol class="breadcrumb">
+          <li><a href="index.html">控制面板</a></li>
+	  <li class="active">客户管理</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="contentpanel">
+      <div class="panel panel-default">
+        <div class="panel-body">
+		<div class="form-inline" role="form" id="CustomerSearchForm">                                                
+			<div class="form-group">
+				<input type="text" placeholder="请输入关键字" class="form-control" name="keywords" id = "keywords">
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default" type="button" id="searchCustomerBtn">查询</button>
+			</div>
+			<div class="form-group" style="float:right;">
+				<button class="btn btn-success" type="button" onclick="showAddCustomerModal()">新增</button>
+			</div>
+		</div>
+		<table id="customer-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+
+        </div><!-- panel-body -->
+      </div><!-- panel -->
+        
+    </div><!-- contentpanel -->
+    
+  </div><!-- mainpanel -->
+  
+  <div>
+	<div class="modal fade addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="addCustomerModalLabel">
+						添加新客户
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" role="form" id="addCustomersForm">                                                
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">公司名称：</label>
+							<div class="col-sm-6">
+								<input type="text" placeholder="公司名称" class="form-control required" name="cname" id = "cname"><br>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">联系电话：</label>
+							<div class="col-sm-6">
+								<input type="text" placeholder="联系电话" class="form-control required" name="ctel" id = "ctel"><br>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">联系地址：</label>
+							<div class="col-sm-6">
+								<input type="text" placeholder="联系地址" class="form-control" name="caddr" id = "caddr"><br>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">用户名：</label>
+							<div class="col-sm-6">
+								<input type="text" placeholder="用户名" class="form-control required" name="username" id = "username"><br>
+								<input type="hidden" name="uid" id="uid">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">姓名（昵称）：</label>
+							<div class="col-sm-6">
+								<input type="text" placeholder="姓名（昵称）" class="form-control required" name="name" id = "name"><br>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">密码：</label>
+							<div class="col-sm-6">
+								<input type="password" placeholder="密码" class="form-control required" name="password" id = "password"><br>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">密码（重复）：</label>
+							<div class="col-sm-6">
+								<input type="password" placeholder="密码（输入相同密码）" class="form-control required" name="password2" id = "password2"><br>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">电话号码：</label>
+							<div class="col-sm-6">
+								<input type="text" placeholder="电话号码" class="form-control required" name="tel" id = "tel"><br>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="addCustomer()">添加</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	</div>
+
+    <div>
+	<div class="modal fade editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="editCustomerModalHearld">
+						修改客户
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" role="form" id="editCustomersForm">                                                
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">公司名称：</label>
+							<div class="col-sm-6">
+								<input type="text" placeholder="公司名称" class="form-control required" name="cname" id = "cname"><br>
+								<input type="hidden" name="uuid" id="uuid">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">联系电话：</label>
+							<div class="col-sm-6">
+								<input type="text" placeholder="联系电话" class="form-control required" name="tel" id = "tel"><br>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">联系地址：</label>
+							<div class="col-sm-6">
+								<input type="text" placeholder="联系地址" class="form-control" name="caddr" id = "caddr"><br>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="editCustomer()">提交</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	</div>
+</section>
+
+
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/modernizr.min.js"></script>
+<script src="../js/jquery.sparkline.min.js"></script>
+<script src="../js/toggles.min.js"></script>
+<script src="../js/retina.min.js"></script>
+<script src="../js/jquery.cookies.js"></script>
+<script src="../js/bootbox.js"></script>
+<script src="../js/table/bootstrap-table.min.js"></script>
+<script src="../js/table/bootstrap-table-zh-CN.min.js"></script>
+<script src="../js/table/bootstrap-table-en-US.min.js"></script>
+<script src="../js/ztree/jquery.ztree.core.min.js"></script>
+<script src="../js/ztree/jquery.ztree.excheck.min.js"></script>
+<script src="../js/custom.js"></script>
+<script src="../js/adsys-common.js?_v_=20181219"></script>
+<script src="../js/adsys-customer.js?_v_=20181219"></script>
+<script>
+	jQuery(document).ready(function() {
+   		initCustomerTable();
+		
+	    	$('#searchCustomerBtn').click(function () {
+	    		refreshCustomerTable();
+		});
+	});
+</script>
+
+</body>
+</html>

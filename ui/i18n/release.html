@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+
+  <lable data-locale="releaseTitle"><title>广告信息发布系统-节目管理</title></lable>
+
+  <link href="css/style.default.css" rel="stylesheet">
+  <link href="css/table/bootstrap-table.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap-timepicker.min.css" />
+  <link href="css/treeview/bootstrap-treeview.min.css" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+  <style>
+	.form-inline .form-control {
+	     width: 100px;
+	}
+  </style>
+</head>
+
+<body class="stickyheader">
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+
+<section>
+  
+  <div class="leftpanel sticky-leftpanel">
+    
+    <div class="logopanel">
+        <h1><span>YIDAO</span></h1>
+    </div><!-- logopanel -->
+    
+    <div class="leftpanelinner">
+        
+        <!-- This is only visible to small devices -->
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
+            <div class="media userlogged">
+                <img alt="" src="images/photos/loggeduser.png" class="media-object">
+                <div class="media-body">
+                    <h4 id="adsys_name_l"></h4>
+                </div>
+            </div>
+          
+            <h5 class="sidebartitle actitle">Account</h5>
+            <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+              <li><a href="profile.html"><i class="fa fa-user"></i> <span><lable data-locale="dashboardPerson">个人信息</lable></span></a></li>
+              <li><a href="help"><i class="fa fa-question-circle"></i> <span><lable data-locale="dashboardHelp">使用帮助</lable></span></a></li>
+              <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span><lable data-locale="dashboardOut">安全退出</lable></span></a></li>
+              <li><a href="#"><i class="glyphicon glyphicon-sort-by-attributes"></i><lable data-locale="dashboardLanguage">语言切换</lable></a></li>
+            </ul>
+        </div>
+      
+      <h5 class="sidebartitle"><lable data-locale="dashboardMenu">菜单</lable></h5>
+      <ul class="nav nav-pills nav-stacked nav-bracket">
+        <li><a href="index.html"><i class="fa fa-home"></i> <span><lable data-locale="dashboardPanel">控制面板</lable></span></a></li>
+        <li><a href="devices.html"><i class="fa fa-th-list"></i> <span><lable data-locale="dashboardEquipment">设备管理</lable></span></a></li>
+ 	<li><a href="javascript:openEditor()"><i class="fa fa-edit"></i> <span><lable data-locale="dashboardMake">节目制作</lable></span></a></li>
+  	<li  class="active"><a href="release.html"><i class="fa fa-calendar"></i> <span><lable data-locale="dashboardManage">节目管理</lable></span></a></li>
+        <li class="nav-parent"><a href=""><i class="fa fa-gear"></i> <span><lable data-locale="dashboardSys">系统设置</lable></span></a>
+          <ul class="children">
+	    <li><a href="template.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardTemplate">节目模板</lable></a></li>
+	    <li><a href="license.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardAccredit">授权管理</lable></a></li>
+	    <li><a href="apk.html"><i class="fa fa-caret-right"></i> <span><lable data-locale="apkList">远程升级</lable></span></a></li>
+            <li><a href="group.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardGrouping">分组管理</lable></a></li>
+            <li><a href="role.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardRole">角色管理</lable></a></li>
+            <li><a href="user.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardUser">用户管理</lable></a></li>
+          </ul>
+        </li>
+        
+      </ul>
+    </div><!-- leftpanelinner -->
+  </div><!-- leftpanel -->
+  
+  <div class="mainpanel">
+    
+    <div class="headerbar">
+      
+      <a class="menutoggle"><i class="fa fa-bars"></i></a>
+     
+      
+      <div class="header-right">
+        <ul class="headermenu">
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <img src="images/photos/loggeduser.png" alt="" />
+                <span id="adsys_name"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> <lable data-locale="dashboardPerson">个人信息</lable></a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> <lable data-locale="dashboardHelp">使用帮助</lable></a></li>
+                <li><a href="javascript:appLogout();"><i class="glyphicon glyphicon-log-out"></i> <lable data-locale="dashboardOut">安全退出</lable></a></li>
+                <li id = "toggleLanguage"><a ><i class="glyphicon glyphicon-sort-by-attributes"></i><lable data-locale="dashboardLanguage">语言切换</lable></a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div><!-- header-right -->
+      
+    </div><!-- headerbar -->
+        
+    <div class="pageheader">
+      <h2><i class="fa fa-table"></i> <lable data-locale="releaseManage">发布管理 </lable><span><lable data-locale="releaseManageProgram">管理广告机节目发布</lable></span></h2>
+      <div class="breadcrumb-wrapper">
+        <ol class="breadcrumb">
+          <li><a href="index.html"><lable data-locale="dashboardPanel">控制面板</lable></a></li>
+          <li class="active"><lable data-locale="dashboardManage">节目管理</lable></li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="contentpanel">
+      <div class="panel panel-default">
+        <div class="panel-body">
+		<div class="form-inline" role="form" id="searchRelForm">                                                
+			<div class="form-group">
+				<lable data-locale="devicesFindMessage"><input type="text" placeholder="请输入关键字" class="form-control" name="keywords" id = "keywords"></lable>
+			</div>
+			<div class="form-group">
+				<label class="control-label"><lable data-locale="releaseStatus">发布状态</lable></label>
+				<lable data-locale="releaseStatusSel">
+				<select class="form-control" id="sstate"  name="sstate">
+					<option value="">全部</option>
+					<option value="new">未审核</option>
+					<option value="pushing">推送中</option>
+					<option value="pushed">已推送</option>
+				</select>
+				</lable>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default" type="button" id="searchRelBtn"><lable data-locale="devicesFind">查询</lable></button>
+			</div>
+			<div class="form-group" style="float:right;">
+				<button class="btn btn-success" type="button" onclick="showAddReleaseModal()"><lable data-locale="releaseProgram">发布节目</lable></button>
+			</div>
+		</div>
+		<table id="release-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+
+        </div><!-- panel-body -->
+      </div><!-- panel -->
+        
+    </div><!-- contentpanel -->
+    
+  </div><!-- mainpanel -->
+  
+  <div>
+	<div class="modal fade addReleaseModal" tabindex="-1" role="dialog" aria-labelledby="addReleaseModalLabel" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="addReleaseModalLabel">
+						<lable data-locale="releaseProgram">发布节目</lable>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" id="addReleaseModalForm">
+					    <div class="form-group">
+					      <label class="col-sm-3 control-label"><lable data-locale="releaseContent">节目内容</lable><span class="asterisk">*</span></label>
+					      <div class="col-sm-6">
+						<select class="form-control mb15 required" id="pid" name="pid"></select>
+					      </div>
+					    </div>
+					    <div class="form-group">
+					      <label class="col-sm-3 control-label"><lable data-locale="releaseType">播放类型</lable><span class="asterisk">*</span></label>
+					      <div class="col-sm-6">
+						<lable data-locale="releaseplaytypeSel">
+						<select class="form-control mb15 required" id="ptype" name="ptype">
+							<option value=1>追加播放</option>
+							<option value=0>替换播放</option>
+							<option value=2>定时插播</option>
+						</select>
+					      </div>
+					    </div>
+					    <div class="form-group form-inline" id="timeset_plan">
+							<label class="col-sm-3 control-label" data-locale="playTime">播放时间:</label>
+							<div class="col-sm-3 bootstrap-timepicker"><input id="starttime" name="starttime" type="text" class="form-control"/></div>
+						    
+							<label class="col-sm-3 control-label" data-locale="endTime">结束时间:</label>
+							<div class="col-sm-3 bootstrap-timepicker"><input id="endtime" name="endtime" type="text" class="form-control" /></div>
+					    </div>
+					    <div class="form-group">
+					      <label class="col-sm-3 control-label"><lable data-locale="releaseTarget">发布目标</lable><span class="asterisk">*</span></label>
+					      <div class="col-sm-6">
+						<div class="col-md-6">
+						     <div class="rdio rdio-default">
+							<input type="radio" name="radioTarget" id="radioSetDev" value="1" checked="true">
+							<label for="radioSetDev"><lable data-locale="releaseApplicance">发布到设备</lable></label>
+						      </div>
+						      
+						      <div class="rdio rdio-primary">
+							<input type="radio" name="radioTarget" value="2" id="radioSetGroup">
+							<label for="radioSetGroup"><lable data-locale="releaseGroup">发布到分组</lable></label>
+						      </div>
+						</div>
+					      </div>
+					    </div>
+					    <div id="device_plane">
+					    <div class="form-group">
+					      <label class="col-sm-3 control-label"><lable data-locale="releaseList">设备列表</lable></label>
+					      <div class="col-sm-6">
+						<lable data-locale="releaseListMessage"><select class="select2" multiple data-placeholder="请选择..." id="mutidid"></select></lable>
+						<input type="hidden" class="form-control" id="did" name="did"/>
+					      </div>
+					    </div>
+					    
+					    </div>
+		
+					    <div class="form-group" id="group_plane">
+					      <label class="col-sm-3 control-label"><lable data-locale="releaseGroup">设备分组</lable></label>
+					      <div class="col-sm-6">
+						<div id="grouptree"></div>  
+						<input type="hidden" class="form-control" id="gid" name="gid"/>
+					      </div>
+					    </div>
+          				</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><lable data-locale="devicesClose">关闭</lable></button>
+					<button type="button" class="btn btn-primary" onclick="addRelease('#addReleaseModalForm')"><lable data-locale="releaseApply">申请发布</lable></button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	</div>
+
+	<div>
+	<div class="modal fade releasePushItemModal" tabindex="-1" role="dialog" aria-labelledby="liveProgram" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="addReleaseModalLabel">
+						<lable data-locale="releaseResource">资源列表</lable>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<table id="release-push-item-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" onclick="closeReleaseModal()"><lable data-locale="devicesClose">关闭</lable></button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	</div>
+</section>
+
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toggles.min.js"></script>
+<script src="js/retina.min.js"></script>
+<script src="js/jquery.cookies.js"></script>
+<script src="js/bootbox.js"></script>
+<script src="js/select2.min.js"></script>
+<script src="js/bootstrap-timepicker.min.js"></script>
+<script src="js/table/bootstrap-table.min.js"></script>
+<script src="js/table/bootstrap-table-zh-CN.min.js"></script>
+<script src="js/table/bootstrap-table-en-US.min.js"></script>
+<script src="js/treeview/bootstrap-treeview.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/adsys-common.js?_v_=20190123"></script>
+<script src="js/adsys-release.js?_v_=20190123"></script>
+<script src="js/adsys-group.js?_v_=20190123"></script>
+<script src="js/adsys-program.js?_v_=20190123"></script>
+<script src="js/adsys-device.js?_v_=20190123"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/validate_cn.js"></script>
+<script src="js/jquery.i18n.properties-min.js"></script>
+<script src="js/language.js"></script>
+<script>
+	jQuery(document).ready(function() {
+   		initReleaseTable();
+		initReleasePushItemTable();
+		jQuery('#starttime').timepicker({showMeridian: false});
+		jQuery('#endtime').timepicker({showMeridian: false});
+		$("#group_plane").hide();
+		$("#timeset_plan").hide();
+	    	$('#searchRelBtn').click(function () {
+	    		releaseTablerefresh();
+		});
+		 
+		$("input[name=radioTarget]").click(function(){  
+        		var value = $('input[id=radioSetGroup]:checked').val();  
+			if(value != null) {
+				$('#group_plane').show();
+				$('#device_plane').hide();
+			}  
+        		else {
+				$('#group_plane').hide();
+				$('#device_plane').show();
+			}
+    		});  
+		$("#ptype").change(function(){
+			if ($("#ptype").val() == "2"){
+				$("#timeset_plan").show();
+			}
+			else
+				$("#timeset_plan").hide();
+		});
+		initProgramSelect($("#pid"));
+		initDevicesSelect($("#mutidid"));
+		$("#begin_date").timepicker({defaultTIme: false});
+		$("#end_date").timepicker({defaultTIme: false});
+		$(".select2").select2({
+		    width: '100%'
+		});
+		setGroupTreeView('#grouptree',"#addReleaseModalForm");
+	});
+
+	function treeviewSelectHandler(tvform, data){
+		$(tvform).contents().find("#gid").val(data.id);
+	}
+
+	function treeviewunSelectHandler(tvform, data){
+		$(tvform).contents().find("#gid").val(0);
+	}
+</script>
+
+</body>
+</html>

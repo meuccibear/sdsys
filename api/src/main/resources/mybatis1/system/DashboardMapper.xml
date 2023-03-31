@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DashboardMapper">
+	
+	<!--表名 -->
+	<sql id="deviceTableName">
+		ad_device
+	</sql>
+	<sql id="programTableName">
+		ad_program
+	</sql>
+	
+	<!-- 获取设备各状态数量信息 -->
+	<select id="getDeviceStatusNum"  resultType="pd">
+		select dStatus,count(*) devices 
+			from <include refid="deviceTableName"></include> 
+		where uuid = #{uuid}
+		group by dStatus
+	</select>
+	
+	<!-- 获取设备总数 -->
+	<select id="getDeviceCount"  resultType="pd">
+		SELECT a.DEVICES,b.OFFLINE,b.ONLINE FROM(select count(1) DEVICES from <include refid="deviceTableName"></include> where uuid=#{uuid}) a,
+		(SELECT sum(case dStatus WHEN 'online' THEN 1  ELSE 0 END) ONLINE, 
+		sum(case dStatus WHEN 'offline' THEN 1  ELSE 0 END) OFFLINE
+		FROM <include refid="deviceTableName"></include> where uuid=#{uuid} ) b
+	</select>
+	
+	<!-- 获取节目总数 -->
+	<select id="getProgramCount" parameterType="String" resultType="long">
+		select 
+			count(1) programCount
+		from 
+		<include refid="programTableName"></include>
+		where uuid = #{uuid} and ptype=0
+	</select>
+	
+	<!-- 当月设备日部署量 -->
+	<select id="getDeviceNumGroupByDay"  resultType="pd">
+		SELECT DATE_FORMAT(deployDate,'%e') d_day,count(1) devices FROM 
+		<include refid="deviceTableName"></include> 
+		where DATE_FORMAT(deployDate,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m') and uuid = #{uuid}
+	    group by DATE_FORMAT(deployDate,'%Y-%m-%d')
+	</select>
+	
+	
+</mapper>

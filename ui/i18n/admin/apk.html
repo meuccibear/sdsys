@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="shortcut icon" href="../images/favicon.png" type="image/png">
+
+	<lable data-locale="apkTitle"><title>广告信息发布系统-APK管理</title></lable>
+
+	<link href="../css/style.default.css" rel="stylesheet">
+	<link href="../css/table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="../js/ztree/metroStyle.css" rel="stylesheet">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="../js/html5shiv.js"></script>
+	<script src="../js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body class="stickyheader leftpanel-collapsed">
+
+<!-- Preloader -->
+<div id="preloader">
+	<div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+
+<section>
+
+	<div class="leftpanel sticky-leftpanel">
+
+		<div class="logopanel">
+			<h1><span>YIDAO</span></h1>
+		</div><!-- logopanel -->
+
+		<lable class="leftpanelinner">
+
+			<!-- This is only visible to small devices -->
+			<div class="visible-xs hidden-sm hidden-md hidden-lg">
+				<div class="media userlogged">
+					<img alt="" src="../images/photos/loggeduser.png" class="media-object">
+					<div class="media-body">
+						<h4 id="adsys_name_l"></h4>
+					</div>
+				</div>
+
+				<h5 class="sidebartitle actitle">Account</h5>
+				<ul class="nav nav-pills nav-stacked nav-bracket mb30">
+					<li><a href="profile.html"><i class="fa fa-user"></i> <span><lable data-locale="dashboardPerson">个人信息</lable></span></a></li>
+					<li><a href="help"><i class="fa fa-question-circle"></i> <span><lable data-locale="dashboardHelp">使用帮助</lable></span></a></li>
+					<li><a href="javascript:sysLogout();"><i class="fa fa-sign-out"></i> <span><lable data-locale="dashboardOut">安全退出</lable></span></a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-sort-by-attributes"></i><lable data-locale="dashboardLanguage">语言切换</lable></a></li>
+				</ul>
+			</div>
+
+			<h5 class="sidebartitle"><lable data-locale="dashboardMenu">菜单</lable></h5>
+			<ul class="nav nav-pills nav-stacked nav-bracket">
+				<li><a href="index.html"><i class="fa fa-home"></i> <span><lable data-locale="dashboardPanel">控制面板</lable></span></a></li>
+				<li><a href="customer.html"><i class="fa fa-th-list"></i> <span><lable data-locale="customerManage">客户管理</lable></span></a></li>
+				<li><a href="devices.html"><i class="fa fa-sitemap"></i> <span><lable data-locale="dashboardEquipment">设备管理</lable></span></a></li>
+				<li><a href="user.html"><i class="fa fa-edit"></i> <span><lable data-locale="customerList">管理员列表</lable></span></a></li>
+				<li class="active"><a href="apk.html"><i class="fa fa-android"></i> <span><lable data-locale="apkList">APK列表</lable></span></a></li>
+			</ul>
+		</div><!-- leftpanelinner -->
+	</div><!-- leftpanel -->
+
+	<div class="mainpanel">
+
+		<div class="headerbar">
+
+			<a class="menutoggle"><i class="fa fa-bars"></i></a>
+
+
+			<div class="header-right">
+				<ul class="headermenu">
+					<li>
+						<div class="btn-group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<img src="../images/photos/loggeduser.png" alt="" />
+								<span id="adsys_name"></span>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+								<li><a href="profile.html"><i class="glyphicon glyphicon-user"></i><lable data-locale="dashboardPerson">个人信息</lable></a></li>
+								<li><a href="#"><i class="glyphicon glyphicon-question-sign"></i><lable data-locale="dashboardHelp">使用帮助</lable></a></li>
+								<li><a href="javascript:sysLogout();"><i class="glyphicon glyphicon-log-out"></i><lable data-locale="dashboardOut">安全退出</lable></a></li>
+								<li id = "toggleLanguage"><a ><i class="glyphicon glyphicon-sort-by-attributes"></i><lable data-locale="dashboardLanguage">语言切换</lable></a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div><!-- header-right -->
+
+		</div><!-- headerbar -->
+
+		<div class="pageheader">
+			<h2><i class="fa fa-table"></i> <lable data-locale="apkManager">APK管理 </lable><span><lable data-locale="apkManagerMessage">管理APK信息</lable></span></h2>
+			<div class="breadcrumb-wrapper">
+				<ol class="breadcrumb">
+					<li><a href="index.html"><lable data-locale="dashboardPanel">控制面板</lable></a></li>
+					<li class="active"><lable data-locale="apkManager">APK管理</lable></li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="contentpanel">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="form-inline" role="form" id="appAPKSearchForm">
+						<div class="form-group">
+							<lable data-locale="devicesFindMessage"><input type="text" placeholder="请输入关键字" class="form-control" name="keywords" id = "keywords"></lable>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-default" type="button" id="searchAPKBtn"><lable data-locale="devicesFind">查询</lable></button>
+						</div>
+						<div class="form-group" style="float:right;">
+							<button class="btn btn-primary" data-toggle="modal" data-target=".addAPKModal">新增</button>
+						</div>
+					</div>
+					<table id="apkTable-admin" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+				</div><!-- panel-body -->
+			</div><!-- panel -->
+
+		</div><!-- contentpanel -->
+
+	</div><!-- mainpanel -->
+
+		<div class="modal fade addAPKModal" tabindex="-1" role="dialog" aria-labelledby="addAPKModalLabel" data-backdrop="static" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="addAPKModalLabel">
+							<lable data-locale="apkAdd">上传APK</lable>
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal form-bordered" id="addAPKForm" >
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right"><lable data-locale="apkVersion">版本号</lable><span class="asterisk">*</span></label>
+								<div class="col-sm-6">
+									<input type="text" placeholder="请输入版本号" class="form-control required" name="version" id = "version"><br>
+								</div>
+							</div>
+							<div class="form-group">
+								<lable class="col-sm-3 control-label"><lable data-locale="apkReadme">升级内容</lable><span class="asterisk">*</span></lable>
+								<div class="col-sm-6">
+									<textarea class="form-control" rows="5" id="readme" name="readme"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right"><lable data-locale="apkMd5sum">MD5校验码</lable><span class="asterisk">*</span></label>
+								<div class="col-sm-6">
+									<input type="text" placeholder="请输入MD5SUM" class="form-control required" name="md5sum" id = "md5sum"><br>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right"><lable data-locale="apkUpload">上传文件</lable><span class="asterisk">*</span></label>
+								<div class="col-sm-6">
+									<input type="file" placeholder="请选择上传文件" class="form-control required" name="fileAPK" id = "fileAPK"><br>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal"><lable data-locale="devicesClose">关闭</lable></button>
+								<button type="button" class="btn btn-primary" onclick="addapk()"><lable data-locale="devicesAdd">添加</lable></button>
+							</div>
+						</form>
+					</div>
+
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+
+</section>
+
+
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/modernizr.min.js"></script>
+<script src="../js/jquery.sparkline.min.js"></script>
+<script src="../js/toggles.min.js"></script>
+<script src="../js/retina.min.js"></script>
+<script src="../js/jquery.cookies.js"></script>
+<script src="../js/bootbox.js"></script>
+<script src="../js/table/bootstrap-table.min.js"></script>
+<script src="../js/table/bootstrap-table-zh-CN.min.js"></script>
+<script src="../js/table/bootstrap-table-en-US.min.js"></script>
+<script src="../js/ztree/jquery.ztree.core.min.js"></script>
+<script src="../js/ztree/jquery.ztree.excheck.min.js"></script>
+<script src="../js/custom.js"></script>
+<script src="../js/adsys-common.js?_v_=20190123"></script>
+<script src="../js/adsys-user.js?_v_=20190123"></script>
+<script src="../js/jquery.validate.min.js"></script>
+<script src="../js/validate_cn.js"></script>
+<script src="../js/jquery.i18n.properties-min.js"></script>
+<script src="../js/language.js"></script>
+<script src="../js/adsys-apk.js"></script>
+
+<script>
+	$(function () {
+	    initAPKTableAdmin();
+
+    })
+</script>
+
+</body>
+</html>

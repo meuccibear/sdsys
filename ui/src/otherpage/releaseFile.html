@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+
+  <title>设备管理系统-发布管理</title>
+
+  <link href="css/style.default.css" rel="stylesheet">
+  <link href="css/table/bootstrap-table.min.css" rel="stylesheet">
+  <link href="css/treeview/bootstrap-treeview.min.css" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="stickyheader leftpanel-collapsed">
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+
+<section>
+  
+  <div class="leftpanel sticky-leftpanel">
+    
+    <div class="logopanel">
+        <h1><span>DEVSYS</span></h1>
+    </div><!-- logopanel -->
+    
+    <div class="leftpanelinner">
+        
+        <!-- This is only visible to small devices -->
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
+            <div class="media userlogged">
+                <img alt="" src="images/photos/loggeduser.png" class="media-object">
+                <div class="media-body">
+                    <h4 id="adsys_name_l"></h4>
+                </div>
+            </div>
+          
+            <h5 class="sidebartitle actitle">Account</h5>
+            <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+              <li><a href="profile.html"><i class="fa fa-user"></i> <span>个人信息</span></a></li>
+              <li><a href="help"><i class="fa fa-question-circle"></i> <span>使用帮助</span></a></li>
+              <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span>安全退出</span></a></li>
+            </ul>
+        </div>
+      
+      <h5 class="sidebartitle">Navigation</h5>
+      <ul class="nav nav-pills nav-stacked nav-bracket">
+        <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
+        <li><a href="devices.html"><i class="fa fa-th-list"></i> <span>设备管理</span></a></li>
+	<li><a href="remoteFile.html"><i class="fa fa-edit"></i> <span>文件管理</span></a></li>
+  	<li class="active"><a href="releaseFile.html"><i class="fa fa-calendar"></i> <span>发布管理</span></a></li>
+        <li class="nav-parent"><a href=""><i class="fa fa-gear"></i> <span>系统设置</span></a>
+          <ul class="children">
+            <li><a href="group.html"><i class="fa fa-caret-right"></i> 分组管理</a></li>
+            <li><a href="role.html"><i class="fa fa-caret-right"></i> 角色管理</a></li>
+            <li><a href="user.html"><i class="fa fa-caret-right"></i> 用户管理</a></li>
+          </ul>
+        </li>
+        
+      </ul>
+    </div><!-- leftpanelinner -->
+  </div><!-- leftpanel -->
+  
+  <div class="mainpanel">
+    
+    <div class="headerbar">
+      
+      <a class="menutoggle"><i class="fa fa-bars"></i></a>
+      
+      <form class="searchform" action="index.html" method="post">
+        <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
+      </form>
+      
+      <div class="header-right">
+        <ul class="headermenu">
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <img src="images/photos/loggeduser.png" alt="" />
+                <span id="adsys_name"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> 个人信息</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 使用帮助</a></li>
+                <li><a href="javascript:appLogout();"><i class="glyphicon glyphicon-log-out"></i> 安全退出</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div><!-- header-right -->
+      
+    </div><!-- headerbar -->
+        
+    <div class="pageheader">
+      <h2><i class="fa fa-table"></i> 发布管理 <span>管理文件发布</span></h2>
+      <div class="breadcrumb-wrapper">
+        <ol class="breadcrumb">
+          <li><a href="index.html">控制面板</a></li>
+          <li class="active">发布管理</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="contentpanel">
+      <div class="panel panel-default">
+        <div class="panel-body">
+		<div class="form-inline" role="form" id="searchRelFileForm">                                                
+			<div class="form-group">
+				<input type="text" placeholder="请输入关键字" class="form-control" name="keywords" id = "keywords">
+			</div>
+			<div class="form-group">
+				<label class="control-label">设备状态</label>
+				<select class="form-control" id="dstatus"  name="dstatus">
+					<option value="">全部</option>
+					<option value="online">在线设备</option>
+					<option value="offline">离线设备</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default" type="button" id="searchRelBtn">查询</button>
+			</div>
+			<div class="form-group" style="float:right;">
+				<button class="btn btn-success" type="button" data-toggle="modal" data-target=".addReleaseFileModal">新发布</button>
+			</div>
+		</div>
+		<table id="release-file-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+
+        </div><!-- panel-body -->
+      </div><!-- panel -->
+        
+    </div><!-- contentpanel -->
+    
+  </div><!-- mainpanel -->
+  
+  <div>
+	<div class="modal fade addReleaseFileModal" tabindex="-1" role="dialog" aria-labelledby="addReleaseModalFileLabel" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="addReleaseFileModalLabel">
+						发布文件
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" id="addReleaseFileModalForm">
+					    <div class="form-group">
+					      <label class="col-sm-3 control-label">发布名称</label>
+					      <div class="col-sm-6">
+						<input type="text" placeholder="请输入发布名称" class="form-control" id="sname" name="sname"/>
+					      </div>
+					    </div>
+					    <div class="form-group">
+					      <label class="col-sm-3 control-label">发布内容</label>
+					      <div class="col-sm-6">
+						<select class="form-control mb15" id="pid" name="pid"></select>
+					      </div>
+					    </div>
+					    <div class="form-group">
+					      <label class="col-sm-3 control-label">发布目标</label>
+					      <div class="col-sm-6">
+						<div class="col-md-6">
+						     <div class="rdio rdio-default">
+							<input type="radio" name="radioTarget" id="radioSetDev" value="1" checked="true">
+							<label for="radioSetDev">发布到设备</label>
+						      </div>
+						      
+						      <div class="rdio rdio-primary">
+							<input type="radio" name="radioTarget" value="2" id="radioSetGroup">
+							<label for="radioSetGroup">发布到分组</label>
+						      </div>
+						</div>
+					      </div>
+					    </div>
+					    <div id="device_plane">
+					    <div class="form-group">
+					      <label class="col-sm-3 control-label">设备列表</label>
+					      <div class="col-sm-6">
+						<select class="select2" multiple data-placeholder="请选择..." id="mutidid"></select>
+						<input type="hidden" class="form-control" id="did" name="did"/>
+					      </div>
+					    </div>
+					    
+					    </div>
+		
+					    <div class="form-group" id="group_plane">
+					      <label class="col-sm-3 control-label">设备分组</label>
+					      <div class="col-sm-6">
+						<div id="grouptree"></div>  
+						<input type="hidden" class="form-control" id="gid" name="gid"/>
+					      </div>
+					    </div>
+          				</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="addReleaseFile('#addReleaseFileModalForm')">申请发布</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	</div>
+
+	<div>
+	<div class="modal fade releasePushItemModal" tabindex="-1" role="dialog" aria-labelledby="liveProgram" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="addReleaseModalLabel">
+						资源列表
+					</h4>
+				</div>
+				<div class="modal-body">
+					<table id="release-push-item-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+	</div>
+</section>
+
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toggles.min.js"></script>
+<script src="js/retina.min.js"></script>
+<script src="js/jquery.cookies.js"></script>
+<script src="js/bootbox.js"></script>
+<script src="js/select2.min.js"></script>
+<script src="js/bootstrap-timepicker.min.js"></script>
+<script src="js/table/bootstrap-table.min.js"></script>
+<script src="js/table/bootstrap-table-zh-CN.min.js"></script>
+<script src="js/table/bootstrap-table-en-US.min.js"></script>
+<script src="js/treeview/bootstrap-treeview.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/adsys-common.js"></script>
+<script src="js/adsys-release-file.js"></script>
+<script src="js/adsys-group.js"></script>
+<script src="js/adsys-files.js"></script>
+<script src="js/adsys-device.js"></script>
+<script>
+	jQuery(document).ready(function() {
+   		initReleaseFileTable();
+		initReleasePushItemTable();
+		$("#group_plane").hide();
+	    	$('#searchRelBtn').click(function () {
+	    		releaseFileTablerefresh();
+		});
+		 
+		$("input[name=radioTarget]").click(function(){  
+        		var value = $('input[id=radioSetGroup]:checked').val();  
+			if(value != null) {
+				$('#group_plane').show();
+				$('#device_plane').hide();
+			}  
+        		else {
+				$('#group_plane').hide();
+				$('#device_plane').show();
+			}
+    		});  
+		initRemoteFileSelect($("#pid"));
+		initDevicesSelect($("#mutidid"));
+		$(".select2").select2({
+		    width: '100%'
+		});
+		setGroupTreeView('#grouptree', "#addReleaseFileModalForm");
+	});
+
+	function treeviewSelectHandler(tvform, data){
+		$(tvform).contents().find("#gid").val(data.id);
+	}
+
+	function treeviewunSelectHandler(tvform, data){
+		$(tvform).contents().find("#gid").val(0);
+	}
+</script>
+
+</body>
+</html>

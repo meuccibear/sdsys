@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Live Player</title>
+
+</head>
+<body>
+	<div id="device_live_video" style="width:100%; height:auto;"></div>
+  
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/adsys-common.js"></script>
+<script src="js/adsys-device.js"></script>
+<script src="http://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.1.js" charset="utf-8"></script>
+<script>
+	jQuery(document).ready(function() {
+		var Request = getRequests();
+		var did = Request["did"];
+		if (did != undefined){
+   			ajaxGet("devices/live/url/" + did, null, function(result){
+				var phtml = '';
+				if(result.success)
+				{
+					var purl = result.data.url;
+					//var hls_url = purl.replace("rtmp", "http");
+					var player = new TcPlayer('device_live_video', {
+					//"m3u8": hls_url + ".m3u8",
+					"rtmp": purl,
+					"autoplay" : true,      //iOS下safari浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
+					"width" :  '640',//视频的显示宽度，请尽量使用视频分辨率宽度
+					"height" : '360'//视频的显示高度，请尽量使用视频分辨率高度
+					});
+				}
+		
+			}, null);
+		}
+	});
+</script>
+
+</body>
+
+</html>

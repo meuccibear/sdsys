@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="../images/favicon.png" type="image/png">
+
+  <title>广告信息发布系统-个人信息</title>
+
+  <link href="../css/style.default.css" rel="stylesheet">
+  <link href="../css/table/bootstrap-table.min.css" rel="stylesheet">
+  <link href="../js/ztree/metroStyle.css" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="stickyheader leftpanel-collapsed">
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+
+<section>
+  
+  <div class="leftpanel sticky-leftpanel">
+    
+    <div class="logopanel">
+        <h1><span>ADSYS</span></h1>
+    </div><!-- logopanel -->
+    
+    <div class="leftpanelinner">
+        
+        <!-- This is only visible to small devices -->
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
+            <div class="media userlogged">
+                <img alt="" src="../images/photos/loggeduser.png" class="media-object">
+                <div class="media-body">
+                    <h4 id="adsys_name_l"></h4>
+                </div>
+            </div>
+          
+            <h5 class="sidebartitle actitle">Account</h5>
+            <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+              <li><a href="profile.html"><i class="fa fa-user"></i> <span>个人信息</span></a></li>
+              <li><a href="help"><i class="fa fa-question-circle"></i> <span>使用帮助</span></a></li>
+              <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span>安全退出</span></a></li>
+            </ul>
+        </div>
+      
+      <h5 class="sidebartitle">菜单</h5>
+      <ul class="nav nav-pills nav-stacked nav-bracket">
+        <li  class="active"><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
+        <li><a href="customer.html"><i class="fa fa-th-list"></i> <span>客户管理</span></a></li>
+	<li><a href="devices.html"><i class="fa fa-sitemap"></i> <span>设备管理</span></a></li>
+	<li><a href="user.html"><i class="fa fa-edit"></i> <span>管理员列表</span></a></li>
+        
+      </ul>
+    </div><!-- leftpanelinner -->
+  </div><!-- leftpanel -->
+  
+  <div class="mainpanel">
+    
+    <div class="headerbar">
+      
+      <a class="menutoggle"><i class="fa fa-bars"></i></a>
+      
+
+      <div class="header-right">
+        <ul class="headermenu">
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <img src="../images/photos/loggeduser.png" alt="" />
+                <span id="adsys_name"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> 个人信息</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 使用帮助</a></li>
+                <li><a href="javascript:sysLogout();"><i class="glyphicon glyphicon-log-out"></i> 安全退出</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div><!-- header-right -->
+      
+    </div><!-- headerbar -->
+        
+    <div class="pageheader">
+      <h2><i class="fa fa-table"></i> 个人信息 <span>修改个人信息</span></h2>
+      <div class="breadcrumb-wrapper">
+        <ol class="breadcrumb">
+          <li><a href="index.html">控制面板</a></li>
+          <li class="active">个人信息</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="contentpanel">
+      <div class="panel panel-default">
+        <div class="panel-body">
+		<form class="form-horizontal form-bordered" id="editProfileForm">                                                
+										<div class="form-group">
+											<label class="col-sm-3 control-label">登录名</label>
+											<div class="col-sm-6">
+													<input type="text" placeholder="登录名" class="form-control required" id = "username" disabled>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">用户姓名（昵称）<span class="asterisk">*</span></label>
+											<div class="col-sm-6">
+												<input type="text" placeholder="昵称" class="form-control required" name = "name" id = "name">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">联系电话<span class="asterisk">*</span></label>
+											<div class="col-sm-6">
+												<input type="text" placeholder="联系电话" class="form-control required" name="tel" id = "tel">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">邮箱地址<span class="asterisk">*</span></label>
+											<div class="col-sm-6">
+												<input type="text" placeholder="可选" class="form-control email" name="email" id = "email">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">用户密码</label>
+											<div class="col-sm-6">
+												<input type="password" placeholder="用户密码" class="form-control " name="password" id = "password">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">再次确认密码</label>
+											<div class="col-sm-6">
+												<input type="password" placeholder="再次确认密码" class="form-control" name = "confirm_password" id = "confirm_password">
+											</div>
+											
+										</div>
+										<div class="form-group">
+											<div class="col-sm-6 col-sm-offset-3">
+												<button type="button" class="form-control btn btn-primary" onclick="updateSysProfile()">提交</button>
+											</div>
+										</div>
+									</form>
+
+        </div><!-- panel-body -->
+      </div><!-- panel -->
+        
+    </div><!-- contentpanel -->
+    
+  </div><!-- mainpanel -->
+  
+
+</section>
+
+
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/modernizr.min.js"></script>
+<script src="../js/jquery.sparkline.min.js"></script>
+<script src="../js/toggles.min.js"></script>
+<script src="../js/retina.min.js"></script>
+<script src="../js/jquery.cookies.js"></script>
+<script src="../js/bootbox.js"></script>
+<script src="../js/table/bootstrap-table.min.js"></script>
+<script src="../js/table/bootstrap-table-zh-CN.min.js"></script>
+<script src="../js/table/bootstrap-table-en-US.min.js"></script>
+<script src="../js/ztree/jquery.ztree.core.min.js"></script>
+<script src="../js/ztree/jquery.ztree.excheck.min.js"></script>
+<script src="../js/custom.js"></script>
+<script src="../js/adsys-common.js?_v_=20181219"></script>
+<script src="../js/adsys-user.js?_v_=20181219"></script>
+<script src="../js/jquery.validate.min.js"></script>
+<script src="../js/validate_cn.js"></script>
+<script>
+	jQuery(document).ready(function() {
+   		showSysUserProfile();
+	});
+</script>
+
+</body>
+</html>

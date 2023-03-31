@@ -1,0 +1,439 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+
+  <lable data-locale="devices_extTitel"><title>广告信息发布系统-设备管理</title></lable>
+
+  <link href="css/style.default.css" rel="stylesheet">
+  <link href="css/table/bootstrap-table.min.css" rel="stylesheet">
+  <link href="css/treeview/bootstrap-treeview.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap-timepicker.min.css" />
+  <link rel="stylesheet" href="css/jquery.range.css?t=20181112">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+  <style>
+        .slider-container{
+            display: inline-block;
+	    width: 250px;
+        }
+	.form-inline .form-control {
+	     width: 100px;
+	}
+  </style>
+</head>
+
+<body class="stickyheader">
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+
+<section>
+  
+  <div class="leftpanel sticky-leftpanel">
+    
+    <div class="logopanel">
+        <h1><span>YIDAO</span></h1>
+    </div><!-- logopanel -->
+    
+    <div class="leftpanelinner">
+        
+        <!-- This is only visible to small devices -->
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
+            <div class="media userlogged">
+                <img alt="" src="images/photos/loggeduser.png" class="media-object">
+                <div class="media-body">
+                    <h4 id="adsys_name_l"></h4>
+                </div>
+            </div>
+          
+            <h5 class="sidebartitle actitle">Account</h5>
+            <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+              <li><a href="profile.html"><i class="fa fa-user"></i> <span><lable data-locale="dashboardPerson">个人信息</lable></span></a></li>
+              <li><a href="help"><i class="fa fa-question-circle"></i> <span><lable data-locale="dashboardHelp">使用帮助</lable></span></a></li>
+              <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span><lable data-locale="dashboardOut">安全退出</lable></span></a></li>
+              <li><a href="#"><i class="glyphicon glyphicon-sort-by-attributes"></i><lable data-locale="dashboardLanguage">语言切换</lable></a></li>
+            </ul>
+        </div>
+      
+      <h5 class="sidebartitle"><lable data-locale="dashboardMenu">菜单</lable></h5>
+      <ul class="nav nav-pills nav-stacked nav-bracket">
+        <li><a href="index.html"><i class="fa fa-home"></i> <span><lable data-locale="dashboardPanel">控制面板</lable></span></a></li>
+        <li class="active"><a href="devices.html"><i class="fa fa-th-list"></i> <span><lable data-locale="dashboardEquipment">设备管理</lable></span></a></li>
+ 	<li><a href="javascript:openEditor()"><i class="fa fa-edit"></i> <span><lable data-locale="dashboardMake">节目制作</lable></span></a></li>
+  	<li><a href="release.html"><i class="fa fa-calendar"></i> <span><lable data-locale="dashboardManage">节目管理</lable></span></a></li>
+        <li class="nav-parent"><a href=""><i class="fa fa-gear"></i> <span><lable data-locale="dashboardSys">系统设置</lable></span></a>
+          <ul class="children">
+	    <li><a href="template.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardTemplate">节目模板</lable></a></li>
+	    <li><a href="license.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardAccredit">授权管理</lable></a></li>
+	    <li><a href="apk.html"><i class="fa fa-caret-right"></i> <span><lable data-locale="apkList">远程升级</lable></span></a></li>
+            <li><a href="group.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardGrouping">分组管理</lable></a></li>
+            <li><a href="role.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardRole">角色管理</lable></a></li>
+            <li><a href="user.html"><i class="fa fa-caret-right"></i> <lable data-locale="dashboardUser">用户管理</lable></a></li>
+          </ul>
+        </li>
+        
+      </ul>
+    </div><!-- leftpanelinner -->
+  </div><!-- leftpanel -->
+  
+  <div class="mainpanel">
+    
+    <div class="headerbar">
+      
+      <a class="menutoggle"><i class="fa fa-bars"></i></a>
+      
+
+      <div class="header-right">
+        <ul class="headermenu">
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <img src="images/photos/loggeduser.png" alt="" />
+                <span id="adsys_name"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> <lable data-locale="dashboardPerson">个人信息</lable></a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> <lable data-locale="dashboardHelp">使用帮助</lable></a></li>
+                <li><a href="javascript:appLogout();"><i class="glyphicon glyphicon-log-out"></i> <lable data-locale="dashboardOut">安全退出</lable></a></li>
+                <li id = "toggleLanguage"><a ><i class="glyphicon glyphicon-sort-by-attributes"></i><lable data-locale="dashboardLanguage">语言切换</lable></a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div><!-- header-right -->
+      
+    </div><!-- headerbar -->
+        
+    <div class="pageheader">
+      <h2><i class="fa fa-table"></i> <lable data-locale="devices_extParticulars">设备详情</lable> <span><lable data-locale="devices_extManage">管理广告机终端设备</lable></span></h2>
+      <div class="breadcrumb-wrapper">
+        <ol class="breadcrumb">
+          <li><a href="index.html"><lable data-locale="dashboardPanel">控制面板</lable></a></li>
+          <li class="active"><lable data-locale="dashboardEquipment">设备管理</lable></li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="contentpanel">
+      <div class="panel panel-default">
+        <div class="panel-body">
+	    <div class="profile-header">
+            <h2 class="profile-name" id="devExtname"></h2>
+            <div class="profile-position" id="devExtid"><lable data-locale="devices_extNumber">设备编号：</lable></div>
+            <div class="profile-position" id="devExtAddr"><lable data-locale="devices_extLocation">部署地址：</lable></div>
+	    <div class="profile-position" id="devExtState"><lable data-locale="devices_extStatus">设备状态：</lable></div>
+            <div class="mb20"></div>
+            
+            <button class="btn btn-white" onclick="javascript:window.history.back();"><i class="fa  fa-reply"></i> <lable data-locale="devices_extReturn">返回</lable></button>
+	    <button class="btn btn-white" onclick="startlive()" id="btnstartlive"><i class="glyphicon  glyphicon-eye-open"></i> <lable data-locale="devices_extStart">启动直播</lable></button>
+	    <button class="btn btn-white" onclick="stoplive()" id="btnstoplive"><i class="glyphicon  glyphicon-eye-close"></i> <lable data-locale="devices_extClose">关闭直播</lable></button>
+	    <button class="btn btn-white" onclick="live()" id="btnplaylive"><i class="fa  fa-video-camera"></i> <lable data-locale="devices_extPlay">播放直播</lable></button>
+	    <button class="btn btn-warning btn-small" onclick="sendRebootToDevice()" id="btnreboot" style="float:right;"><i class="fa  fa-video-camera"></i> <lable data-locale="devices_extRestart">重启</lable></button>
+          </div><!-- profile-header -->
+          
+          <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-justified nav-profile">
+          <li class="active"><a href="#activities" data-toggle="tab"><strong><lable data-locale="devices_extMessage">设备信息</lable></strong></a></li>
+          <li><a href="#followers" data-toggle="tab"><strong><lable data-locale="devices_extPlayCount">播放统计</lable></strong></a></li>
+          <li><a href="#following" data-toggle="tab"><strong><lable data-locale="devices_extLog">设备日志</lable></strong></a></li>
+          <li><a href="#events" data-toggle="tab"><strong><lable data-locale="devices_extTiming">定时设置</lable></strong></a></li>
+        </ul>
+        
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane active" id="activities">
+		<div class="col-md-12">
+			<div class="col-md-3">
+				<img src="images/play.jpg" class="img-polaroid"  width="100%" height="auto" id="playpic"></img>
+			</div>
+			<div class="col-md-9">
+				<div class="bio-row">
+					<p id="mac"><span><lable data-locale="devices_extMACLocation">MAC地址 </lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="ipaddr"><span><lable data-locale="devices_extInternet">网络地址 </lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="ipdns"><span><lable data-locale="devices_extDNS">网络DNS</lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="gateway"><span><lable data-locale="devices_extNetworkLcation">网关地址 </lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="nettype"><span><lable data-locale="devices_extInternetType">网络类型 </lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="ssid"><span><lable data-locale="devices_extName">热点名称 </lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="space"><span><lable data-locale="devices_extSpace">存储空间 </lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="volume"><span><lable data-locale="devices_extVolume">音量大小 </lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="width"><span><lable data-locale="devices_extWidth">显示宽度 </lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="height"><span><lable data-locale="devices_extHeight">显示高度 </lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="brightness"><span><lable data-locale="devices_extLuminance">亮度大小</lable></span>：</p>
+				</div>
+				<div class="bio-row">
+					<p id="sysvision"><span><lable data-locale="devices_extSYS">系统版本</lable></span>：</p>
+				</div>
+			</div>
+		</div>
+
+          </div>
+          <div class="tab-pane" id="followers">
+		<button class="btn btn-small" type="button" id="couterBtn" style="float:right;margin-bottom:10px;"><lable data-locale="groupRefresh">刷新</lable></button>
+       		<table id="device-p-couter-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+		
+          </div>
+          <div class="tab-pane" id="following">
+            	<div class="form-inline" role="form" id="logSearchForm">                                                
+			<div class="form-group">
+				<lable data-locale="devicesFindMessage"><input type="text" placeholder="请输入关键字" class="form-control" name="keywords" id = "keywords"></lable>
+				<input type="hidden" id="ldid" name="ldid"/>
+			</div>
+			<div class="form-group">
+				<label class="control-label"><lable data-locale="devices_extLogType">日志类型</lable></label>
+				<lable data-locale="devicesextLogSel">
+				<select class="form-control" id="ltype"  name="ltype">
+					<option value="">全部</option>
+					<option value="记录">记录</option>
+					<option value="错误">错误</option>
+					<option value="警告">警告</option>
+					<option value="危险">危险</option>
+				</select>
+				</lable>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default" type="button" id="searchLogBtn"><lable data-locale="devicesFind">查询</lable></button>
+			</div>
+		</div>
+		<table id="log-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+            
+          </div>
+          <div class="tab-pane" id="events">
+		<table id="timepref-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+                    <form class="form-inline">
+		    <div class="form-group" style="padding-top:10px;">
+			<label class="col-sm-5  control-label"><lable data-locale="devices_extWeekday">星期几:</lable></label>
+			<div class="col-sm-7"> 
+			<lable data-locale="devicesextWeekdaySel">
+		      	<select class="form-control mb15" id="timeprefweek">
+		          <option value="0">默认设置</option>
+		          <option value="2">星期一</option>
+		          <option value="3">星期二</option>
+			  <option value="4">星期三</option>
+			  <option value="5">星期四</option>
+			  <option value="6">星期五</option>
+			  <option value="7">星期六</option>
+			  <option value="1">星期日</option>
+		        </select>
+			</lable>
+			</div>
+		    </div>
+		    <div class="form-group">
+			<label class="col-sm-6 control-label"><lable data-locale="devices_extUptime">开机时间:</lable></label>
+                	<div class="col-sm-6 bootstrap-timepicker"><input id="timeprefstart" type="text" class="form-control"/></div>
+		    </div>
+		    <div class="form-group">
+			<label class="col-sm-6 control-label"><lable data-locale="devices_extOffTime">关机时间:</lable></label>
+                	<div class="col-sm-6 bootstrap-timepicker"><input id="timeprefend" type="text" class="form-control" /></div>
+		    </div>
+		    <button type="button" class="btn btn-primary" onclick="setTimePref()"><lable data-locale="devices_extAddTime">添加定时</lable></button>
+		  </form>
+            </div><!-- events -->
+          </div>
+        </div><!-- tab-content -->
+          
+        </div><!-- col-sm-9 -->
+        </div><!-- panel-body -->
+      </div><!-- panel -->
+        
+    </div><!-- contentpanel -->
+    
+  </div><!-- mainpanel -->
+
+  <div>
+	<div class="modal fade releasePushItemModal" tabindex="-1" role="dialog" aria-labelledby="liveProgram" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="addReleaseModalLabel">
+						<lable data-locale="releaseResource">资源列表</lable>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<table id="release-push-item-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><lable data-locale="devicesClose">关闭</lable></button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+  </div>  
+<div>
+	<div class="modal fade liveTisModal" tabindex="-1" role="dialog" aria-labelledby="liveTisModalLabel" data-backdrop="static" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="liveTisModalLabel">
+						<lable data-locale="devices_extPlayControl">直播控制</lable>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<p id="pforliveTisModal"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toggles.min.js"></script>
+<script src="js/retina.min.js"></script>
+<script src="js/jquery.cookies.js"></script>
+<script src="js/bootbox.js"></script>
+<script src="js/table/bootstrap-table.min.js"></script>
+<script src="js/table/bootstrap-table-zh-CN.min.js"></script>
+<script src="js/table/bootstrap-table-en-US.min.js"></script>
+<script src="js/treeview/bootstrap-treeview.min.js"></script>
+<script src="js/bootstrap-timepicker.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/adsys-common.js?_v_=20190123"></script>
+<script src="js/adsys-device.js?_v_=20190123"></script>
+<script src="js/adsys-group.js?_v_=20190123"></script>
+<script src="js/adsys-program.js?_v_=20190123"></script>
+<script src="js/adsys-release.js?_v_=20190123"></script>
+<script src="js/adsys-log.js?_v_=20190123"></script>
+<script src="js/layer/layer.js"></script>
+<script src="js/jquery.range-min.js"></script>
+<script src="js/jquery.i18n.properties-min.js"></script>
+<script src="js/language.js"></script>
+<script>
+
+	function setVolumeFromRange(){
+		var Request = getRequests();
+		var did = Request["did"];
+		var volume = $("#volume input").val();
+		sendMsgToDevice(did, "volume", volume);
+	}
+	
+	function setBrightnessFromRange(){
+		var Request = getRequests();
+		var did = Request["did"];
+		var brightness = $("#brightness input").val();
+		sendMsgToDevice(did, "brightness", brightness);
+	}
+
+	jQuery(document).ready(function() {
+
+		var Request = getRequests();
+		var did = Request["did"];
+		if (did != undefined){
+			$("#ldid").val(did);
+			getDevDetailed(did);
+			//initDeviceProgramTable();
+			initProgramCouterTable();
+			initReleasePushItemTable();
+			initLogTable();
+			timePrefTable();
+			jQuery('#timeprefstart').timepicker({showMeridian: false});
+			jQuery('#timeprefend').timepicker({showMeridian: false});
+			$("#volume input").jRange({
+			    from : 0,
+			    to : 100,
+			    onbarclicked : setVolumeFromRange,
+			    ondragend : setVolumeFromRange
+			});
+			$("#brightness input").jRange({
+			    from : 0,
+			    to : 100,
+			    onbarclicked : setBrightnessFromRange,
+			    ondragend : setBrightnessFromRange
+			});
+			$('a[href="#followers"]').click(function(e) {
+			    getDevProgramList(did);
+			    e.preventDefault();
+			});
+			$('a[href="#events"]').click(function(e) {
+			    getDevTimePrefList(did);
+			    e.preventDefault();
+			});
+			$('#searchLogBtn').click(function () {
+	    			refreshLogTable();
+			});
+			$('#couterBtn').click(function () {
+	    			refreshCouterTable();
+			});	
+		}
+		
+	});
+
+	function sendMsg(){
+		var Request = getRequests();
+		var did = Request["did"];
+		if (did != undefined){
+			var msg = prompt("请输入消息内容：");
+			sendMsgToDevice(did, "sendMsg", msg);
+		}
+		
+	}
+
+	function live(){
+		var Request = getRequests();
+		var did = Request["did"];
+		if (did != undefined){
+			openPlayerWindow(did, "设备直播");
+		}
+		
+	}
+
+	function startlive(){
+		var Request = getRequests();
+		var did = Request["did"];
+		if (did != undefined){
+			setLiveOnDevice(did, "camera", "start");
+		}
+		
+	}
+
+	function stoplive(){
+		var Request = getRequests();
+		var did = Request["did"];
+		if (did != undefined){
+			setLiveOnDevice(did, "camera", "stop");
+		}
+		
+	}
+</script>
+
+</body>
+</html>

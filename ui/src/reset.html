@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>广告信息发布系统 - 找回密码</title>
+    <link rel="stylesheet" href="./css/style.default.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <![endif]-->
+    <style>
+        #findForm button {
+            width: 100px;
+            display: inline;
+        }
+        #relogin {
+            margin-right: 40px;
+        }
+        #check {
+            width: 130px;
+            display: inline;
+            margin-top: 0px;
+            left: 0px;
+            top: 15px;
+            position: relative;
+            float: right;
+        }
+        #getcheck {
+            margin: 0px;
+            margin-top: 15px;
+        }
+        #resetpwd {
+		    float: right;
+		    margin: 0px;
+		    margin-top: 17px;
+		    width: 101px;
+		}
+        span {
+            color: black;
+        }
+    </style>
+</head>
+
+<body class="signin">
+
+
+
+
+
+<section>
+
+    <div class="signinpanel">
+
+        <div class="row">
+
+            <div class="col-md-7">
+
+                <div class="signin-info">
+                    <div class="logopanel">
+                        <h1><span>ADSYS</span></h1>
+                    </div><!-- logopanel -->
+
+                    <div class="mb20"></div>
+
+                    <h5><strong>欢迎使用ADSYS广告信息发布系统！</strong></h5>
+                    <ul>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> 方便管理你的广告设备终端</li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> 快速制作多元化的节目</li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> 多种智能交互方式</li>
+                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> 提高宣传与营销效率</li>
+                    </ul>
+                </div><!-- signin0-info -->
+
+            </div><!-- col-sm-7 -->
+
+            <div class="col-md-5">
+
+                <form role="form" id="findForm" >
+                    <h4 class="nomargin">重置密码</h4>
+                    <p class="mt5 mb20">输入用户名和手机号重置密码.</p>
+
+                    <input type="text" class="form-control " placeholder="请输入用户名" name="username" id="username"/>
+                    <input type="text" class="form-control " placeholder="请输入手机号" name="tel" id="tel"/>
+                    <input type="button" class="btn btn-success getcheck" id="getcheck" disabled="disabled" value="获取验证码">
+                    <input type="text" class="form-control check" placeholder="请输入验证码" id="check"  name="check"/>
+                    <input type="password" class="form-control " placeholder="请输入重置的密码" name="password" id="password" disabled="disabled"/>
+                    <a href="./login.html"><button type="button" class="btn btn-success btn-block" id="relogin">返回登录页</button></a>
+                    <input type="button" class="btn btn-success btn-block" id="resetpwd" disabled="disabled" value="重置密码">
+
+
+                </form>
+            </div><!-- col-sm-5 -->
+
+        </div><!-- row -->
+
+        <div class="signup-footer">
+            <div class="pull-left">
+                &copy; 2018. All Rights Reserved. ADSYS
+            </div>
+        </div>
+
+    </div><!-- signin -->
+
+</section>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootbox.js"></script>
+<script src="js/adsys-common.js?_v_=20181219"></script>
+<script src="js/adsys-user.js?_v_=20181219"></script>
+<script>
+    var username = $("#username");
+    var password = $("#password");
+    var ordertime = 60;
+    var timeleft=ordertime;
+    var btn=$("#getcheck");
+    var reg = /^1[0-9]{10}$/;
+    var tel = $("#tel");
+    var check = $("#check");
+    var regs = /^[0-9][0-9]{5}$/;
+    var resetbtn = $("#resetpwd");
+    tel.keyup(function(){
+        if (reg.test(tel.val())){
+            btn.removeAttr("disabled")  //当号码符合规则后发送验证码按钮可点击
+        }
+        else{
+            btn.attr("disabled",true)
+        }
+    });
+
+    check.keyup(function () {
+        if(regs.test(check.val())){
+            password.removeAttr("disabled");
+        }else{
+            password.attr("disabled",true)
+        }
+    });
+
+    $("#password").focus(function () {
+
+    		resetbtn.removeAttr("disabled");  
+    });
+
+    function timeCount(){
+        timeleft-=1
+        if (timeleft>0){
+            btn.val(timeleft+" 秒后重发");
+            setTimeout(timeCount,1000);
+
+        }
+        else {
+            btn.val("重新发送");
+	    check.val("");
+            timeleft=ordertime;
+            btn.removeAttr("disabled");
+        }
+    };
+
+    btn.on("click",function(){
+        $(this).attr("disabled",true);
+        $.ajax({
+            cache:false,
+	    type:"get",
+            url:getRootUrl() + "reset/checkcode",
+            data : {username:username.val(),tel:tel.val()},
+            success:function(result){
+		if(!result.success)
+			alert("请求失败");
+	    },
+	    error:function(){
+		alert("请求失败");
+	    },
+	    dataType:'json',
+        });
+        timeCount(this);
+    });
+
+    resetbtn.on("click",function(){
+    	$.ajax({
+            cache:false,
+	    type:"get",
+	    dataType:'json',
+            url:getRootUrl() + "reset/passwd",
+            data : {username:username.val(),tel:tel.val(),check:check.val(),password:password.val()},
+            error:function(){
+		alert("请求失败");
+	    },
+	    success:function(result){
+		if(result.success)
+		{
+				bootbox.dialog({  
+				    	buttons: {  
+						ok: {  
+							label: '确认',  
+							className: 'btn btn-success',
+							callback: function () {  
+								window.location.reload();
+							} 
+						}  
+					},  
+					message: '重置密码成功', 
+					title: "重置密码",  
+				}); 
+			}
+			else
+			{
+				bootbox.alert({  
+			    		buttons: {  
+						ok: {  
+							label: '确认',  
+							className: 'btn btn-warning'  
+						}  
+					},  
+					message: result.msg, 
+					title: "访问出错",  
+				}); 
+			}
+		}
+        });
+
+    });
+</script>
+</body>
+</html>

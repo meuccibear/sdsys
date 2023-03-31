@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DevicesExtMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ad_device_ext
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		uuid,
+		did,
+		mac,
+		ipaddr,	
+		ipdns,
+		nettype,	
+		ssid,
+		gateway,
+		apn,
+		space,	
+		volume,	
+		disptype,	
+		width,
+		height,
+		brightness,
+		sysvision
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{uuid},
+		#{did},
+		#{mac},
+		#{ipaddr},	
+		#{ipdns},
+		#{nettype},	
+		#{ssid},	
+		#{gateway},	
+		#{apn},
+		#{space},		
+		#{volume},	
+		#{disptype},
+		#{width},
+		#{height},
+		#{brightness},
+		#{sysvision}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+		<include refid="Field"></include>
+		) values (
+		<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+		did = #{did}
+		<if test="uuid != null and uuid != ''">
+		and uuid=#{uuid}
+		</if>
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			mac = #{mac},
+			ipaddr = #{ipaddr},	
+			ipdns = #{ipdns},
+			nettype = #{nettype},	
+			ssid = #{ssid},
+			gateway = #{gateway},
+			apn = #{apn},
+			space = #{space},	
+			volume = #{volume},	
+			disptype = #{disptype},	
+			width = #{width},
+			height = #{height},
+			brightness = #{brightness},
+			sysvision = #{sysvision}
+		where
+		did = #{did}
+		<if test="uuid != null and uuid != ''">
+		and uuid=#{uuid}
+		</if>
+	</update>
+	
+	<!-- 通过id获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		did = #{did}
+		<if test="uuid != null and uuid != ''">
+		and uuid=#{uuid}
+		</if>
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ScheduleMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ad_schedule
+	</sql>
+	
+	<sql id="scheduleListTableName">
+		ad_schedule_list
+	</sql>
+	
+	<sql id="schedulePushListTableName">
+		ad_schedule_push_list
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		uuid,
+		sid,
+		gid,
+		pid,
+		sname,
+		stype,
+		ptype,
+		schedule,
+		sstate,
+		adddate
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{uuid},
+		#{sid},
+		#{gid},
+		#{pid},
+		#{sname},
+		#{stype},
+		#{ptype},
+		#{schedule},
+		#{sstate},
+		#{adddate}
+	</sql>
+	
+	<!-- list字段 -->
+	<sql id="ListField">
+		uuid,
+		sid,
+		id,
+		seqid,
+		did,
+		state,
+		adddate
+	</sql>
+	
+	<!-- list字段值 -->
+	<sql id="ListFieldValue">
+		#{uuid},
+		#{sid},
+		#{id},
+		#{seqid},
+		#{did},
+		#{state},
+		#{adddate}
+	</sql>
+	
+	<!-- list字段 -->
+	<sql id="PushListField">
+		uuid,
+		sid,
+		did,
+		resid,
+		resname,
+		state,
+		updatedate
+	</sql>
+	
+	<!-- list字段值 -->
+	<sql id="PushListFieldValue">
+		#{uuid},
+		#{sid},
+		#{did},
+		#{resid},
+		#{resname},
+		#{state},
+		#{updatedate}
+	</sql>
+
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into
+		<include refid="tableName"></include>
+		(
+		<include refid="Field"></include>
+		) values (
+		<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			sid = #{sid} and uuid=#{uuid}
+	</delete>
+	
+	<!-- 删除-->
+	<delete id="deleteItem" parameterType="pd">
+		delete from
+		<include refid="scheduleListTableName"></include>
+		where 
+			sid=#{sid} and uuid=#{uuid}
+		<if test="did!= null and did != ''">
+			 and did=#{did}
+		</if>
+	</delete>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			sid = #{sid}
+		<if test="uuid!= null and uuid != ''">
+			 and uuid=#{uuid}
+		</if>
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where uuid=#{pd.uuid}
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					 sname LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.sstate != null and pd.sstate != ''"><!-- 状态检索 -->
+			and sstate=#{pd.sstate} 
+		</if>
+		<if test="pd.stype != null and pd.stype != ''"><!-- 类型检索 -->
+			and stype=#{pd.stype} 
+		</if>
+		<if test="pd.ptype != null and pd.ptype != ''"><!-- 播放类型检索 -->
+			and ptype=#{pd.ptype} 
+		</if>
+		<if test="pd.startdate !=null and pd.startdate !=''"><!-- 时间检索 -->
+			and adddate &gt;= #{pd.startdate} 
+		</if>
+		<if test="pd.enddate !=null and pd.enddate !=''"><!-- 时间检索 -->
+			and adddate &lt;= #{pd.enddate} 
+		</if>
+		<if test="pd.gid!=null and pd.gid!=''"><!-- gid -->
+			and gid=#{pd.gid}
+		</if>
+		order by adddate desc
+	</select>
+	
+	<!-- 统计 -->
+	<select id="findPageCount" parameterType="page" resultType="long">
+		select
+		count(*)
+		from 
+		<include refid="tableName"></include>
+		where uuid=#{pd.uuid}
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					 sname LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.sstate != null and pd.sstate != ''"><!-- 状态检索 -->
+			and sstate=#{pd.sstate} 
+		</if>
+		<if test="pd.stype != null and pd.stype != ''"><!-- 类型检索 -->
+			and stype=#{pd.stype} 
+		</if>
+		<if test="pd.ptype != null and pd.ptype != ''"><!-- 播放类型检索 -->
+			and ptype=#{pd.ptype} 
+		</if>
+		<if test="pd.startdate !=null and pd.startdate !=''"><!-- 时间检索 -->
+			and adddate &gt;= #{pd.startdate} 
+		</if>
+		<if test="pd.enddate !=null and pd.enddate !=''"><!-- 时间检索 -->
+			and adddate &lt;= #{pd.enddate} 
+		</if>
+		<if test="pd.gid!=null and pd.gid!=''"><!-- gid -->
+			and gid=#{pd.gid}
+		</if>
+		order by adddate desc
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where uuid=#{uuid}
+		<if test="pd.sstate != null and pd.sstate != ''"><!-- 状态检索 -->
+			and sstate=#{pd.sstate} 
+		</if>
+		<if test="pd.stype != null and pd.stype != ''"><!-- 类型检索 -->
+			and stype=#{pd.stype} 
+		</if>
+		<if test="ptype != null and ptype != ''"><!-- 播放类型检索 -->
+			and ptype=#{ptype} 
+		</if>
+		<if test="pd.startdate !=null and pd.startdate !=''"><!-- 时间检索 -->
+			and adddate &gt;= #{pd.startdate} 
+		</if>
+		<if test="pd.enddate !=null and pd.enddate !=''"><!-- 时间检索 -->
+			and adddate &lt;= #{pd.enddate} 
+		</if>
+		<if test="pd.gid!=null and pd.gid!=''"><!-- gid -->
+			and gid=#{pd.gid}
+		</if>
+		order by adddate desc
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAllByDid" parameterType="pd" resultType="pd">
+		select  s.uuid,
+				s.sname,
+				s.stype,
+				s.ptype,
+				s.sid,
+				s.pid,
+				s.sstate,
+				s.adddate,
+				s.gid,
+				l.id,
+				l.seqid,
+				l.did,
+				l.state,
+				s.schedule
+		from 
+		<include refid="tableName"></include> s 
+		left join 
+		<include refid="scheduleListTableName"></include> l 
+		on s.sid=l.sid 
+		where l.did=#{did} and s.stype = #{stype}
+		<if test="state !=null and state !=''"><!-- state -->
+			and l.state=#{state}
+		</if>
+		<if test="pid !=null and pid !=''"><!-- pid -->
+			and s.pid=#{pid}
+		</if>
+		<if test="seqid !=null"><!-- seqid -->
+			and l.seqid &lt; #{seqid}
+		</if>
+		order by l.seqid
+	</select>
+	
+	<!--  被替换列表(全部) -->
+	<select id="listAllForOlder" parameterType="pd" resultType="pd">
+		select
+		<include refid="ListField"></include>
+		from 
+		<include refid="scheduleListTableName"></include>
+		where did=#{did} and state = "older"
+	</select>
+	
+	<!-- ITEM列表(全部) -->
+	<select id="itemListAll" parameterType="pd" resultType="pd">
+		select
+		s.sid,
+		s.id,
+		s.did,
+		s.seqid,
+		s.state,
+		s.adddate,
+		d.dname,
+		d.gid,
+		d.dstatus,
+		d.beatDate
+		from 
+		<include refid="scheduleListTableName"></include> s
+		left join ad_device d
+		on s.did = d.did
+		where s.sid=#{sid} and s.uuid=#{uuid}
+		order by s.seqid desc
+	</select>
+	
+	<!-- 通过ID获取ITEM数据 -->
+	<select id="findItemById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="ListField"></include>
+		from 
+		<include refid="scheduleListTableName"></include>
+		where 
+			sid = #{sid} and did = #{did}
+		<if test="uuid!= null and uuid != ''">
+			 and uuid=#{uuid}
+		</if>
+	</select>
+	
+	
+	<!-- 审核 -->
+	<update id="review">
+		update
+		<include refid="tableName"></include>
+		set 
+		sstate = #{sstate}
+		where 
+		sid = #{sid} and uuid=#{uuid}
+	</update>
+	
+
+	<!-- 新增list item-->
+	<insert id="saveItem" parameterType="pd">
+		insert into
+		<include refid="scheduleListTableName"></include>
+		(
+		<include refid="ListField"></include>
+		) values (
+		<include refid="ListFieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="editItem" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			schedule = #{schedule}
+		where 
+		did = #{did} and uuid=#{uuid} and sid = #{sid}
+	</update>
+	
+	<!-- 修改状态 -->
+	<update id="editScheduleListState" parameterType="pd">
+		update
+		<include refid="scheduleListTableName"></include>
+		set 
+			state = #{state}
+		where 
+		did = #{did}
+	</update>
+	
+	<!-- 列表 -->
+	<select id="datalistPageForDid" parameterType="page" resultType="pd">
+		select
+		<include refid="ListField"></include>
+		from 
+		<include refid="scheduleListTableName"></include>
+		where did=#{did} and uuid=#{uuid}
+		order by adddate desc
+	</select>
+	
+	<!-- 统计 -->
+	<select id="findPageCountForDid" parameterType="page" resultType="long">
+		select
+		count(*)
+		from 
+		<include refid="scheduleListTableName"></include>
+		where did=#{did} and uuid=#{uuid}
+		order by adddate desc
+	</select>
+
+	<!-- FOR PUSH LIST -->
+	<!-- 新增-->
+	<insert id="savePushItem" parameterType="pd">
+		insert into
+		<include refid="schedulePushListTableName"></include>
+		(
+		<include refid="PushListField"></include>
+		) values (
+		<include refid="PushListFieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 修改状态 -->
+	<update id="editResourceState" parameterType="pd">
+		update
+		<include refid="schedulePushListTableName"></include>
+		set 
+			state = #{state}
+		where 
+		did = #{did} and resid=#{resid} and sid = #{sid}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findPushItemById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="PushListField"></include>
+		from 
+		<include refid="schedulePushListTableName"></include>
+		where 
+			sid = #{sid} and uuid=#{uuid} and did=#{did} and resid=#{resid}
+	</select>
+	
+	<!-- 删除-->
+	<delete id="deletePushItem" parameterType="pd">
+		delete from
+		<include refid="schedulePushListTableName"></include>
+		where 
+			sid = #{sid} and uuid=#{uuid}
+		<if test="did!=null and did!=''"><!-- did -->
+			and did=#{did}
+		</if>
+	</delete>
+	
+	<!-- ITEM列表(全部) -->
+	<select id="pushItemListAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="PushListField"></include>
+		from 
+		<include refid="schedulePushListTableName"></include>
+		where did=#{did}
+		<if test="sid !=null and sid !=''"><!-- sid -->
+			and sid=#{sid}
+		</if>
+		<if test="state !=null and state !=''"><!-- state -->
+			and state=#{state}
+		</if>
+	</select>
+	
+	<!-- 获取要推送素材的数量 -->
+	<select id="pushItemCount" parameterType="pd" resultType="long">
+		select
+		count(*)
+		from 
+		<include refid="schedulePushListTableName"></include>
+		where sid=#{sid} and did=#{did} and state="push"
+	</select>
+	
+	<!-- pushitem批量删除 -->
+	<delete id="deleteAllPushItem" parameterType="pd">
+		delete from
+		<include refid="schedulePushListTableName"></include>
+		where 
+			uuid = #{uuid}
+	</delete>
+	
+	<!-- list批量删除 -->
+	<delete id="deleteAllList" parameterType="pd">
+		delete from
+		<include refid="scheduleListTableName"></include>
+		where 
+			uuid = #{uuid}
+	</delete>
+	
+	<!-- list批量删除 -->
+	<delete id="deleteAllSche" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			uuid = #{uuid}
+	</delete>
+	
+</mapper>

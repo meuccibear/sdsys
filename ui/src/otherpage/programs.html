@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+
+  <title>广告信息发布系统-节目列表</title>
+
+  <link href="css/style.default.css" rel="stylesheet">
+  <link href="css/table/bootstrap-table.min.css" rel="stylesheet">
+  <link href="js/ztree/metroStyle.css" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="stickyheader leftpanel-collapsed">
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+
+
+<section>
+  
+  <div class="leftpanel sticky-leftpanel">
+    
+    <div class="logopanel">
+        <h1><span>ADSYS</span></h1>
+    </div><!-- logopanel -->
+    
+    <div class="leftpanelinner">
+        
+        <!-- This is only visible to small devices -->
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
+            <div class="media userlogged">
+                <img alt="" src="images/photos/loggeduser.png" class="media-object">
+                <div class="media-body">
+                    <h4 id="adsys_name_l"></h4>
+                </div>
+            </div>
+          
+            <h5 class="sidebartitle actitle">Account</h5>
+            <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+              <li><a href="profile.html"><i class="fa fa-user"></i> <span>个人信息</span></a></li>
+              <li><a href="help"><i class="fa fa-question-circle"></i> <span>使用帮助</span></a></li>
+              <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span>安全退出</span></a></li>
+            </ul>
+        </div>
+      
+      <h5 class="sidebartitle">Navigation</h5>
+      <ul class="nav nav-pills nav-stacked nav-bracket">
+        <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
+        <li><a href="devices.html"><i class="fa fa-th-list"></i> <span>设备管理</span></a></li>
+	<li class="nav-parent  active"><a href=""><i class="fa fa-edit"></i> <span>节目管理</span></a>
+          <ul class="children">
+	    <li><a href="javascript:openEditor()"><i class="fa fa-caret-right"></i> 制作节目</a></li>
+	    <li class="active"><a href="programs.html"><i class="fa fa-caret-right"></i> 节目列表</a></li>
+            <li><a href="files.html"><i class="fa fa-caret-right"></i> 文件管理</a></li>
+          </ul>
+	<li><a href="release.html"><i class="fa fa-calendar"></i> <span>发布管理</span></a></li>
+        <li class="nav-parent"><a href=""><i class="fa fa-gear"></i> <span>系统设置</span></a>
+          <ul class="children">
+            <li><a href="group.html"><i class="fa fa-caret-right"></i> 分组管理</a></li>
+            <li><a href="role.html"><i class="fa fa-caret-right"></i> 角色管理</a></li>
+            <li><a href="user.html"><i class="fa fa-caret-right"></i> 用户管理</a></li>
+          </ul>
+        </li>
+        
+      </ul>
+    </div><!-- leftpanelinner -->
+  </div><!-- leftpanel -->
+  
+  <div class="mainpanel">
+    
+    <div class="headerbar">
+      
+      <a class="menutoggle"><i class="fa fa-bars"></i></a>
+      
+      <form class="searchform" action="index.html" method="post">
+        <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
+      </form>
+      
+      <div class="header-right">
+        <ul class="headermenu">
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <img src="images/photos/loggeduser.png" alt="" />
+                <span id="adsys_name"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> 个人信息</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 使用帮助</a></li>
+                <li><a href="javascript:appLogout();"><i class="glyphicon glyphicon-log-out"></i> 安全退出</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div><!-- header-right -->
+      
+    </div><!-- headerbar -->
+        
+    <div class="pageheader">
+      <h2><i class="fa fa-table"></i> 节目列表 <span>管理广告机节目</span></h2>
+      <div class="breadcrumb-wrapper">
+        <ol class="breadcrumb">
+          <li><a href="index.html">控制面板</a></li>
+          <li class="active">节目管理</li>
+          <li class="active">节目列表</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="contentpanel">
+      <div class="panel panel-default">
+        <div class="panel-body">
+		<div class="form-inline" role="form" id="programSearchForm">                                                
+			<div class="form-group">
+				<input type="text" placeholder="请输入关键字" class="form-control" name="keywords" id = "keywords">
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default" type="button" id="searchProgramBtn">查询</button>
+			</div>
+			<div class="form-group" style="float:right;">
+				<button class="btn btn-success" type="button" onclick="javascript:window.location.href='./ad/editor/'">制作节目</button>
+			</div>
+		</div>
+		<table id="program-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
+
+        </div><!-- panel-body -->
+      </div><!-- panel -->
+        
+    </div><!-- contentpanel -->
+    
+  </div><!-- mainpanel -->
+  
+</section>
+
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toggles.min.js"></script>
+<script src="js/retina.min.js"></script>
+<script src="js/jquery.cookies.js"></script>
+<script src="js/bootbox.js"></script>
+<script src="js/table/bootstrap-table.min.js"></script>
+<script src="js/table/bootstrap-table-zh-CN.min.js"></script>
+<script src="js/table/bootstrap-table-en-US.min.js"></script>
+<script src="js/ztree/jquery.ztree.core.min.js"></script>
+<script src="js/ztree/jquery.ztree.excheck.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/adsys-common.js"></script>
+<script src="js/adsys-program.js"></script>
+<script>
+	jQuery(document).ready(function() {
+   		initProgramTable();
+		
+	    	$('#searchProgramBtn').click(function () {
+	    		refreshProgramTable();
+		});
+	});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DevicesMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ad_device
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		uuid,
+		did,
+		dtoken,	
+		gid,	
+		dname,	
+		picpath,
+		daddr,	
+		dlive,
+		dstatus,
+		deploydate,	
+		beatdate,	
+		operdate,
+		lng,
+		lat
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{uuid},
+		#{did},
+		#{dtoken},	
+		#{gid},	
+		#{dname},
+		#{picpath},	
+		#{daddr},	
+		#{dlive},
+		#{dstatus},
+		#{deploydate},	
+		#{beatdate},	
+		#{operdate},
+		#{lng},
+		#{lat}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+		uuid,
+		did,
+		dtoken,	
+		gid,	
+		dname,	
+		daddr,	
+		dlive,
+		dstatus,
+		<if test="operdate != null and operdate != ''">
+		operdate,	
+		</if>
+		deploydate,	
+		beatdate
+		) values (
+		#{uuid},
+		#{did},
+		#{dtoken},	
+		#{gid},	
+		#{dname},	
+		#{daddr},
+		"stop",	
+		"offline",	
+		<if test="operdate != null and operdate != ''">
+		#{operdate},	
+		</if>
+		SYSDATE(),
+		SYSDATE()
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+		did = #{did} and uuid=#{uuid}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			dname = #{dname},
+			<if test="picpath != null and picpath != ''">
+			picpath = #{picpath},
+			</if>
+			<if test="operdate != null and operdate != ''">
+			operdate = #{operdate},
+			</if>
+			<if test="gid != null and gid != ''">
+			gid = #{gid},
+			</if>
+			daddr = #{daddr}
+		where
+		did = #{did} and uuid=#{uuid}
+	</update>
+	
+	<update id="updateState" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			dstatus = #{dstatus}
+		where
+		did = #{did}
+		<if test="uuid != null and uuid != ''">
+		and uuid=#{uuid}
+		</if>
+	</update>
+	
+	<update id="updateBeat" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			beatdate = SYSDATE()
+		<if test="dlive != null and dlive != ''">
+			,dlive = #{dlive}
+		</if>
+		where
+		did = #{did}
+	</update>
+	
+	<update id="updateLocation" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			lng = #{lng},
+			lat = #{lat}
+		where
+		did = #{did}
+	</update>
+	
+	<!-- 通过id获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		did = #{did} 
+		<if test="uuid != null and uuid != ''">
+		and uuid=#{uuid}
+		</if>
+	</select>
+	
+	<!-- 通过gid查询所有设备-->
+	<select id="findDeviceByGid" parameterType="String" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where gid=#{gid}
+	</select>
+
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		uuid,
+		did,
+		gid,	
+		dname,
+		picpath,	
+		daddr,	
+		dlive,
+		dstatus,
+		deploydate,	
+		beatdate,	
+		operdate,
+		lng,
+		lat
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件-->
+					dname LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or
+					daddr LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.giditem !=null and pd.giditem.size > 0"><!-- gid -->
+			and gid in
+			<foreach item="item" index="index" collection="pd.giditem" open="(" separator="," close=")">
+	                 #{item}
+			</foreach>
+		</if>
+		<if test="pd.dstatus !=null and pd.dstatus !=''"><!-- dstatus -->
+			and dstatus=#{pd.dstatus}
+		</if>
+		<if test="pd.uuid != null and pd.uuid != ''">
+			and uuid=#{pd.uuid}
+		</if>
+		order by beatdate desc
+	</select>
+	
+	<!-- 统计 -->
+	<select id="findPageCount" parameterType="page" resultType="long">
+		select
+		count(*)
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件-->
+					dname LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or
+					daddr LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.giditem !=null and pd.giditem.size > 0"><!-- gid -->
+			and gid in
+			<foreach item="item" index="index" collection="pd.giditem" open="(" separator="," close=")">
+	                 #{item}
+			</foreach>
+		</if>
+		<if test="pd.dstatus !=null and pd.dstatus !=''"><!-- dstatus -->
+			and dstatus=#{pd.dstatus}
+		</if>
+		<if test="pd.uuid != null and pd.uuid != ''">
+			and uuid=#{pd.uuid}
+		</if>
+		order by beatdate desc
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where uuid=#{uuid}
+		<if test="gid !=null and gid !=''"><!-- gid -->
+			and gid=#{gid}
+		</if>
+		<if test="dstatus !=null and dstatus !=''"><!-- dstatus -->
+			and dstatus=#{dstatus}
+		</if>
+	</select>
+	
+	<!-- 位置列表(全部) -->
+	<select id="listdevices4location" parameterType="pd" resultType="pd">
+		select
+		 dname,dstatus,lng,lat
+		from 
+		<include refid="tableName"></include>
+		where  lng !='' and lat !='' and uuid=#{uuid}	
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+		uuid=#{uuid}
+	</delete>
+	
+</mapper>

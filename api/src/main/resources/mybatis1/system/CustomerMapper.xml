@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CustomerMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ad_customer
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		uuid,
+		cname,	
+		tel,	
+		caddr,
+		cstatus,
+		installnum,
+		limitnum,
+		adddate,
+		expriedate
+	</sql>
+	
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{uuid},
+		#{cname},	
+		#{tel},	
+		#{caddr},	
+		#{cstatus},	
+		#{installnum},
+		#{limitnum},
+		#{adddate},	
+		#{expriedate}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+		uuid,
+		cname,	
+		tel,	
+		caddr,
+		cstatus,
+		installnum,
+		limitnum,
+		adddate,
+		expriedate
+		) values (
+		<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+		uuid = #{uuid}
+	</delete>
+
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			cname = #{cname},
+			tel = #{tel},
+			caddr = #{caddr}
+		where
+		uuid = #{uuid}
+	</update>
+	
+	<!-- 修改授权 -->
+	<update id="editLisence" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			limitnum = #{limitnum}
+			<if test="expriedate !=null and expriedate!=''"><!-- expriedate -->
+			,expriedate = #{expriedate}
+			</if>
+		where
+		uuid = #{uuid}
+	</update>
+	
+	<!-- 更新安装数 -->
+	<update id="UpdateInstallNum" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			installnum=#{installnum}
+		where
+		uuid = #{uuid}
+	</update>
+
+	
+	<!-- 通过id获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		uuid = #{uuid}
+		<if test="cstatus!=null and cstatus!=''"><!-- status -->
+			and cstatus=#{cstatus}
+		</if>
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					cname LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or
+					tel LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or
+					caddr LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.cstatus!=null and pd.cstatus!=''"><!-- status -->
+			and cstatus=#{pd.cstatus}
+		</if>
+	</select>
+	
+	<!-- 统计 -->
+	<select id="findPageCount" parameterType="page" resultType="long">
+		select
+		count(*)
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					cname LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or
+					tel LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or
+					caddr LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.cstatus!=null and pd.cstatus!=''"><!-- status -->
+			and cstatus=#{pd.cstatus}
+		</if>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="cstatus!=null and cstatus!=''"><!-- status -->
+			and cstatus=#{cstatus}
+		</if>
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where
+		uuid in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

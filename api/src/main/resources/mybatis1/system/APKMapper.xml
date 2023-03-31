@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="APKMapper">
+	<!--表名 -->
+	<sql id="tableName">
+		ad_apk
+	</sql>
+	<!-- 字段 -->
+	<sql id="field">
+		id,
+		version,
+		readme,
+		md5sum,
+		apkpath,
+		createdate
+	</sql>
+	<!-- 字段值 -->
+	<sql id="fieldValue">
+		#{id},
+		#{version},
+		#{readme},
+		#{md5sum},
+		#{apkpath},
+		#{createdate}
+	</sql>
+	<!-- 查询所有APK -->
+	<select id="getAPKList" resultType="com.adsys.entity.system.APK">
+		select
+		<include refid="field"/> 
+		from
+		<include refid="tableName"/> 
+		order by createdate asc
+	</select>
+	<!-- 根据m5dsum查询 -->
+	<select id="findAPKByMd5sum" parameterType="String" resultType="com.adsys.entity.system.APK">
+		select
+		<include refid="field"></include>
+		from
+		<include refid="tableName"></include>
+		where md5sum = #{md5sum}
+	</select>
+	<!-- 增加APK -->
+	<insert id="saveAPK" parameterType="com.adsys.entity.system.APK" >
+		insert into 
+		<include refid="tableName"></include>
+		(<include refid="field"></include>)
+		values
+		(<include refid="fieldValue"></include>)
+	</insert>
+	<delete id="deleteByVersion" parameterType="String">
+		delete from ad_apk where version = #{version}
+	</delete>
+</mapper>
