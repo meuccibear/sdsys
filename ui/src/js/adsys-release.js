@@ -194,6 +194,44 @@ function addRelease(formname){
 	}
 }
 
+
+function addReleasev2(formname){
+	$("#did").val($("#mutidid").val());
+	if($(formname).validate().form()) {
+		ajaxSubmit("release/program", formname,function(result){
+			if(result.success)
+			{
+				window['dialog'] = bootbox.dialog({
+					message: '发送成功',
+					closeButton: false
+					// title: "发布",
+				});
+				setTimeout(function () {
+					window['dialog'].modal('hide');
+				}, 1000)
+				// $('.addReleaseModal').modal('hide');
+				// $("#timeset_plan").hide();
+				// clearForm($(formname));
+				// $("#mutidid").select2("val", "");
+				// releaseTablerefresh();
+			}
+			else
+			{
+				bootbox.alert({
+					buttons: {
+						ok: {
+							label: '确认',
+							className: 'btn btn-warning'
+						}
+					},
+					message: result.msg,
+					title: "访问出错",
+				});
+			}
+		}, null);
+	}
+}
+
 function reviewProgram(sid){
 	var params_t = {};
 	params_t['oper'] = "reviewed";

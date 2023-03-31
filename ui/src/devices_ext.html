@@ -39,24 +39,24 @@
 
 
 <section>
-  
+
   <div class="leftpanel sticky-leftpanel">
-    
+
     <div class="logopanel">
         <h1><span>ADSYS</span></h1>
     </div><!-- logopanel -->
-    
+
     <div class="leftpanelinner">
-        
+
         <!-- This is only visible to small devices -->
-        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">
             <div class="media userlogged">
                 <img alt="" src="images/photos/loggeduser.png" class="media-object">
                 <div class="media-body">
                     <h4 id="adsys_name_l"></h4>
                 </div>
             </div>
-          
+
             <h5 class="sidebartitle actitle">Account</h5>
             <ul class="nav nav-pills nav-stacked nav-bracket mb30">
               <li><a href="profile.html"><i class="fa fa-user"></i> <span>个人信息</span></a></li>
@@ -64,33 +64,33 @@
               <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span>安全退出</span></a></li>
             </ul>
         </div>
-      
+
       <h5 class="sidebartitle">菜单</h5>
       <ul class="nav nav-pills nav-stacked nav-bracket">
         <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
         <li class="active"><a href="devices.html"><i class="fa fa-th-list"></i> <span>设备管理</span></a></li>
-	<li><a href="javascript:openEditor()"><i class="fa fa-edit"></i> <span>节目制作</span></a></li>
-	<li><a href="release.html"><i class="fa fa-calendar"></i> <span>节目管理</span></a></li>
+	<!--<li><a href="javascript:openEditor()"><i class="fa fa-edit"></i> <span>节目制作</span></a></li>-->
+	<li><a href="release.html"><i class="fa fa-calendar"></i> <span>发布管理</span></a></li>
         <li class="nav-parent"><a href=""><i class="fa fa-gear"></i> <span>系统设置</span></a>
           <ul class="children">
-	    <li><a href="template.html"><i class="fa fa-caret-right"></i> 节目模板</a></li>
+	    <!--<li><a href="template.html"><i class="fa fa-caret-right"></i> 节目模板</a></li>-->
 	    <li><a href="license.html"><i class="fa fa-caret-right"></i> 授权管理</a></li>
             <li><a href="group.html"><i class="fa fa-caret-right"></i> 分组管理</a></li>
             <li><a href="role.html"><i class="fa fa-caret-right"></i> 角色管理</a></li>
             <li><a href="user.html"><i class="fa fa-caret-right"></i> 用户管理</a></li>
           </ul>
         </li>
-        
+
       </ul>
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
-  
+
   <div class="mainpanel">
-    
+
     <div class="headerbar">
-      
+
       <a class="menutoggle"><i class="fa fa-bars"></i></a>
-      
+
 
       <div class="header-right">
         <ul class="headermenu">
@@ -110,9 +110,9 @@
           </li>
         </ul>
       </div><!-- header-right -->
-      
+
     </div><!-- headerbar -->
-        
+
     <div class="pageheader">
       <h2><i class="fa fa-table"></i> 设备详情 <span>管理广告机终端设备</span></h2>
       <div class="breadcrumb-wrapper">
@@ -122,7 +122,7 @@
         </ol>
       </div>
     </div>
-    
+
     <div class="contentpanel">
       <div class="panel panel-default">
         <div class="panel-body">
@@ -132,14 +132,14 @@
             <div class="profile-position" id="devExtAddr">部署地址：</div>
 	    <div class="profile-position" id="devExtState">设备状态：</div>
             <div class="mb20"></div>
-            
+
             <button class="btn btn-white" onclick="javascript:window.history.back();"><i class="fa  fa-reply"></i> 返回</button>
 	    <button class="btn btn-white" onclick="startlive()" id="btnstartlive"><i class="glyphicon  glyphicon-eye-open"></i> 启动直播</button>
 	    <button class="btn btn-white" onclick="stoplive()" id="btnstoplive"><i class="glyphicon  glyphicon-eye-close"></i> 关闭直播</button>
 	    <button class="btn btn-white" onclick="live()" id="btnplaylive"><i class="fa  fa-video-camera"></i> 播放直播</button>
 	    <button class="btn btn-warning btn-small" onclick="sendRebootToDevice()" id="btnreboot" style="float:right;"><i class="fa  fa-video-camera"></i> 重启</button>
           </div><!-- profile-header -->
-          
+
           <!-- Nav tabs -->
         <ul class="nav nav-tabs nav-justified nav-profile">
           <li class="active"><a href="#activities" data-toggle="tab"><strong>设备信息</strong></a></li>
@@ -147,7 +147,7 @@
           <li><a href="#following" data-toggle="tab"><strong>设备日志</strong></a></li>
           <li><a href="#events" data-toggle="tab"><strong>定时设置</strong></a></li>
         </ul>
-        
+
         <!-- Tab panes -->
         <div class="tab-content">
           <div class="tab-pane active" id="activities">
@@ -199,10 +199,10 @@
           <div class="tab-pane" id="followers">
 		<button class="btn btn-small" type="button" id="couterBtn" style="float:right;margin-bottom:10px;">刷新</button>
        		<table id="device-p-couter-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
-		
+
           </div>
           <div class="tab-pane" id="following">
-            	<div class="form-inline" role="form" id="logSearchForm">                                                
+            	<div class="form-inline" role="form" id="logSearchForm">
 			<div class="form-group">
 				<input type="text" placeholder="请输入关键字" class="form-control" name="keywords" id = "keywords">
 				<input type="hidden" id="ldid" name="ldid"/>
@@ -222,14 +222,14 @@
 			</div>
 		</div>
 		<table id="log-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
-            
+
           </div>
           <div class="tab-pane" id="events">
 		<table id="timepref-table" class="col-xs-12" data-classes="table table-no-bordered" data-toolbar="#toolbar"></table>
                     <form class="form-inline">
 		    <div class="form-group" style="padding-top:10px;">
 			<label class="col-sm-5  control-label">星期几:</label>
-			<div class="col-sm-7"> 
+			<div class="col-sm-7">
 		      	<select class="form-control mb15" id="timeprefweek">
 		          <option value="0">默认设置</option>
 		          <option value="2">星期一</option>
@@ -255,13 +255,13 @@
             </div><!-- events -->
           </div>
         </div><!-- tab-content -->
-          
+
         </div><!-- col-sm-9 -->
         </div><!-- panel-body -->
       </div><!-- panel -->
-        
+
     </div><!-- contentpanel -->
-    
+
   </div><!-- mainpanel -->
 
   <div>
@@ -285,7 +285,7 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
 	</div>
-  </div>  
+  </div>
 <div>
 	<div class="modal fade liveTisModal" tabindex="-1" role="dialog" aria-labelledby="liveTisModalLabel" data-backdrop="static" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
@@ -336,7 +336,7 @@
 		var volume = $("#volume input").val();
 		sendMsgToDevice(did, "volume", volume);
 	}
-	
+
 	function setBrightnessFromRange(){
 		var Request = getRequests();
 		var did = Request["did"];
@@ -383,9 +383,9 @@
 			});
 			$('#couterBtn').click(function () {
 	    			refreshCouterTable();
-			});	
+			});
 		}
-		
+
 	});
 
 	function sendMsg(){
@@ -395,7 +395,7 @@
 			var msg = prompt("请输入消息内容：");
 			sendMsgToDevice(did, "sendMsg", msg);
 		}
-		
+
 	}
 
 	function live(){
@@ -404,7 +404,7 @@
 		if (did != undefined){
 			openPlayerWindow(did, "设备直播");
 		}
-		
+
 	}
 
 	function startlive(){
@@ -413,7 +413,7 @@
 		if (did != undefined){
 			setLiveOnDevice(did, "camera", "start");
 		}
-		
+
 	}
 
 	function stoplive(){
@@ -422,7 +422,7 @@
 		if (did != undefined){
 			setLiveOnDevice(did, "camera", "stop");
 		}
-		
+
 	}
 </script>
 

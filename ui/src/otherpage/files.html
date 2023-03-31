@@ -27,24 +27,24 @@
 
 
 <section>
-  
+
   <div class="leftpanel sticky-leftpanel">
-    
+
     <div class="logopanel">
         <h1><span>ADSYS</span></h1>
     </div><!-- logopanel -->
-    
+
     <div class="leftpanelinner">
-        
+
         <!-- This is only visible to small devices -->
-        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">
             <div class="media userlogged">
                 <img alt="" src="images/photos/loggeduser.png" class="media-object">
                 <div class="media-body">
                     <h4 id="adsys_name_l"></h4>
                 </div>
             </div>
-          
+
             <h5 class="sidebartitle actitle">Account</h5>
             <ul class="nav nav-pills nav-stacked nav-bracket mb30">
               <li><a href="profile.html"><i class="fa fa-user"></i> <span>个人信息</span></a></li>
@@ -52,12 +52,12 @@
               <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span>安全退出</span></a></li>
             </ul>
         </div>
-      
+
       <h5 class="sidebartitle">Navigation</h5>
       <ul class="nav nav-pills nav-stacked nav-bracket">
         <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
         <li><a href="devices.html"><i class="fa fa-th-list"></i> <span>设备管理</span></a></li>
-	<li class="nav-parent  active"><a href=""><i class="fa fa-edit"></i> <span>节目管理</span></a>
+	<li class="nav-parent  active"><a href=""><i class="fa fa-edit"></i> <span>发布管理</span></a>
           <ul class="children">
 	    <li><a href="designer.html"><i class="fa fa-caret-right"></i> 制作节目</a></li>
 	    <li><a href="programs.html"><i class="fa fa-caret-right"></i> 节目列表</a></li>
@@ -71,21 +71,21 @@
             <li><a href="user.html"><i class="fa fa-caret-right"></i> 用户管理</a></li>
           </ul>
         </li>
-        
+
       </ul>
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
-  
+
   <div class="mainpanel">
-    
+
     <div class="headerbar">
-      
+
       <a class="menutoggle"><i class="fa fa-bars"></i></a>
-      
+
       <form class="searchform" action="index.html" method="post">
         <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
       </form>
-      
+
       <div class="header-right">
         <ul class="headermenu">
           <li>
@@ -104,9 +104,9 @@
           </li>
         </ul>
       </div><!-- header-right -->
-      
+
     </div><!-- headerbar -->
-        
+
     <div class="pageheader">
       <h2><i class="fa fa-table"></i> 文件管理 <span>管理素材文件资源</span></h2>
       <div class="breadcrumb-wrapper">
@@ -117,9 +117,9 @@
         </ol>
       </div>
     </div>
-    
+
     <div class="contentpanel">
-      
+
       <ul class="filemanager-options">
         <li>
           <div class="ckbox ckbox-default">
@@ -141,33 +141,33 @@
           <a href="./files.html?fileType=pic">图片</a>
           <a href="./files.html?fileType=video">视频</a>
         </li>
-        
+
       </ul>
-        
-      
+
+
       <div class="row">
         <div class="col-sm-9">
-          <div class="row filemanager" id="browselist">     
+          <div class="row filemanager" id="browselist">
           </div><!-- row -->
         </div><!-- col-sm-9 -->
         <div class="col-sm-3">
           <div class="fm-sidebar">
-            
+
             <button class="btn btn-primary btn-block">上传文件</button>
-            
+
             <div class="mb30"></div>
-            
+
             <h5 class="subtitle">文件夹 <a href="" class="pull-right" data-toggle="modal" data-target=".addFolderModal">+ 新建文件夹</a></h5>
             <ul class="folder-list" id="browsefolderlist">
             </ul>
-            
+
           </div>
         </div><!-- col-sm-3 -->
       </div>
     </div>
-    
+
   </div><!-- mainpanel -->
-  
+
   <div>
 	<div class="modal fade addFolderModal" tabindex="-1" role="dialog" aria-labelledby="addFolderModalLabel" data-backdrop="static" aria-hidden="true">
 		<div class="modal-dialog">
@@ -238,7 +238,7 @@
 		t.find('.fm-group').hide();
 	      }
 	    });
-	    
+
 	    jQuery('.ckbox').each(function(){
 	      var t = jQuery(this);
 	      var parent = t.parent();
@@ -248,8 +248,8 @@
 		parent.addClass('checked');
 	      }
 	    });
-	    
-	    
+
+
 	    jQuery('.ckbox').click(function(){
 	      var t = jQuery(this);
 	      if(!t.find('input').is(':checked')) {
@@ -260,7 +260,7 @@
 		enable_itemopt(true);
 	      }
 	    });
-	    
+
 	    jQuery('#selectall').click(function(){
 	      if(jQuery(this).is(':checked')) {
 		jQuery('.thmb').each(function(){
@@ -278,12 +278,12 @@
 		enable_itemopt(false);
 	      }
 	    });
-	    
+
 	    function enable_itemopt(enable) {
 	      if(enable) {
 		jQuery('.itemopt').removeClass('disabled');
 	      } else {
-		
+
 		// check all thumbs if no remaining checks
 		// before we can disabled the options
 		var ch = false;
@@ -291,12 +291,12 @@
 		  if(jQuery(this).hasClass('checked'))
 		    ch = true;
 		});
-		
+
 		if(!ch)
 		  jQuery('.itemopt').addClass('disabled');
 	      }
 	    }
-	    
+
 	    jQuery("a[data-rel^='prettyPhoto']").prettyPhoto();
 	});
 </script>

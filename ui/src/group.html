@@ -28,24 +28,24 @@
 
 
 <section>
-  
+
   <div class="leftpanel sticky-leftpanel">
-    
+
     <div class="logopanel">
         <h1><span>ADSYS</span></h1>
     </div><!-- logopanel -->
-    
+
     <div class="leftpanelinner">
-        
+
         <!-- This is only visible to small devices -->
-        <div class="visible-xs hidden-sm hidden-md hidden-lg">   
+        <div class="visible-xs hidden-sm hidden-md hidden-lg">
             <div class="media userlogged">
                 <img alt="" src="images/photos/loggeduser.png" class="media-object">
                 <div class="media-body">
                     <h4 id="adsys_name_l"></h4>
                 </div>
             </div>
-          
+
             <h5 class="sidebartitle actitle">Account</h5>
             <ul class="nav nav-pills nav-stacked nav-bracket mb30">
               <li><a href="profile.html"><i class="fa fa-user"></i> <span>个人信息</span></a></li>
@@ -53,33 +53,33 @@
               <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span>安全退出</span></a></li>
             </ul>
         </div>
-      
+
       <h5 class="sidebartitle">菜单</h5>
       <ul class="nav nav-pills nav-stacked nav-bracket">
         <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
         <li ><a href="devices.html"><i class="fa fa-th-list"></i> <span>设备管理</span></a></li>
-	<li><a href="javascript:openEditor()"><i class="fa fa-edit"></i> <span>节目制作</span></a></li>
-	<li><a href="release.html"><i class="fa fa-calendar"></i> <span>节目管理</span></a></li>
+	<!--<li><a href="javascript:openEditor()"><i class="fa fa-edit"></i> <span>节目制作</span></a></li>-->
+	<li><a href="release.html"><i class="fa fa-calendar"></i> <span>发布管理</span></a></li>
         <li class="nav-parent active nav-active"><a href=""><i class="fa fa-gear"></i> <span>系统设置</span></a>
           <ul class="children" style="display:block">
-	    <li><a href="template.html"><i class="fa fa-caret-right"></i> 节目模板</a></li>
+	    <!--<li><a href="template.html"><i class="fa fa-caret-right"></i> 节目模板</a></li>-->
 	    <li><a href="license.html"><i class="fa fa-caret-right"></i> 授权管理</a></li>
             <li class="active"><a href="group.html"><i class="fa fa-caret-right"></i> 分组管理</a></li>
             <li><a href="role.html"><i class="fa fa-caret-right"></i> 角色管理</a></li>
             <li><a href="user.html"><i class="fa fa-caret-right"></i> 用户管理</a></li>
           </ul>
         </li>
-        
+
       </ul>
     </div><!-- leftpanelinner -->
   </div><!-- leftpanel -->
-  
+
   <div class="mainpanel">
-    
+
     <div class="headerbar">
-      
+
       <a class="menutoggle"><i class="fa fa-bars"></i></a>
-      
+
       <div class="header-right">
         <ul class="headermenu">
           <li>
@@ -98,9 +98,9 @@
           </li>
         </ul>
       </div><!-- header-right -->
-      
+
     </div><!-- headerbar -->
-        
+
     <div class="pageheader">
       <h2><i class="fa fa-table"></i> 群组管理 <span>管理广告机终端分组设置</span></h2>
       <div class="breadcrumb-wrapper">
@@ -111,11 +111,11 @@
         </ol>
       </div>
     </div>
-    
+
     <div class="contentpanel">
       <div class="panel panel-default">
         <div class="panel-body">
-		<div class="form-inline" role="form" id="searchDevForm">                                                
+		<div class="form-inline" role="form" id="searchDevForm">
 			<div class="form-group">
 				<button class="btn btn-default" type="button" id="searchGroupBtn">刷新</button>
 			</div>
@@ -124,15 +124,15 @@
 				<button class="btn btn-warning" type="button" onclick="delBtnGroup()">删除群组</button>
 			</div>
 		</div><br>
-		<div id="grouptree"></div>  
+		<div id="grouptree"></div>
 
         </div><!-- panel-body -->
       </div><!-- panel -->
-        
+
     </div><!-- contentpanel -->
-    
+
   </div><!-- mainpanel -->
-  
+
   <div>
 	<div class="modal fade addGroupModal" tabindex="-1" role="dialog" aria-labelledby="addGroupModalLabel" data-backdrop="static" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
@@ -187,7 +187,7 @@
 <script>
 	jQuery(document).ready(function() {
    		initDeviceTable();
-		
+
 	    	$('#searchGroupBtn').click(function () {
 	    		setGroupTreeView('#grouptree');
 		});
@@ -195,7 +195,7 @@
 		setGroupTreeView('#grouptree',"#addGroupModalForm");
 		$("#addGroupModalForm").contents().find("#gpid").val(0);
 	});
-	
+
 	function treeviewSelectHandler(tvform, data){
 		$("#addGroupModalForm").contents().find("#gpid").val(data.id);
 	}
@@ -207,15 +207,15 @@
 	function delBtnGroup() {
 		var selval = $("#addGroupModalForm").contents().find("#gpid").val();
 		if (selval == "0"){
-			bootbox.alert({  
-			    buttons: {  
-				ok: {  
-					label: '确认',  
-						className: 'btn btn-warning'  
-					}  
-				},  
-				message: "请选择要删除的节点", 
-				title: "操作出错",  
+			bootbox.alert({
+			    buttons: {
+				ok: {
+					label: '确认',
+						className: 'btn btn-warning'
+					}
+				},
+				message: "请选择要删除的节点",
+				title: "操作出错",
 			});
 		}
 		else

@@ -64,11 +64,11 @@
             <ul class="nav nav-pills nav-stacked nav-bracket">
                 <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
                 <li><a href="devices.html"><i class="fa fa-th-list"></i> <span>设备管理</span></a></li>
-                <li><a href="javascript:openEditor()"><i class="fa fa-edit"></i> <span>节目制作</span></a></li>
-                <li class="active"><a href="release.html"><i class="fa fa-calendar"></i> <span>节目管理</span></a></li>
+                <!--<li><a href="javascript:openEditor()"><i class="fa fa-edit"></i> <span>节目制作</span></a></li>-->
+                <li class="active"><a href="release.html"><i class="fa fa-calendar"></i> <span>发布管理</span></a></li>
                 <li class="nav-parent"><a href=""><i class="fa fa-gear"></i> <span>系统设置</span></a>
                     <ul class="children">
-                        <li><a href="template.html"><i class="fa fa-caret-right"></i> 节目模板</a></li>
+                        <!--<li><a href="template.html"><i class="fa fa-caret-right"></i> 节目模板</a></li>-->
                         <li><a href="license.html"><i class="fa fa-caret-right"></i> 授权管理</a></li>
                         <li><a href="group.html"><i class="fa fa-caret-right"></i> 分组管理</a></li>
                         <li><a href="role.html"><i class="fa fa-caret-right"></i> 角色管理</a></li>
@@ -114,7 +114,7 @@
             <div class="breadcrumb-wrapper">
                 <ol class="breadcrumb">
                     <li><a href="index.html">控制面板</a></li>
-                    <li class="active">节目管理</li>
+                    <li class="active">发布管理</li>
                 </ol>
             </div>
         </div>
@@ -122,31 +122,96 @@
         <div class="contentpanel">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="form-inline" role="form" id="searchRelForm">
-                        <div class="form-group">
-                            <input type="text" placeholder="请输入关键字" class="form-control" name="keywords"
-                                   id="keywords">
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">发布状态</label>
-                            <select class="form-control" id="sstate" name="sstate">
-                                <option value="">全部</option>
-                                <option value="new">未审核</option>
-                                <option value="pushing">推送中</option>
-                                <option value="pushed">已推送</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-default" type="button" id="searchRelBtn">查询</button>
-                        </div>
-                        <div class="form-group" style="float:right;">
-                            <button class="btn btn-success" type="button" onclick="showAddReleaseModal()">发布节目
-                            </button>
-                        </div>
-                    </div>
-                    <table id="release-table" class="col-xs-12" data-classes="table table-no-bordered"
-                           data-toolbar="#toolbar"></table>
+<!--                    <div class="form-inline" role="form" id="searchRelForm">-->
+<!--                        <div class="form-group">-->
+<!--                            <input type="text" placeholder="请输入关键字" class="form-control" name="keywords"-->
+<!--                                   id="keywords">-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="control-label">发布状态</label>-->
+<!--                            <select class="form-control" id="sstate" name="sstate">-->
+<!--                                <option value="">全部</option>-->
+<!--                                <option value="new">未审核</option>-->
+<!--                                <option value="pushing">推送中</option>-->
+<!--                                <option value="pushed">已推送</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <button class="btn btn-default" type="button" id="searchRelBtn">查询</button>-->
+<!--                        </div>-->
+<!--                        <div class="form-group" style="float:right;">-->
+<!--                            <button class="btn btn-success" type="button" onclick="showAddReleaseModal()">发布节目-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <table id="release-table" class="col-xs-12" data-classes="table table-no-bordered"-->
+<!--                           data-toolbar="#toolbar"></table>-->
 
+                    <div class="modal-body">
+                        <form class="form-horizontal form-bordered" id="addReleaseModalForm">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">App<span class="asterisk">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control mb15 required" id="app" name="app">
+                                        <option value='tiktok' selected>tiktok</option>
+                                        <option value='抖音' >抖音</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">操作<span class="asterisk">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control mb15 required" id="ptype" name="action">
+                                        <!--                                        <option>-&#45;&#45;请选择-&#45;&#45;</option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group form-inline" id="timeset_plan">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">发布目标<span class="asterisk">*</span></label>
+                                <div class="col-sm-6">
+                                    <div class="col-md-6">
+                                        <div class="rdio rdio-default">
+                                            <input type="radio" name="radioTarget" id="radioSetDev" value="1"
+                                                   checked="true">
+                                            <label for="radioSetDev">发布到设备</label>
+                                        </div>
+
+                                        <div class="rdio rdio-primary">
+                                            <input type="radio" name="radioTarget" value="2" id="radioSetGroup">
+                                            <label for="radioSetGroup">发布到分组</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="device_plane">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">设备列表</label>
+                                    <div class="col-sm-6">
+                                        <select class="select2" multiple data-placeholder="请选择..."
+                                                id="mutidid"></select>
+                                        <input type="hidden" class="form-control" id="did" name="did"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group" id="group_plane">
+                                <label class="col-sm-3 control-label">设备分组</label>
+                                <div class="col-sm-6">
+                                    <div id="grouptree"></div>
+                                    <input type="hidden" class="form-control" id="gid" name="gid"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="text-align: center !important ">
+<!--                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+                        <button type="button" class="btn btn-primary" onclick="addReleasev2('#addReleaseModalForm')">
+                            发送
+                        </button>
+                    </div>
                 </div><!-- panel-body -->
             </div><!-- panel -->
 
@@ -159,7 +224,7 @@
              data-backdrop="static" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <!--<div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
@@ -182,7 +247,7 @@
                                 <label class="col-sm-3 control-label">操作<span class="asterisk">*</span></label>
                                 <div class="col-sm-6">
                                     <select class="form-control mb15 required" id="ptype" name="action">
-<!--                                        <option>-&#45;&#45;请选择-&#45;&#45;</option>-->
+&lt;!&ndash;                                        <option>-&#45;&#45;请选择-&#45;&#45;</option>&ndash;&gt;
                                     </select>
                                 </div>
                             </div>
@@ -231,7 +296,7 @@
                         <button type="button" class="btn btn-primary" onclick="subB()">
                             申请发布
                         </button>
-                    </div>
+                    </div>-->
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
@@ -417,11 +482,11 @@
 
         initSelectEle("#app", apps)
         initSelectEle("#ptype", opctioins)
-
+        initSelectParaEle("#ptype", opctioins)
         window.initEle = function (){
-            initSelectEle("#app", apps)
-            initSelectEle("#ptype", opctioins)
-            initSelectParaEle("#ptype", opctioins)
+            // initSelectEle("#app", apps)
+            // initSelectEle("#ptype", opctioins)
+            // initSelectParaEle("#ptype", opctioins)
         }
 
 
@@ -442,40 +507,15 @@
             }
         });
 
-
-
         initProgramSelect($("#pid"));
         initDevicesSelect($("#mutidid"));
-        $("#begin_date").timepicker({defaultTIme: false});
-        $("#end_date").timepicker({defaultTIme: false});
+        // $("#begin_date").timepicker({defaultTIme: false});
+        // $("#end_date").timepicker({defaultTIme: false});
         $(".select2").select2({
             width: '100%'
         });
         setGroupTreeView('#grouptree', "#addReleaseModalForm");
     });
-
-
-
-
-    function subB() {
-        let ptype_ele = document.querySelector('#ptype')
-        console.log(ptype_ele.value)
-        if (ptype_ele.value === '---请选择---') {
-            bootbox.alert({
-                buttons: {
-                    ok: {
-                        label: '确认',
-                        className: 'btn btn-warning'
-                    }
-                },
-                message: '请选择操作类型！',
-                title: "访问出错",
-            });
-            return
-        }
-        addRelease('#addReleaseModalForm')
-
-    }
 
     function treeviewSelectHandler(tvform, data) {
         $(tvform).contents().find("#gid").val(data.id);
