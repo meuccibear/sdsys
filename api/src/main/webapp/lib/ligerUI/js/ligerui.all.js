@@ -1287,7 +1287,7 @@
             mozilla: /mozilla/.test(userAgent) && !/(compatible|webkit)/.test(userAgent)
         };
     }
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -1569,7 +1569,7 @@
         liger.inject.init();
     });
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -1762,7 +1762,7 @@
     });
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -1884,7 +1884,7 @@
     }); 
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -2011,7 +2011,7 @@
             }
         }
     });
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -2370,7 +2370,7 @@
     });
       
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -4426,7 +4426,7 @@
     })();
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -5370,7 +5370,7 @@
     });
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -6558,7 +6558,7 @@
     };
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -6911,7 +6911,7 @@
 
     });
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -6994,7 +6994,7 @@
         }
     });
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -7714,7 +7714,7 @@
     };
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -9121,7 +9121,7 @@
         return out.join('');
     }
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -14254,7 +14254,7 @@
             }
         }
     }
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -15095,7 +15095,7 @@
         }
     });
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -15622,7 +15622,7 @@
     });
       
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -15890,7 +15890,7 @@
 
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -15988,7 +15988,7 @@
         }
     });
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -16223,7 +16223,7 @@
     };
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -16561,7 +16561,7 @@
     }); 
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -17227,7 +17227,7 @@
         }
     };
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -17807,7 +17807,7 @@
     }); 
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -17952,7 +17952,7 @@
     });
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -18589,7 +18589,7 @@
 
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -18993,7 +18993,7 @@
     });
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -19994,7 +19994,7 @@
 
 
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -20393,7 +20393,7 @@
         return numStr;
     }
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -20584,7 +20584,7 @@
             this.tip.remove();
         }
     });
-})(jQuery);﻿﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
@@ -20733,7 +20733,7 @@
 	//旧写法保留
     $.ligerui.controls.ToolBar.prototype.setEnable = $.ligerui.controls.ToolBar.prototype.setEnabled;
     $.ligerui.controls.ToolBar.prototype.setDisable = $.ligerui.controls.ToolBar.prototype.setDisabled;
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.3
 * 
 * http://ligerui.com
@@ -22312,7 +22312,7 @@
         return str.replace(/(^\s*)|(\s*$)/g, '');
     };
 
-})(jQuery);﻿/**
+})(jQuery);/**
 * jQuery ligerUI 1.3.2
 * 
 * http://ligerui.com
