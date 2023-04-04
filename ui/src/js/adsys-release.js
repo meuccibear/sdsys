@@ -196,7 +196,8 @@ function addRelease(formname){
 
 
 function addReleasev2(formname){
-	$("#did").val($("#mutidid").val());
+	$("#did").val($("#mutidid").multipleSelect('getSelects'));
+	// $("#did").val($("#mutidid").val());
 	if($(formname).validate().form()) {
 		ajaxSubmit("release/program", formname,function(result){
 			if(result.success)

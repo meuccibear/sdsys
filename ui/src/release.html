@@ -17,10 +17,24 @@
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
+
     <![endif]-->
+
+    <link rel="stylesheet" href="css/multiple-select.min.css">
+
     <style>
         .form-inline .form-control {
             width: 100px;
+        }
+        select {
+            width: 100%;
+        }
+        /*.ms-parent > button > span {*/
+        /*    margin-top: 2vh !important;*/
+        /*}*/
+
+        .ms-parent > button {
+            height: 2.54rem !important;
         }
     </style>
 </head>
@@ -189,8 +203,9 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">设备列表</label>
                                     <div class="col-sm-6">
-                                        <select class="select2" multiple data-placeholder="请选择..."
-                                                id="mutidid"></select>
+<!--                                        <select class="select2" multiple data-placeholder="请选择..."-->
+<!--                                                id="mutidid" class="multiple-select"></select>-->
+                                        <select multiple data-placeholder="请选择..." id="mutidid"></select>
                                         <input type="hidden" class="form-control" id="did" name="did"/>
                                     </div>
                                 </div>
@@ -352,6 +367,7 @@
 <script src="js/adsys-device.js?_v_=20181219"></script>
 <script src="js/jquery.validate.min.js"></script>
 <script src="js/validate_cn.js"></script>
+<script src="js/multiple-select.min.js"></script>
 <script>
     jQuery(document).ready(function () {
         initReleaseTable();
@@ -509,11 +525,26 @@
 
         initProgramSelect($("#pid"));
         initDevicesSelect($("#mutidid"));
+        // $('#mutidid').multipleSelect()
+
+        window.did_ms = $('#mutidid').multipleSelect({
+            "locale": "zh"
+        })
+        // $('#mutidid').multipleSelect({
+            // noneSelectedText : "--请选择--", //当没有内容选中时候显示的文本
+            // checkAllText : "全选", //全选按钮显示的文本
+            // uncheckAllText : "全不选", //全不选按钮显示的文本
+            // minWidth : 800, //select框的宽度，根据option的内容长短设置
+            // selectedList : 2 //当选中的内容超过2条时，显示“n已选择”
+        // });
         // $("#begin_date").timepicker({defaultTIme: false});
         // $("#end_date").timepicker({defaultTIme: false});
-        $(".select2").select2({
-            width: '100%'
-        });
+        // $(".select2").select2({
+        //     width: '100%'
+        // });
+
+        // var obj= $("#table2_Id").select2();
+        // obj.val("XXXXX").trigger("change");
         setGroupTreeView('#grouptree', "#addReleaseModalForm");
     });
 
