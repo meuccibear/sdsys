@@ -35,11 +35,6 @@ public class OnlinePushCommand {
 		WebSocket dev = OnlineDeviceServerPool.getWebSocketByUser(did);
 		if(dev != null){
 			JSONObject requestCmd = new JSONObject();
-//			JSONObject resp = new JSONObject();
-
-//			{"action":"automode","resp_event":20,"seq_id":"2838738228","resp":{"app":"tiktok","mode":"open"}}
-
-//			resp.element("resp", data);
 			requestCmd.element("action", action);
 			requestCmd.element("resp_event", 20);//10是请求返回，20是服务器主动推送
 			requestCmd.element("seq_id", String.valueOf(System.currentTimeMillis()));

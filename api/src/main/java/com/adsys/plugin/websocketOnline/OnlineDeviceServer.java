@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.adsys.service.system.account.AccountService;
 import com.alibaba.fastjson.JSON;
 import net.sf.json.JSONObject;
 
@@ -52,6 +53,9 @@ public class OnlineDeviceServer extends WebSocketServer {
     @Resource(name = "deviceService")
     private DeviceService deviceservice;
 
+    @Resource(name = "accountServiceImpl")
+    private AccountService accountService;
+
     @Resource(name = "deviceExtService")
     private DeviceExtService deviceextservice;
 
@@ -72,6 +76,8 @@ public class OnlineDeviceServer extends WebSocketServer {
 
     @Resource(name = "redisDaoImpl")
     private RedisDao redisDaoImpl;
+
+
 
     protected Logger logger = Logger.getLogger(this.getClass());
 
@@ -115,6 +121,7 @@ public class OnlineDeviceServer extends WebSocketServer {
         PageData dev = null;
         Map<String, String> dev_redis = null;
         deviceservice = (DeviceService) ContextLoader.getCurrentWebApplicationContext().getBean("deviceService");
+        accountService = (AccountService) ContextLoader.getCurrentWebApplicationContext().getBean("accountServiceImpl");
         deviceextservice = (DeviceExtService) ContextLoader.getCurrentWebApplicationContext().getBean("deviceExtService");
         scheduleService = (ScheduleService) ContextLoader.getCurrentWebApplicationContext().getBean("scheduleService");
         adProgramservice = (AdProgramService) ContextLoader.getCurrentWebApplicationContext().getBean("adProgramService");
@@ -234,6 +241,37 @@ public class OnlineDeviceServer extends WebSocketServer {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if ("tkloginfeedback".equals(action)) {
+            // username
+            // app
+            // status:200 成功
+            try {
+            String username = reqMap.get("username").toString();
+            String app = reqMap.get("app").toString();
+            Integer status = Integer.valueOf(reqMap.get("status").toString());
+            String key = String.format("%s%s_%s", Constants.REDIS_USE_ACCOUNT, app, username);
+            logger.info(String.format("tkloginfeedback.search: %s did:%s status:%d", key, did, status));
+            String accountDid = redisDaoImpl.get(key);
+            logger.info(accountDid);
+            if(did.equals(accountDid) ){
+                if(200 == status){
+                    accountService.bindingDevice(did, app, username);
+                    logger.info(String.format("tkloginfeedback.delete：%s", key));
+                    redisDaoImpl.delete(key);
+                }else{
+                    PageData updateErrStatusPD = new PageData();
+                    updateErrStatusPD.put("did", did);
+                    updateErrStatusPD.put("errStatus", Constants.STATUS_ONE);
+
+                    deviceservice.updateErrStatus(updateErrStatusPD);
+                }
+
+            }
+                resultResp(conn, action, rep_event, cmdMap.get("seq_id"), 0, "ok", null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         } else if ("register".equals(action)) {
             PageData parma = new PageData();
             String token = "";

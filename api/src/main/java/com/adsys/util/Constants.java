@@ -37,4 +37,9 @@ public abstract  class Constants {
 
     public static final JSONObject APP_OPERATE = JSONObject.parseObject("{\"tiktok\":[ { \"key\": \"gotolive\", \"name\": \"进入直播间\", \"para\": [ {name: \"roomid\", key: \"roomid\"} ] }, { \"key\": \"continuelike\", \"name\": \"连续点赞\", \"para\": [ {name: \"数量\", key: \"count\"} ] }, { \"key\": \"automode\", \"name\": \"自动浏览模式\", \"para\": [ {name: \"mode\", key: \"mode\", value: ['open', 'close']} ] }, { \"key\": \"like\", \"name\": \"点赞\" }, { \"key\": \"upswip\", \"name\": \"上滑\" }, { \"key\": \"downswip\", \"name\": \"下滑\", }, { \"key\": \"livefollow\", \"name\": \"关注\" }, { \"key\": \"pointclick\", \"name\": \"点击指定坐标\", \"para\": [ {name: \"xp\", key: \"xp\"}, {name: \"yp\", key: \"yp\"} ] } ]}");//TOKEN验证失败
 
+    public static final  String REDIS_USE_ACCOUNT = "USE_ACCOUNT_";
+
+    public static final  Integer STATUS_ONE=1;
+
+
 }

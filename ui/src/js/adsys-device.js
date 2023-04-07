@@ -127,10 +127,16 @@ function initDevicesSelect(selectId) {
     ajaxGet("devices/list", null, function (result) {
         if (result.success) {
             var retJ = result.data;
+            window.errDevicces = Array()
             if (retJ) {
                 var sel_options = '';
                 for (var item in retJ) {
-                    sel_options += '<option value="' + retJ[item].did + '">' + retJ[item].dname + '</option>';
+                    let itemV = retJ[item];
+                    // console.log(itemV)
+                    if(itemV.errStatus != -1){
+                        window.errDevicces.push(itemV.did)
+                    }
+                    sel_options += '<option data='+ itemV.errStatus +' value="' + retJ[item].did + '">' + retJ[item].dname + '</option>';
                 }
                 selectId.html(sel_options);
             }

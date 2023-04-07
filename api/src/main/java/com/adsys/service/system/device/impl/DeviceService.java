@@ -12,7 +12,7 @@ import com.adsys.entity.Page;
 import com.adsys.service.system.device.DeviceManager;
 import com.adsys.util.PageData;
 
-/** 
+/**
  * 说明： 设备管理
  * 创建时间：2018-04-18
  * @version
@@ -22,7 +22,9 @@ public class DeviceService implements DeviceManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
-	
+
+
+
 	/**新增
 	 * @param pd
 	 * @throws Exception
@@ -30,7 +32,7 @@ public class DeviceService implements DeviceManager{
 	public void save(PageData pd)throws Exception{
 		dao.save("DevicesMapper.save", pd);
 	}
-	
+
 	/**删除
 	 * @param pd
 	 * @throws Exception
@@ -38,7 +40,7 @@ public class DeviceService implements DeviceManager{
 	public void delete(PageData pd)throws Exception{
 		dao.delete("DevicesMapper.delete", pd);
 	}
-	
+
 	/**修改
 	 * @param pd
 	 * @throws Exception
@@ -46,7 +48,16 @@ public class DeviceService implements DeviceManager{
 	public void edit(PageData pd)throws Exception{
 		dao.update("DevicesMapper.edit", pd);
 	}
-	
+
+	/** 修改错误状态
+	 * @param pd
+	 * @throws Exception
+	 */
+	@Override
+	public void updateErrStatus(PageData pd)throws Exception{
+		dao.update("DevicesMapper.updateErrStatus", pd);
+	}
+
 	/**更新状态
 	 * @param pd
 	 * @throws Exception
@@ -54,7 +65,7 @@ public class DeviceService implements DeviceManager{
 	public void updateState(PageData pd)throws Exception{
 		dao.update("DevicesMapper.updateState", pd);
 	}
-	
+
 	/**更新心跳时间
 	 * @param pd
 	 * @throws Exception
@@ -62,7 +73,7 @@ public class DeviceService implements DeviceManager{
 	public void updateBeat(PageData pd)throws Exception{
 		dao.update("DevicesMapper.updateBeat", pd);
 	}
-	
+
 	/**更新定位坐标
 	 * @param pd
 	 * @throws Exception
@@ -70,7 +81,7 @@ public class DeviceService implements DeviceManager{
 	public void updateLocation(PageData pd)throws Exception{
 		dao.update("DevicesMapper.updateLocation", pd);
 	}
-	
+
 	/**列表
 	 * @param page
 	 * @throws Exception
@@ -87,8 +98,8 @@ public class DeviceService implements DeviceManager{
 		RowBounds rowbounds = new RowBounds(page.getOffset(), page.getShowCount());
 		return (List<PageData>)dao.finPageForList("DevicesMapper.datalistPage", page,rowbounds);
 	}
-	
-	
+
+
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception
@@ -97,7 +108,7 @@ public class DeviceService implements DeviceManager{
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("DevicesMapper.listAll", pd);
 	}
-	
+
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -105,7 +116,7 @@ public class DeviceService implements DeviceManager{
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("DevicesMapper.findById", pd);
 	}
-	
+
 	/**通过gid获取数据
 	 * @param pd
 	 * @throws Exception
@@ -113,7 +124,7 @@ public class DeviceService implements DeviceManager{
 	public List<PageData> findDeviceByGid(String gid)throws Exception{
 		return (List<PageData>)dao.findForList("DevicesMapper.findDeviceByGid", gid);
 	}
-	
+
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
@@ -121,12 +132,13 @@ public class DeviceService implements DeviceManager{
 	public void deleteAll(PageData pd)throws Exception{
 		dao.delete("DevicesMapper.deleteAll", pd);
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<PageData> devicesLocation(PageData pd) throws Exception {
 		// TODO Auto-generated method stub
 		return (List<PageData>)dao.findForList("DevicesMapper.listdevices4location", pd);
 	}
+
 }
 

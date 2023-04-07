@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AccountMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ad_account
+	</sql>
+	<sql id="roleTableName">
+		ad_role
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		aid,
+		uuid,
+		did,
+		account,
+		username,
+		password,
+		accounttype,
+		status,
+		adddate
+	</sql>
+
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{aid},
+		#{uuid},
+		#{did},
+		#{account},
+		#{username},
+		#{password},
+		#{accounttype},
+		#{status},
+		#{adddate}
+	</sql>
+
+	<!-- 判断用户名和密码 -->
+	<select id="getUserInfo" parameterType="pd" resultType="pd">
+		select <include refid="Field"></include> from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="username!=null and password != null">
+		and username = #{username} and password=#{password}
+		</if>
+		<if test="uid!=null">
+		and uid = #{uid}
+		</if>
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and uuid=#{uuid}
+		</if>
+	</select>
+
+	<!-- 更新登录时间 -->
+	<update id="updateLastLogin" parameterType="pd" >
+		update
+		<include refid="tableName"></include>
+		set
+		logindate = SYSDATE()
+		where uid = #{uid}
+	</update>
+
+	<update id="bindingDevice" parameterType="pd" >
+		update
+		<include refid="tableName"></include>
+		set
+			did = #{did}
+		where account = #{account} and accounttype=#{accounttype}
+	</update>
+
+	<!-- 通过用户ID获取用户信息和角色信息 -->
+	<select id="getUserAndRoleById" parameterType="String" resultType="pd">
+		select  u.uid,
+				u.username,
+				u.name,
+				u.tel,
+				u.password,
+				u.usertype,
+				u.roleid,
+				u.uuid,
+				u.state,
+				r.rolename,
+				r.permission,
+				r.roletype
+		from
+		<include refid="tableName"></include> u
+		left join
+		<include refid="roleTableName"></include> r
+		on u.roleid=r.id
+		where u.status="activity"
+		and u.uid=#{uid}
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and u.uuid=#{uuid}
+		</if>
+	</select>
+
+	<!-- 通过USERNAME获取数据 -->
+	<select id="findByUsername" parameterType="pd" resultType="pd" >
+		select
+			<include refid="Field"></include>
+		from
+			<include refid="tableName"></include>
+		where
+			account = #{account}
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and uuid=#{uuid}
+		</if>
+	</select>
+
+
+	<!-- 列出某角色下的所有用户 -->
+	<select id="listAllUserByRoldId"  parameterType="pd" resultType="pd" >
+		select uid
+		from
+		<include refid="tableName"></include>
+		where
+		roleid = #{roleid}
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and uuid=#{uuid}
+		</if>
+	</select>
+
+	<!-- 用户列表 -->
+	<select id="userlistPage" parameterType="page" resultType="pd" >
+		select
+			<include refid="Field"></include>
+		from <include refid="tableName"></include> u
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					 u.username LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.accounttype != null and pd.accounttype != ''"><!-- accounttype -->
+			and u.accounttype=#{pd.accounttype}
+		</if>
+		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 登录时间检索 -->
+			and u.addDate &gt;= #{pd.lastLoginStart}
+		</if>
+		<if test="pd.lastLoginEnd!=null and pd.lastLoginEnd!=''"><!-- 登录时间检索 -->
+			and u.addDate &lt;= #{pd.lastLoginEnd}
+		</if>
+		<if test="pd.uuid!=null and pd.uuid!=''"><!-- uuid -->
+			and u.uuid=#{pd.uuid}
+		</if>
+		order by u.addDate desc
+	</select>
+
+		<!-- 用户列表数量 -->
+	<select id="findPageCount" parameterType="pd" resultType="long" >
+		select
+		count(*)
+		from <include refid="tableName"></include> u
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					 u.account LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.accounttype != null and pd.accounttype != ''"><!-- accounttype -->
+			and u.accounttype=#{pd.accounttype}
+		</if>
+		<if test="pd.lastLoginStart!=null and pd.lastLoginStart!=''"><!-- 登录时间检索 -->
+			and u.addDate &gt;= #{pd.lastLoginStart}
+		</if>
+		<if test="pd.lastLoginEnd!=null and pd.lastLoginEnd!=''"><!-- 登录时间检索 -->
+			and u.addDate &lt;= #{pd.lastLoginEnd}
+		</if>
+		<if test="pd.uuid!=null and pd.uuid!=''"><!-- uuid -->
+			and u.uuid=#{pd.uuid}
+		</if>
+		order by u.addDate desc
+	</select>
+
+	<!-- 通过邮箱获取数据 -->
+	<select id="findByUE" parameterType="pd" resultType="pd" >
+		select
+			<include refid="Field"></include>
+		from
+			<include refid="tableName"></include>
+		where
+			email = #{email}
+		<if test="username != null and username != ''">
+			and username != #{username}
+		</if>
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and uuid=#{uuid}
+		</if>
+	</select>
+
+	<!-- 通过编号获取数据 -->
+	<select id="findByTel" parameterType="pd" resultType="pd" >
+		select
+			<include refid="Field"></include>
+		from
+			<include refid="tableName"></include>
+		where
+			tel = #{tel}
+		<if test="username != null and username != ''">
+			and username != #{username}
+		</if>
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and uuid=#{uuid}
+		</if>
+	</select>
+
+	<!-- 通过uid获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd" >
+		select
+			<include refid="Field"></include>
+		from
+			<include refid="tableName"></include>
+		where
+			aid = #{aid}
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and uuid=#{uuid}
+		</if>
+	</select>
+
+	<!-- 查询可用的账号	-->
+	<select id="findAvailableAccounts" parameterType="pd" resultType="pd" >
+		select
+			account,
+			password
+		from
+			<include refid="tableName"></include>
+		where
+			did is null
+			and accounttype = #{accounttype}
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and uuid=#{uuid}
+		</if>
+	</select>
+
+	<!-- 新增用户 -->
+	<insert id="saveU" parameterType="pd" >
+		insert into <include refid="tableName"></include> (
+			<include refid="Field"></include>
+		) values (
+			<include refid="FieldValue"></include>
+		)
+	</insert>
+
+	<!-- 保存验证码 -->
+	<update id="updateCheckCode" parameterType="pd" >
+		update  <include refid="tableName"></include>
+			set checkcode 				= #{checkcode},
+				checkdate 				= SYSDATE()
+			where
+				username = #{username} and tel = #{tel}
+	</update>
+
+	<!-- 修改 -->
+	<update id="editU" parameterType="pd" >
+		update  <include refid="tableName"></include>
+			set accounttype 				= #{accounttype},
+				username					= #{username}
+			<if test="email != null and email != ''">
+				,email					= #{email}
+			</if>
+			<if test="password != null and password != ''">
+				,password				= #{password}
+			</if>
+			where
+				aid = #{aid}
+			<if test="uuid!=null and uuid!=''"><!-- uuid -->
+				and uuid=#{uuid}
+			</if>
+	</update>
+
+	<!-- 修改 -->
+	<update id="editProfile" parameterType="pd" >
+		update  <include refid="tableName"></include>
+			set
+				name					= #{name},
+				tel						= #{tel}
+			<if test="email != null and email != ''">
+				,email					= #{email}
+			</if>
+			<if test="password != null and password != ''">
+				,password				= #{password}
+			</if>
+			where
+				uid = #{uid}
+			<if test="uuid!=null and uuid!=''"><!-- uuid -->
+				and uuid=#{uuid}
+			</if>
+	</update>
+
+	<!-- 删除用户 -->
+	<delete id="deleteU" parameterType="pd" flushCache="false">
+		delete from <include refid="tableName"></include>
+		where
+			aid = #{aid}
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and uuid=#{uuid}
+		</if>
+	</delete>
+
+	<!-- 批量删除用户 -->
+	<delete id="deleteAllU" parameterType="pd" >
+		delete from <include refid="tableName"></include>
+		where
+			uuid=#{uuid}
+	</delete>
+
+	<!-- 用户列表(全部) -->
+	<select id="listAllUser" parameterType="pd" resultType="pd" >
+		select  u.uid,
+				u.username,
+				u.name,
+				u.logindate,
+				u.tel,
+				u.ip,
+				u.email,
+				u.state,
+				u.usertype,
+				u.roleid,
+				u.uuid,
+				r.rolename,
+				r.roletype
+		from <include refid="tableName"></include> u, <include refid="roleTableName"></include> r
+		where u.roleid = r.id
+		<if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					 u.username LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					 or
+					 u.email LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					 or
+					 u.tel LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					 or
+					 u.name LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+				)
+		</if>
+		<if test="roleid != null and roleid != ''"><!-- 角色检索 -->
+			and u.roleid=#{roleid}
+		</if>
+		<if test="lastLoginStart!=null and lastLoginStart!=''"><!-- 登录时间检索 -->
+			and u.logindate &gt;= #{pd.lastLoginStart}
+		</if>
+		<if test="lastLoginEnd!=null and lastLoginEnd!=''"><!-- 登录时间检索 -->
+			and u.logindate &lt;= #{lastLoginEnd}
+		</if>
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and u.uuid=#{uuid}
+		</if>
+		order by u.last_login desc
+	</select>
+
+
+	<!-- 获取总数 -->
+	<select id="getUserCount" parameterType="String" resultType="pd">
+		select
+			count(uid) userCount
+		from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="uuid!=null and uuid!=''"><!-- uuid -->
+			and uuid=#{uuid}
+		</if>
+	</select>
+
+</mapper>

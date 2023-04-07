@@ -1,24 +1,17 @@
 package com.adsys.controller.system.release;
 
-import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Resource;
 
+import com.adsys.dao.redis.RedisDao;
+import com.adsys.service.system.account.AccountService;
 import com.adsys.service.system.app.AppSendMessageManager;
 import com.alibaba.fastjson.TypeReference;
 import org.json.JSONArray;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.adsys.common.enums.logTypeEnum;
 import com.adsys.common.enums.permissionEnum;
@@ -31,24 +24,16 @@ import com.adsys.service.adEditor.program.impl.AdProgramItemService;
 import com.adsys.service.adEditor.program.impl.AdProgramService;
 import com.adsys.service.adEditor.resource.impl.AdResourceService;
 import com.adsys.service.files.FilesManager;
-import com.adsys.service.system.customer.CustomerManager;
-import com.adsys.service.system.device.DeviceManager;
-import com.adsys.service.system.device.ext.impl.DeviceExtService;
 import com.adsys.service.system.device.impl.DeviceService;
 import com.adsys.service.system.group.GroupManager;
-import com.adsys.service.system.group.impl.GroupService;
 import com.adsys.service.system.log.impl.LogService;
 import com.adsys.service.system.schedule.impl.ScheduleService;
-import com.adsys.util.AppUtil;
 import com.adsys.util.AuthorityUtil;
-import com.adsys.util.Const;
 import com.adsys.util.Constants;
 import com.adsys.util.DateUtil;
-import com.adsys.util.JwtUtil;
 import com.adsys.util.MD5;
 import com.adsys.util.PageData;
 import com.adsys.util.PlayingMonCache;
-import com.adsys.util.Tools;
 import com.adsys.util.json.JsonResponse;
 import com.alibaba.fastjson.JSON;
 
@@ -86,6 +71,12 @@ public class ReleaseController extends BaseController {
     @Resource(name = "appSendMessageService")
     private AppSendMessageManager appSendMessageManager;
 
+    @Resource
+    private AccountService accountService;
+
+    @Resource(name = "redisDaoImpl")
+    private RedisDao redisDaoImpl;
+
     /**
      * 新增接口
      *
@@ -102,47 +93,11 @@ public class ReleaseController extends BaseController {
             PageData pd = this.getPageData();
             if (null != pd && pd.size() > 0) {
                 logger.info("pd:" + JSON.toJSONString(pd));
-                String sid = this.get32UUID();
 
-                String app = pd.getString("app");
-                String action = pd.getString("action");
+                String uuid = AuthorityUtil.getRequesterUUID(getRequest());
 
-                JSONObject dataP = new JSONObject();
-                dataP.element("app", app);
 
-                switch (action) {
-                    case "gotolive":
-                        dataP.element("roomid", pd.getString("roomid"));
-                        break;
-                    case "pointclick":
-                        dataP.element("xp", pd.getString("xp"));
-                        dataP.element("yp", pd.getString("yp"));
-                        break;
-                    case "automode":
-                        dataP.element("mode", pd.getString("mode"));
-                        break;
-                    case "continuelike":
-                        dataP.element("count", pd.getString("count"));
-                        break;
-                }
-
-//                {"app":"0","gid":"","radioTarget":"1","ptype":"gotolive","roomid":"1111","did":"377539DC1A8C45C5E0CC492618C71B82,B534AD1BCCCB3E4EB64B91D2B292FB78"}
-
-//                PageData schedule = new PageData();
                 List<String> devlist = new ArrayList<String>();
-//                pd.put("uuid", AuthorityUtil.getRequesterUUID(getRequest()));
-//                pd.put("sid", sid);
-//                pd.put("sname", sid);
-//                pd.put("stype", "program");
-//                pd.put("sstate", "new");
-//                pd.put("addDate", DateUtil.getTime());
-//                if (pd.getString("ptype").equals("2") && pd.getString("starttime") != null && pd.getString("starttime") != "" &&
-//                        pd.getString("endtime") != null && pd.getString("endtime") != "") {
-//                    pd.put("schedule", pd.getString("starttime") + ";" + pd.getString("endtime"));
-//                } else
-//                    pd.put("schedule", "");
-//
-
                 if (pd.get("gid") == null || "".equals(pd.getString("gid"))) {
                     pd.remove("gid");
                     String[] dvl = pd.getString("did").split(",");
@@ -152,7 +107,7 @@ public class ReleaseController extends BaseController {
                 } else {
                     logger.info("gid:");
                     PageData gp = new PageData();
-                    gp.put("uuid", AuthorityUtil.getRequesterUUID(getRequest()));
+                    gp.put("uuid", uuid);
                     gp.put("gpid", pd.getString("gid"));
                     List<PageData> gl = null;
                     try {
@@ -165,7 +120,7 @@ public class ReleaseController extends BaseController {
                     for (int g = 0; g < gl.size(); g++) {
                         PageData g_i = gl.get(g);
                         gp.clear();
-                        gp.put("uuid", AuthorityUtil.getRequesterUUID(getRequest()));
+                        gp.put("uuid", uuid);
                         gp.put("gid", (int) g_i.get("gid"));
 
                         List<PageData> dl = null;
@@ -180,33 +135,91 @@ public class ReleaseController extends BaseController {
                         }
                     }
                 }
-//                try {
-//                    scheduleService.save(pd);
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                    return ajaxFailure(Constants.REQUEST_05, "创建发布错误");
-//                }
-//                pd.put("id", this.get32UUID());
+
+
                 if (devlist != null && devlist.size() > 0) {
-                    List<String> failDidList = new ArrayList<>();
-                    for (int ds = 0; ds < devlist.size(); ds++) {
-                        if (!OnlinePushCommand.pushMessageToApp(devlist.get(ds), action, dataP)) {
-                            failDidList.add(devlist.get(ds));
+
+
+                    String app = pd.getString("app");
+                    String action = pd.getString("action");
+
+                    JSONObject dataP = new JSONObject();
+                    dataP.element("app", app);
+                    List<PageData> accounts = null;
+
+                    boolean samebatch = true;
+
+                    switch (action) {
+                        case "gotolive":
+                            dataP.element("roomid", pd.getString("roomid"));
+                            break;
+                        case "pointclick":
+                            dataP.element("xp", pd.getString("xp"));
+                            dataP.element("yp", pd.getString("yp"));
+                            break;
+                        case "automode":
+                            dataP.element("mode", pd.getString("mode"));
+                            break;
+                        case "continuelike":
+                            dataP.element("count", pd.getString("count"));
+                            break;
+                        case "tklogin":
+                            samebatch = false;
+                            PageData getAccountsPD = new PageData();
+//                            getAccountsPD.put("rowbounds", devlist.size() * 3);
+                            getAccountsPD.put("uuid", uuid);
+                            getAccountsPD.put("accounttype", app);
+                            accounts = accountService.getAccounts(getAccountsPD);
+                            break;
+                    }
+
+                    if (samebatch) {
+                        sendMessages(action, devlist, dataP);
+                    } else {
+                        List<String> failDids = new ArrayList<>();
+                        String did = null;
+
+                        PageData appSendMessageData = new PageData();
+                        appSendMessageData.put("task_id", this.get32UUID());
+
+                        int accountShiftingIndex = 0;
+                        int accountIndex = 0;
+                        String key = null;
+                        for (int ds = 0; ds < devlist.size(); ds++) {
+                            accountIndex = ds + accountShiftingIndex;
+                            did = devlist.get(ds);
+                            if ("tklogin".equals(action)) {
+                                // 1. 发送账号 redis限制
+                                // 2.
+                                // 2.
+                                if (accountIndex < accounts.size()) {
+                                    key = String.format("%s%s_%s", Constants.REDIS_USE_ACCOUNT, app, accounts.get(accountIndex).get("account"));
+                                    String isUseAccount = redisDaoImpl.get(key);
+                                    logger.info("redis:" + isUseAccount);
+                                    if (null == isUseAccount) {
+                                        logger.info("accounts:" + JSON.toJSONString(accounts));
+                                        dataP.element("username", accounts.get(accountIndex).get("account"));
+                                        dataP.element("password", accounts.get(accountIndex).get("password"));
+                                        if (sendMessage(appSendMessageData, action, did, dataP, true)) {
+                                            redisDaoImpl.addString(key, did);
+                                            // 15分钟 900
+                                            redisDaoImpl.setExpire(key, 60 * 15);
+                                        }
+                                        dataP.remove("account");
+                                        dataP.remove("password");
+                                    } else {
+//                                        logger.info("chongfa");
+                                        ++accountShiftingIndex;
+                                        --ds;
+                                    }
+                                } else {
+                                    logger.info(String.format("indexchaole:%s", did));
+                                    sendMessage(appSendMessageData, action, did, dataP, false);
+                                    failDids.add(did);
+                                }
+                            }
                         }
                     }
-                    PageData appSendMessageData = new PageData();
-                    appSendMessageData.put("sid", sid);
-                    String[] dids = com.alibaba.fastjson.JSONObject.parseObject(JSON.toJSONString(devlist), new TypeReference<String[]>() {
-                    });
-                    String[] failDids = com.alibaba.fastjson.JSONObject.parseObject(JSON.toJSONString(failDidList), new TypeReference<String[]>() {
-                    });
-
-                    appSendMessageData.put("dids", String.join(",", dids));
-                    appSendMessageData.put("action", action);
-                    appSendMessageData.put("para", dataP.toString());
-                    appSendMessageData.put("fail_did", String.join(",", failDids));
-                    appSendMessageData.put("addDate", DateUtil.getTime());
-                    appSendMessageManager.save(appSendMessageData);
                 }
 
                 return ajaxSuccess(Constants.REQUEST_01, Constants.REQUEST_OK);
@@ -220,6 +233,52 @@ public class ReleaseController extends BaseController {
 //            logger.info(ex.getMessage());
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
+    }
+
+    boolean sendMessage(PageData appSendMessageData, String action, String did, JSONObject dataP, boolean sendB) throws Exception {
+        appSendMessageData.put("action", action);
+        appSendMessageData.put("sid", this.get32UUID());
+        appSendMessageData.put("dids", did);
+        boolean status = false;
+        appSendMessageData.put("para", dataP.toString());
+        if (sendB) {
+            status = OnlinePushCommand.pushMessageToApp(did, action, dataP);
+        }
+        if (!status) {
+            appSendMessageData.put("fail_did", did);
+        }
+        appSendMessageData.put("addDate", DateUtil.getTime());
+        appSendMessageManager.save(appSendMessageData);
+        return status;
+    }
+
+    void sendMessages(String action, List<String> devlist, JSONObject dataP) throws Exception {
+        List<String> failDidList = new ArrayList<>();
+        String did = "";
+
+        for (int ds = 0; ds < devlist.size(); ds++) {
+            did = devlist.get(ds);
+            if ("changeAccount".equals(action)) {
+                if (!OnlinePushCommand.pushMessageToApp(did, action, dataP)) {
+                    failDidList.add(did);
+                }
+            }
+        }
+
+        PageData appSendMessageData = new PageData();
+        appSendMessageData.put("sid", this.get32UUID());
+        appSendMessageData.put("task_id", this.get32UUID());
+        appSendMessageData.put("action", action);
+        appSendMessageData.put("para", dataP.toString());
+
+        String[] dids = com.alibaba.fastjson.JSONObject.parseObject(JSON.toJSONString(devlist), new TypeReference<String[]>() {
+        });
+        String[] failDids = com.alibaba.fastjson.JSONObject.parseObject(JSON.toJSONString(failDidList), new TypeReference<String[]>() {
+        });
+        appSendMessageData.put("dids", String.join(",", dids));
+        appSendMessageData.put("fail_did", String.join(",", failDids));
+        appSendMessageData.put("addDate", DateUtil.getTime());
+        appSendMessageManager.save(appSendMessageData);
     }
 
     /**

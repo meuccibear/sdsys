@@ -6,78 +6,80 @@
 	<sql id="tableName">
 		ad_device
 	</sql>
-	
+
 	<!-- 字段 -->
 	<sql id="Field">
 		uuid,
 		did,
-		dtoken,	
-		gid,	
-		dname,	
+		dtoken,
+		gid,
+		dname,
 		picpath,
-		daddr,	
+		daddr,
 		dlive,
 		dstatus,
-		deploydate,	
-		beatdate,	
+		deploydate,
+		beatdate,
 		operdate,
 		lng,
-		lat
+		lat,
+		errStatus
 	</sql>
-	
+
 	<!-- 字段值 -->
 	<sql id="FieldValue">
 		#{uuid},
 		#{did},
-		#{dtoken},	
-		#{gid},	
+		#{dtoken},
+		#{gid},
 		#{dname},
-		#{picpath},	
-		#{daddr},	
+		#{picpath},
+		#{daddr},
 		#{dlive},
 		#{dstatus},
-		#{deploydate},	
-		#{beatdate},	
+		#{deploydate},
+		#{beatdate},
 		#{operdate},
 		#{lng},
-		#{lat}
+		#{lat},
+		#{errStatus}
 	</sql>
-	
+
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
-		insert into 
+		insert into
 	<include refid="tableName"></include>
 		(
 		uuid,
 		did,
-		dtoken,	
-		gid,	
-		dname,	
-		daddr,	
+		dtoken,
+		gid,
+		dname,
+		daddr,
 		dlive,
 		dstatus,
 		<if test="operdate != null and operdate != ''">
-		operdate,	
+		operdate,
 		</if>
-		deploydate,	
+		deploydate,
 		beatdate
 		) values (
 		#{uuid},
 		#{did},
-		#{dtoken},	
-		#{gid},	
-		#{dname},	
+		#{dtoken},
+		#{gid},
+		#{dname},
 		#{daddr},
-		"stop",	
-		"offline",	
+		"stop",
+		"offline",
 		<if test="operdate != null and operdate != ''">
-		#{operdate},	
+		#{operdate},
 		</if>
 		SYSDATE(),
 		SYSDATE()
 		)
 	</insert>
-	
+
 	<!-- 删除-->
 	<delete id="delete" parameterType="pd">
 		delete from
@@ -85,7 +87,7 @@
 		where
 		did = #{did} and uuid=#{uuid}
 	</delete>
-	
+
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update
@@ -105,7 +107,16 @@
 		where
 		did = #{did} and uuid=#{uuid}
 	</update>
-	
+
+	<update id="updateErrStatus" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			errStatus = #{errStatus}
+		where
+		did = #{did}
+	</update>
+
 	<update id="updateState" parameterType="pd">
 		update
 		<include refid="tableName"></include>
@@ -117,7 +128,7 @@
 		and uuid=#{uuid}
 		</if>
 	</update>
-	
+
 	<update id="updateBeat" parameterType="pd">
 		update
 		<include refid="tableName"></include>
@@ -129,7 +140,7 @@
 		where
 		did = #{did}
 	</update>
-	
+
 	<update id="updateLocation" parameterType="pd">
 		update
 		<include refid="tableName"></include>
@@ -139,20 +150,20 @@
 		where
 		did = #{did}
 	</update>
-	
+
 	<!-- 通过id获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
-		select 
+		select
 		<include refid="Field"></include>
-		from 
+		from
 		<include refid="tableName"></include>
 		where
-		did = #{did} 
+		did = #{did}
 		<if test="uuid != null and uuid != ''">
 		and uuid=#{uuid}
 		</if>
 	</select>
-	
+
 	<!-- 通过gid查询所有设备-->
 	<select id="findDeviceByGid" parameterType="String" resultType="pd">
 		select
@@ -167,18 +178,18 @@
 		select
 		uuid,
 		did,
-		gid,	
+		gid,
 		dname,
-		picpath,	
-		daddr,	
+		picpath,
+		daddr,
 		dlive,
 		dstatus,
-		deploydate,	
-		beatdate,	
+		deploydate,
+		beatdate,
 		operdate,
 		lng,
 		lat
-		from 
+		from
 		<include refid="tableName"></include>
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -204,12 +215,12 @@
 		</if>
 		order by beatdate desc
 	</select>
-	
+
 	<!-- 统计 -->
 	<select id="findPageCount" parameterType="page" resultType="long">
 		select
 		count(*)
-		from 
+		from
 		<include refid="tableName"></include>
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -235,12 +246,12 @@
 		</if>
 		order by beatdate desc
 	</select>
-	
+
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
 		<include refid="Field"></include>
-		from 
+		from
 		<include refid="tableName"></include>
 		where uuid=#{uuid}
 		<if test="gid !=null and gid !=''"><!-- gid -->
@@ -250,16 +261,16 @@
 			and dstatus=#{dstatus}
 		</if>
 	</select>
-	
+
 	<!-- 位置列表(全部) -->
 	<select id="listdevices4location" parameterType="pd" resultType="pd">
 		select
 		 dname,dstatus,lng,lat
-		from 
+		from
 		<include refid="tableName"></include>
-		where  lng !='' and lat !='' and uuid=#{uuid}	
+		where  lng !='' and lat !='' and uuid=#{uuid}
 	</select>
-	
+
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="pd">
 		delete from
@@ -267,5 +278,5 @@
 		where
 		uuid=#{uuid}
 	</delete>
-	
+
 </mapper>

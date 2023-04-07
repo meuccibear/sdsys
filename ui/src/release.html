@@ -26,9 +26,11 @@
         .form-inline .form-control {
             width: 100px;
         }
+
         select {
             width: 100%;
         }
+
         /*.ms-parent > button > span {*/
         /*    margin-top: 2vh !important;*/
         /*}*/
@@ -78,7 +80,7 @@
             <ul class="nav nav-pills nav-stacked nav-bracket">
                 <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
                 <li><a href="devices.html"><i class="fa fa-th-list"></i> <span>设备管理</span></a></li>
-                <!--<li><a href="javascript:openEditor()"><i class="fa fa-edit"></i> <span>节目制作</span></a></li>-->
+                <li><a href="account.html"><i class="fa fa-edit"></i> <span>账号管理</span></a></li>
                 <li class="active"><a href="release.html"><i class="fa fa-calendar"></i> <span>发布管理</span></a></li>
                 <li class="nav-parent"><a href=""><i class="fa fa-gear"></i> <span>系统设置</span></a>
                     <ul class="children">
@@ -136,30 +138,30 @@
         <div class="contentpanel">
             <div class="panel panel-default">
                 <div class="panel-body">
-<!--                    <div class="form-inline" role="form" id="searchRelForm">-->
-<!--                        <div class="form-group">-->
-<!--                            <input type="text" placeholder="请输入关键字" class="form-control" name="keywords"-->
-<!--                                   id="keywords">-->
-<!--                        </div>-->
-<!--                        <div class="form-group">-->
-<!--                            <label class="control-label">发布状态</label>-->
-<!--                            <select class="form-control" id="sstate" name="sstate">-->
-<!--                                <option value="">全部</option>-->
-<!--                                <option value="new">未审核</option>-->
-<!--                                <option value="pushing">推送中</option>-->
-<!--                                <option value="pushed">已推送</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                        <div class="form-group">-->
-<!--                            <button class="btn btn-default" type="button" id="searchRelBtn">查询</button>-->
-<!--                        </div>-->
-<!--                        <div class="form-group" style="float:right;">-->
-<!--                            <button class="btn btn-success" type="button" onclick="showAddReleaseModal()">发布节目-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <table id="release-table" class="col-xs-12" data-classes="table table-no-bordered"-->
-<!--                           data-toolbar="#toolbar"></table>-->
+                    <!--                    <div class="form-inline" role="form" id="searchRelForm">-->
+                    <!--                        <div class="form-group">-->
+                    <!--                            <input type="text" placeholder="请输入关键字" class="form-control" name="keywords"-->
+                    <!--                                   id="keywords">-->
+                    <!--                        </div>-->
+                    <!--                        <div class="form-group">-->
+                    <!--                            <label class="control-label">发布状态</label>-->
+                    <!--                            <select class="form-control" id="sstate" name="sstate">-->
+                    <!--                                <option value="">全部</option>-->
+                    <!--                                <option value="new">未审核</option>-->
+                    <!--                                <option value="pushing">推送中</option>-->
+                    <!--                                <option value="pushed">已推送</option>-->
+                    <!--                            </select>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="form-group">-->
+                    <!--                            <button class="btn btn-default" type="button" id="searchRelBtn">查询</button>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="form-group" style="float:right;">-->
+                    <!--                            <button class="btn btn-success" type="button" onclick="showAddReleaseModal()">发布节目-->
+                    <!--                            </button>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <!--                    <table id="release-table" class="col-xs-12" data-classes="table table-no-bordered"-->
+                    <!--                           data-toolbar="#toolbar"></table>-->
 
                     <div class="modal-body">
                         <form class="form-horizontal form-bordered" id="addReleaseModalForm">
@@ -168,7 +170,7 @@
                                 <div class="col-sm-6">
                                     <select class="form-control mb15 required" id="app" name="app">
                                         <option value='tiktok' selected>tiktok</option>
-                                        <option value='抖音' >抖音</option>
+                                        <option value='抖音'>抖音</option>
                                     </select>
                                 </div>
                             </div>
@@ -203,8 +205,8 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">设备列表</label>
                                     <div class="col-sm-6">
-<!--                                        <select class="select2" multiple data-placeholder="请选择..."-->
-<!--                                                id="mutidid" class="multiple-select"></select>-->
+                                        <!--                                        <select class="select2" multiple data-placeholder="请选择..."-->
+                                        <!--                                                id="mutidid" class="multiple-select"></select>-->
                                         <select multiple data-placeholder="请选择..." id="mutidid"></select>
                                         <input type="hidden" class="form-control" id="did" name="did"/>
                                     </div>
@@ -222,7 +224,7 @@
                         </form>
                     </div>
                     <div class="modal-footer" style="text-align: center !important ">
-<!--                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+                        <!--                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
                         <button type="button" class="btn btn-primary" onclick="addReleasev2('#addReleaseModalForm')">
                             发送
                         </button>
@@ -426,6 +428,9 @@
                     {name: "xp", key: "xp"},
                     {name: "yp", key: "yp"}
                 ]
+            }, {
+                "key": "tklogin",
+                "name": "换账号"
             }
         ]
 
@@ -434,7 +439,7 @@
             let html = ""
             for (index in data) {
                 let item = data[index]
-                html = html + '<option value="' + item.key + '" ' + (index == 0 ? 'selected':'') + ' >' + item.name + '</option>\n'
+                html = html + '<option value="' + item.key + '" ' + (index == 0 ? 'selected' : '') + ' >' + item.name + '</option>\n'
             }
             return html
         }
@@ -499,7 +504,7 @@
         initSelectEle("#app", apps)
         initSelectEle("#ptype", opctioins)
         initSelectParaEle("#ptype", opctioins)
-        window.initEle = function (){
+        window.initEle = function () {
             // initSelectEle("#app", apps)
             // initSelectEle("#ptype", opctioins)
             // initSelectParaEle("#ptype", opctioins)
@@ -526,16 +531,70 @@
         initProgramSelect($("#pid"));
         initDevicesSelect($("#mutidid"));
         // $('#mutidid').multipleSelect()
+        console.log(window.errDevicces)
+
+        function log(text) {
+            console.log(text)
+            // $log.append(text)
+            // $log.scrollTop($log[0].scrollHeight - $log.height())
+        }
 
         window.did_ms = $('#mutidid').multipleSelect({
-            "locale": "zh"
+            "locale": "zh",
+            "showClear": true,
+            "minimumCountSelected": 6,
+            styler: function (row) {
+                // console.log(row.value, JSON.stringify(row))
+                if (window.errDevicces.indexOf(row.value) > -1) {
+                    return 'background-color: #ffee00; color: #ff0000;'
+                }
+            },
+            textTemplate (n, $el) {
+                // console.log(n.getAttribute('data'))
+                if(n.getAttribute('data') === '1'){
+                    return  $el.html() + '</span> <span style="float: right">账号异常</span>'
+                }
+                return  $el.html()
+            },
+            // onOpen: function () {
+            //     log('onOpen event fire!\n')
+            // },
+            // onClose: function () {
+            //     log('onClose event fire!\n')
+            // },
+            // onCheckAll: function () {
+            //     log('onCheckAll event fire!\n')
+            // },
+            // onUncheckAll: function () {
+            //     log('onUncheckAll event fire!\n')
+            // },
+            // onFocus: function () {
+            //     log('onFocus event fire!\n')
+            // },
+            // onBlur: function () {
+            //     log('onBlur event fire!\n')
+            // },
+            // onOptgroupClick: function (view) {
+            //     log('onOptgroupClick event fire! view: ' + JSON.stringify(view) + '\n')
+            // },
+            // onClick: function (view) {
+            //     // debugger
+            //     log('onClick event fire! view: ' + JSON.stringify(view) + '\n')
+            // },
+            // onFilter: function (text) {
+            //     log('onFilter event fire! text: ' + text + '\n')
+            // },
+            // onAfterCreate: function () {
+            //     log('onAfterCreate event fire!\n')
+            // }
+
         })
         // $('#mutidid').multipleSelect({
-            // noneSelectedText : "--请选择--", //当没有内容选中时候显示的文本
-            // checkAllText : "全选", //全选按钮显示的文本
-            // uncheckAllText : "全不选", //全不选按钮显示的文本
-            // minWidth : 800, //select框的宽度，根据option的内容长短设置
-            // selectedList : 2 //当选中的内容超过2条时，显示“n已选择”
+        // noneSelectedText : "--请选择--", //当没有内容选中时候显示的文本
+        // checkAllText : "全选", //全选按钮显示的文本
+        // uncheckAllText : "全不选", //全不选按钮显示的文本
+        // minWidth : 800, //select框的宽度，根据option的内容长短设置
+        // selectedList : 2 //当选中的内容超过2条时，显示“n已选择”
         // });
         // $("#begin_date").timepicker({defaultTIme: false});
         // $("#end_date").timepicker({defaultTIme: false});

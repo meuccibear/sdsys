@@ -353,13 +353,13 @@ public class DeviceController extends BaseController {
 			if(null==id){
 				return ajaxFailure(Constants.REQUEST_03, Constants.REQUEST_PARAM_ERROR);
 			}
+			pd.put("did",id);
 
 			JsonResponse checkResult = deviceParamsCheck(pd);
 			if(checkResult.isSuccess() == false){
 				return checkResult;
 			}
 
-			pd.put("did",id);
 			pd.put("uuid", AuthorityUtil.getRequesterUUID(getRequest()));
 			deviceservice.edit(pd);
 			/////////////////////////////LOG///////////
@@ -658,9 +658,9 @@ public class DeviceController extends BaseController {
 			return ajaxFailure(Constants.REQUEST_03, "请输入设备名称");
 		}
 
-		if(null == params.getString("daddr") || "".equals(params.getString("daddr"))){
-			return ajaxFailure(Constants.REQUEST_03, "请输入设备部署地址");
-		}
+//		if(null == params.getString("daddr") || "".equals(params.getString("daddr"))){
+//			return ajaxFailure(Constants.REQUEST_03, "请输入设备部署地址");
+//		}
 
 
 		return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
