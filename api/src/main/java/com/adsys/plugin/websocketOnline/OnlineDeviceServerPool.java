@@ -97,13 +97,15 @@ public class OnlineDeviceServerPool {
      *
      * @param user
      * @param message
+     * @return
      */
-    public static void sendMessageToUser(WebSocket conn, String message) {
-        logger.info(String.format("message:%s", message));
-        System.out.println(String.format("message:%s", message));
+    public static boolean sendMessageToUser(WebSocket conn, String message) {
+        logger.info("pushMessage:\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n" + message);
         if (null != conn) {
             conn.send(message);
+            return true;
         }
+        return false;
     }
 
     /**

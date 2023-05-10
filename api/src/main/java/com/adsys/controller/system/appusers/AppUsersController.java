@@ -100,7 +100,7 @@ public class AppUsersController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("add user error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -190,7 +190,7 @@ public class AppUsersController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("add app user error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -212,11 +212,12 @@ public class AppUsersController extends BaseController {
 			if (pd.getString("keywords") != null && !"".equals(pd.getString("keywords")))
 				pd.put("keywords", pd.getString("keywords"));
 			Page page = new Page();
-			page.setPd(pd);			page.setOffset(pd.getString("offset")==null?0:Integer.valueOf(pd.getString("offset")));
+			page.setPd(pd);
+			page.setOffset(pd.getString("offset")==null?0:Integer.valueOf(pd.getString("offset")));
 			List<PageData> result = appuserservice.list(page);
 			return ajaxSuccessPage("appuser", result, page, Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -242,7 +243,7 @@ public class AppUsersController extends BaseController {
 			List<PageData> result = appuserservice.list(page);
 			return ajaxSuccessPage("member", result, page, Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -277,7 +278,7 @@ public class AppUsersController extends BaseController {
 			appuserservice.editU(pd);
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -312,7 +313,7 @@ public class AppUsersController extends BaseController {
 			appuserservice.editU(pd);
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -337,7 +338,7 @@ public class AppUsersController extends BaseController {
 			pd.put("email", rst.getString("email"));
 			return ajaxSuccess(pd,Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -368,7 +369,7 @@ public class AppUsersController extends BaseController {
 			appuserservice.editProfile(pd);
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -397,7 +398,7 @@ public class AppUsersController extends BaseController {
 			pageData.remove("password");//把密码屏蔽
 			return ajaxSuccess(pageData,Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -424,7 +425,7 @@ public class AppUsersController extends BaseController {
 			pageData.remove("password");//把密码屏蔽
 			return ajaxSuccess(pageData,Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -450,7 +451,7 @@ public class AppUsersController extends BaseController {
 			appuserservice.deleteU(pd);
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -475,7 +476,7 @@ public class AppUsersController extends BaseController {
 			appuserservice.deleteU(pd);
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}

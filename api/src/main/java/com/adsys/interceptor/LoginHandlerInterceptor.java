@@ -20,28 +20,28 @@ import com.adsys.util.JwtUtil;
 import com.adsys.util.Logger;
 import com.adsys.util.PageData;
 /**
- * 
+ *
 * 类名称：登录过滤，权限验证
-* 类描述： 
+* 类描述：
  */
 public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
-	
+
 	protected Logger logger = Logger.getLogger(this.getClass());
-	
+
 	@Resource(name="roleService")
 	private RoleService roleservice;
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		// TODO Auto-generated method stub
-		response.setCharacterEncoding("UTF-8");  
+		response.setCharacterEncoding("UTF-8");
 		response.setHeader("Access-Control-Allow-Origin", "*"); //herman
 		response.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS,DELETE,PUT");
 		response.setHeader("Access-Control-Allow-Headers", "accept, X-Access-Token, content-type");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Content-Type", "text/html;charset=UTF-8");
-		
-		
+
+
 		if ("OPTIONS".equals(request.getMethod()))
 		{
 			return true;
@@ -64,7 +64,7 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 					request.setAttribute("usertype", obj.opt("user_type"));
 					request.setAttribute("uuid", obj.opt("uuid"));
 					request.setAttribute("roleid", obj.opt("role_id"));
-					System.out.println("username=" + obj.opt("username") + " uuid=" + obj.opt("uuid"));
+//					System.out.println("username=" + obj.opt("username") + " uuid=" + obj.opt("uuid"));
 					PageData pd = new PageData();
 					pd.put("id", (String)obj.opt("role_id"));
 					PageData rst = roleservice.findById(pd);
@@ -88,5 +88,5 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 			}
 		}
 	}
-	
+
 }

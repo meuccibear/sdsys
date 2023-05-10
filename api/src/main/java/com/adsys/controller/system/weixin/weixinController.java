@@ -91,7 +91,7 @@ public class weixinController extends BaseController  {
 			Map<String, String> rst = WeixinJsSdk.jsSign(ticket, pd.getString("url"));
 			return ajaxSuccess(rst, Constants.REQUEST_01,Constants.REQUEST_OK);		
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}

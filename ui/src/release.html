@@ -22,9 +22,11 @@
 
     <link rel="stylesheet" href="css/multiple-select.min.css">
 
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <style>
         .form-inline .form-control {
-            width: 100px;
+            /*width: 100px;*/
         }
 
         select {
@@ -41,310 +43,277 @@
     </style>
 </head>
 
-<body class="stickyheader">
-
-<!-- Preloader -->
-<div id="preloader">
-    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
-</div>
+<body>
+<div id="app">
 
 
-<section>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+    </div>
 
-    <div class="leftpanel sticky-leftpanel">
 
-        <div class="logopanel">
-            <h1><span>ADSYS</span></h1>
-        </div><!-- logopanel -->
+    <section>
 
-        <div class="leftpanelinner">
+        <div class="leftpanel sticky-leftpanel">
 
-            <!-- This is only visible to small devices -->
-            <div class="visible-xs hidden-sm hidden-md hidden-lg">
-                <div class="media userlogged">
-                    <img alt="" src="images/photos/loggeduser.png" class="media-object">
-                    <div class="media-body">
-                        <h4 id="adsys_name_l"></h4>
+            <div class="logopanel">
+                <h1><span>ADSYS</span></h1>
+            </div><!-- logopanel -->
+
+            <div class="leftpanelinner">
+
+                <!-- This is only visible to small devices -->
+                <div class="visible-xs hidden-sm hidden-md hidden-lg">
+                    <div class="media userlogged">
+                        <img alt="" src="images/photos/loggeduser.png" class="media-object">
+                        <div class="media-body">
+                            <h4 id="adsys_name_l"></h4>
+                        </div>
                     </div>
+
+                    <h5 class="sidebartitle actitle">Account</h5>
+                    <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+                        <li><a href="profile.html"><i class="fa fa-user"></i> <span>个人信息</span></a></li>
+                        <li><a href="help"><i class="fa fa-question-circle"></i> <span>使用帮助</span></a></li>
+                        <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span>安全退出</span></a>
+                        </li>
+                    </ul>
                 </div>
 
-                <h5 class="sidebartitle actitle">Account</h5>
-                <ul class="nav nav-pills nav-stacked nav-bracket mb30">
-                    <li><a href="profile.html"><i class="fa fa-user"></i> <span>个人信息</span></a></li>
-                    <li><a href="help"><i class="fa fa-question-circle"></i> <span>使用帮助</span></a></li>
-                    <li><a href="javascript:appLogout();"><i class="fa fa-sign-out"></i> <span>安全退出</span></a></li>
-                </ul>
-            </div>
-
-            <h5 class="sidebartitle">菜单</h5>
-            <ul class="nav nav-pills nav-stacked nav-bracket">
-                <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
-                <li><a href="devices.html"><i class="fa fa-th-list"></i> <span>设备管理</span></a></li>
-                <li><a href="account.html"><i class="fa fa-edit"></i> <span>账号管理</span></a></li>
-                <li class="active"><a href="release.html"><i class="fa fa-calendar"></i> <span>发布管理</span></a></li>
-                <li class="nav-parent"><a href=""><i class="fa fa-gear"></i> <span>系统设置</span></a>
-                    <ul class="children">
-                        <!--<li><a href="template.html"><i class="fa fa-caret-right"></i> 节目模板</a></li>-->
-                        <li><a href="license.html"><i class="fa fa-caret-right"></i> 授权管理</a></li>
-                        <li><a href="group.html"><i class="fa fa-caret-right"></i> 分组管理</a></li>
-                        <li><a href="role.html"><i class="fa fa-caret-right"></i> 角色管理</a></li>
-                        <li><a href="user.html"><i class="fa fa-caret-right"></i> 用户管理</a></li>
-                    </ul>
-                </li>
-
-            </ul>
-        </div><!-- leftpanelinner -->
-    </div><!-- leftpanel -->
-
-    <div class="mainpanel">
-
-        <div class="headerbar">
-
-            <a class="menutoggle"><i class="fa fa-bars"></i></a>
-
-
-            <div class="header-right">
-                <ul class="headermenu">
-                    <li>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <img src="images/photos/loggeduser.png" alt=""/>
-                                <span id="adsys_name"></span>
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                                <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> 个人信息</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 使用帮助</a></li>
-                                <li><a href="javascript:appLogout();"><i class="glyphicon glyphicon-log-out"></i> 安全退出</a>
-                                </li>
-                            </ul>
-                        </div>
+                <h5 class="sidebartitle">菜单</h5>
+                <ul class="nav nav-pills nav-stacked nav-bracket">
+                    <li><a href="index.html"><i class="fa fa-home"></i> <span>控制面板</span></a></li>
+                    <li><a href="devices.html"><i class="fa fa-th-list"></i> <span>设备管理</span></a></li>
+                    <li><a href="account.html"><i class="fa fa-edit"></i> <span>账号管理</span></a></li>
+                    <li class="active"><a href="release.html"><i class="fa fa-calendar"></i> <span>发布管理</span></a>
                     </li>
+                    <li class="nav-parent"><a href=""><i class="fa fa-gear"></i> <span>系统设置</span></a>
+                        <ul class="children">
+                            <!--<li><a href="template.html"><i class="fa fa-caret-right"></i> 节目模板</a></li>-->
+                            <li><a href="license.html"><i class="fa fa-caret-right"></i> 授权管理</a></li>
+                            <li><a href="group.html"><i class="fa fa-caret-right"></i> 分组管理</a></li>
+                            <li><a href="role.html"><i class="fa fa-caret-right"></i> 角色管理</a></li>
+                            <li><a href="user.html"><i class="fa fa-caret-right"></i> 用户管理</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
-            </div><!-- header-right -->
+            </div><!-- leftpanelinner -->
+        </div><!-- leftpanel -->
 
-        </div><!-- headerbar -->
+        <div class="mainpanel">
 
-        <div class="pageheader">
-            <h2><i class="fa fa-table"></i> 发布管理 <span>管理广告机节目发布</span></h2>
-            <div class="breadcrumb-wrapper">
-                <ol class="breadcrumb">
-                    <li><a href="index.html">控制面板</a></li>
-                    <li class="active">发布管理</li>
-                </ol>
+            <div class="headerbar">
+
+                <a class="menutoggle"><i class="fa fa-bars"></i></a>
+
+
+                <div class="header-right">
+                    <ul class="headermenu">
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <img src="images/photos/loggeduser.png" alt=""/>
+                                    <span id="adsys_name"></span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                                    <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> 个人信息</a>
+                                    </li>
+                                    <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 使用帮助</a></li>
+                                    <li><a href="javascript:appLogout();"><i class="glyphicon glyphicon-log-out"></i>
+                                        安全退出</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div><!-- header-right -->
+
+            </div><!-- headerbar -->
+
+            <div class="pageheader">
+                <h2><i class="fa fa-table"></i> 发布管理 <span>管理广告机节目发布</span></h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li><a href="index.html">控制面板</a></li>
+                        <li class="active">发布管理</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contentpanel">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="modal-body">
+                            <form class="form-horizontal form-bordered" id="addReleaseModalForm">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">App<span class="asterisk">*</span></label>
+                                    <div class="col-sm-6">
+                                        <el-select
+                                                style="width: 100%;"
+                                                v-model="dataForm.app"
+                                                @change="appAction($event)"
+                                                placeholder="请选择">
+                                            <el-option
+                                                    v-for="item in apps"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                        <!--<select class="form-control mb15 required" id="appSelect" name="appSelect">
+                                            <option value='tiktok' selected>tiktok</option>
+                                            <option value='抖音'>抖音</option>
+                                            <option value='v2ray'>v2ray</option>
+                                        </select>-->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">操作<span class="asterisk">*</span></label>
+                                    <div class="col-sm-6">
+                                        <el-select
+                                                style="width: 100%;"
+                                                v-model="dataForm.action"
+                                                @change="action($event)"
+                                                placeholder="请选择">
+                                            <el-option
+                                                    v-for="item in action_select_option"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                        <!--                                        <select class="form-control mb15 required" id="ptype" name="action">-->
+                                        <!--                                            &lt;!&ndash;                                        <option>-&#45;&#45;请选择-&#45;&#45;</option>&ndash;&gt;-->
+                                        <!--                                        </select>-->
+                                    </div>
+                                </div>
+                                <div
+                                        class="form-group form-inline"
+                                        v-show="timeset_plan_show"
+                                        id="timeset_plan">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">发布目标<span
+                                            class="asterisk">*</span></label>
+                                    <div class="col-sm-6">
+                                        <el-radio-group
+                                                v-model="dataForm.radioTarget"
+                                                @change="select_device_model_change">
+                                            <el-radio label=1 border>发布到设备</el-radio>
+                                            <el-radio label=2 border>发布到分组</el-radio>
+                                        </el-radio-group>
+                                    </div>
+                                </div>
+                                <div id="device_plane"
+                                     v-show="select_device_model == false">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">设备列表</label>
+                                        <div class="col-sm-6">
+                                            <!--                                        <select class="select2" multiple data-placeholder="请选择..."-->
+                                            <!--                                                id="mutidid" class="multiple-select"></select>-->
+                                            <!--                                            <select multiple data-placeholder="请选择..." id="mutidid"></select>-->
+                                            <!--                                            <input type="hidden" class="form-control" id="did" name="did"/>-->
+                                            <el-select
+                                                    v-model="dataForm.did"
+                                                    style="width: 100%"
+                                                    filterable
+                                                    clearable
+                                                    multiple
+                                                    placeholder="请选择">
+                                                <el-option
+                                                        v-for="item in devices"
+                                                        :key="item.did"
+                                                        :label="item.dname"
+                                                        :value="item.did"
+                                                >
+                                                    <!--                                                    :style="item.errStatus > -1 ? 'background-color: #ffee00; color: #ff0000;':'' "-->
+                                                    <span style="float: left">{{ item.dname }}</span>
+                                                    <span style="float: right; color: #8492a6; font-size: 13px">{{ item.errStatus > -1 ? '异常设备' : ''}}</span>
+                                                </el-option>
+                                            </el-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                        class="form-group"
+                                        id="group_plane"
+                                        v-show="select_device_model == true">
+                                    <label class="col-sm-3 control-label">设备分组</label>
+                                    <div class="col-sm-6">
+                                        <!--                                    <input id="roomid" name="url" type="text" class="form-control required">-->
+                                        <!--                                        <div id="grouptree"></div>-->
+                                        <!--                                        <input type="hidden" class="form-control" id="gid" name="gid"/>-->
+                                        <!--                                        collapse-tags-->
+                                        <el-cascader
+                                                style="width: 100%"
+                                                placeholder="试试直接搜索～"
+                                                v-model="dataForm.gid"
+                                                :options="groups"
+                                                clearable
+                                                :props="{ multiple: true }"
+                                                filterable></el-cascader>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer" style="text-align: center !important ">
+                            <!--                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+                            <el-button
+                                    type="primary"
+                                    @click="addReleasev2('#addReleaseModalForm')"
+                            >发送
+                            </el-button>
+                            <!--                            <button type="button" class="btn btn-primary"-->
+                            <!--                                    onclick="addReleasev2('#addReleaseModalForm')">-->
+                            <!--                                发送-->
+                            <!--                            </button>-->
+                        </div>
+                    </div><!-- panel-body -->
+                </div><!-- panel -->
+
+            </div><!-- contentpanel -->
+
+        </div><!-- mainpanel -->
+
+        <div>
+            <div class="modal fade addReleaseModal" tabindex="-1" role="dialog" aria-labelledby="addReleaseModalLabel"
+                 data-backdrop="static" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
             </div>
         </div>
 
-        <div class="contentpanel">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <!--                    <div class="form-inline" role="form" id="searchRelForm">-->
-                    <!--                        <div class="form-group">-->
-                    <!--                            <input type="text" placeholder="请输入关键字" class="form-control" name="keywords"-->
-                    <!--                                   id="keywords">-->
-                    <!--                        </div>-->
-                    <!--                        <div class="form-group">-->
-                    <!--                            <label class="control-label">发布状态</label>-->
-                    <!--                            <select class="form-control" id="sstate" name="sstate">-->
-                    <!--                                <option value="">全部</option>-->
-                    <!--                                <option value="new">未审核</option>-->
-                    <!--                                <option value="pushing">推送中</option>-->
-                    <!--                                <option value="pushed">已推送</option>-->
-                    <!--                            </select>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="form-group">-->
-                    <!--                            <button class="btn btn-default" type="button" id="searchRelBtn">查询</button>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="form-group" style="float:right;">-->
-                    <!--                            <button class="btn btn-success" type="button" onclick="showAddReleaseModal()">发布节目-->
-                    <!--                            </button>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-                    <!--                    <table id="release-table" class="col-xs-12" data-classes="table table-no-bordered"-->
-                    <!--                           data-toolbar="#toolbar"></table>-->
-
-                    <div class="modal-body">
-                        <form class="form-horizontal form-bordered" id="addReleaseModalForm">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">App<span class="asterisk">*</span></label>
-                                <div class="col-sm-6">
-                                    <select class="form-control mb15 required" id="app" name="app">
-                                        <option value='tiktok' selected>tiktok</option>
-                                        <option value='抖音'>抖音</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">操作<span class="asterisk">*</span></label>
-                                <div class="col-sm-6">
-                                    <select class="form-control mb15 required" id="ptype" name="action">
-                                        <!--                                        <option>-&#45;&#45;请选择-&#45;&#45;</option>-->
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group form-inline" id="timeset_plan">
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">发布目标<span class="asterisk">*</span></label>
-                                <div class="col-sm-6">
-                                    <div class="col-md-6">
-                                        <div class="rdio rdio-default">
-                                            <input type="radio" name="radioTarget" id="radioSetDev" value="1"
-                                                   checked="true">
-                                            <label for="radioSetDev">发布到设备</label>
-                                        </div>
-
-                                        <div class="rdio rdio-primary">
-                                            <input type="radio" name="radioTarget" value="2" id="radioSetGroup">
-                                            <label for="radioSetGroup">发布到分组</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="device_plane">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">设备列表</label>
-                                    <div class="col-sm-6">
-                                        <!--                                        <select class="select2" multiple data-placeholder="请选择..."-->
-                                        <!--                                                id="mutidid" class="multiple-select"></select>-->
-                                        <select multiple data-placeholder="请选择..." id="mutidid"></select>
-                                        <input type="hidden" class="form-control" id="did" name="did"/>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="form-group" id="group_plane">
-                                <label class="col-sm-3 control-label">设备分组</label>
-                                <div class="col-sm-6">
-                                    <div id="grouptree"></div>
-                                    <input type="hidden" class="form-control" id="gid" name="gid"/>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer" style="text-align: center !important ">
-                        <!--                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
-                        <button type="button" class="btn btn-primary" onclick="addReleasev2('#addReleaseModalForm')">
-                            发送
-                        </button>
-                    </div>
-                </div><!-- panel-body -->
-            </div><!-- panel -->
-
-        </div><!-- contentpanel -->
-
-    </div><!-- mainpanel -->
-
-    <div>
-        <div class="modal fade addReleaseModal" tabindex="-1" role="dialog" aria-labelledby="addReleaseModalLabel"
-             data-backdrop="static" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <!--<div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h4 class="modal-title" id="addReleaseModalLabel">
-                            发布节目
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal form-bordered" id="addReleaseModalForm">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">App<span class="asterisk">*</span></label>
-                                <div class="col-sm-6">
-                                    <select class="form-control mb15 required" id="app" name="app">
-                                        <option value='tiktok' selected>tiktok</option>
-                                        <option value='抖音' >抖音</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">操作<span class="asterisk">*</span></label>
-                                <div class="col-sm-6">
-                                    <select class="form-control mb15 required" id="ptype" name="action">
-&lt;!&ndash;                                        <option>-&#45;&#45;请选择-&#45;&#45;</option>&ndash;&gt;
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group form-inline" id="timeset_plan">
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">发布目标<span class="asterisk">*</span></label>
-                                <div class="col-sm-6">
-                                    <div class="col-md-6">
-                                        <div class="rdio rdio-default">
-                                            <input type="radio" name="radioTarget" id="radioSetDev" value="1"
-                                                   checked="true">
-                                            <label for="radioSetDev">发布到设备</label>
-                                        </div>
-
-                                        <div class="rdio rdio-primary">
-                                            <input type="radio" name="radioTarget" value="2" id="radioSetGroup">
-                                            <label for="radioSetGroup">发布到分组</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="device_plane">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">设备列表</label>
-                                    <div class="col-sm-6">
-                                        <select class="select2" multiple data-placeholder="请选择..."
-                                                id="mutidid"></select>
-                                        <input type="hidden" class="form-control" id="did" name="did"/>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="form-group" id="group_plane">
-                                <label class="col-sm-3 control-label">设备分组</label>
-                                <div class="col-sm-6">
-                                    <div id="grouptree"></div>
-                                    <input type="hidden" class="form-control" id="gid" name="gid"/>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary" onclick="subB()">
-                            申请发布
-                        </button>
-                    </div>-->
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
+        <div>
+            <div class="modal fade releasePushItemModal" tabindex="-1" role="dialog" aria-labelledby="liveProgram"
+                 data-backdrop="static" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="addReleaseModalLabel">
+                                资源列表
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <table id="release-push-item-table" class="col-xs-12" data-classes="table table-no-bordered"
+                                   data-toolbar="#toolbar"></table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" onclick="closeReleaseModal()">关闭</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
         </div>
-    </div>
-
-    <div>
-        <div class="modal fade releasePushItemModal" tabindex="-1" role="dialog" aria-labelledby="liveProgram"
-             data-backdrop="static" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h4 class="modal-title" id="addReleaseModalLabel">
-                            资源列表
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <table id="release-push-item-table" class="col-xs-12" data-classes="table table-no-bordered"
-                               data-toolbar="#toolbar"></table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" onclick="closeReleaseModal()">关闭</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-    </div>
-</section>
-
+    </section>
+</div>
 
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/jquery-migrate-1.2.1.min.js"></script>
@@ -370,250 +339,445 @@
 <script src="js/jquery.validate.min.js"></script>
 <script src="js/validate_cn.js"></script>
 <script src="js/multiple-select.min.js"></script>
+
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
 <script>
-    jQuery(document).ready(function () {
-        initReleaseTable();
-        initReleasePushItemTable();
-        // jQuery('#starttime').timepicker({showMeridian: false});
-        // jQuery('#endtime').timepicker({showMeridian: false});
-
-
-        apps = [{"key": 'tiktok', "name": "TikTok"}, {"key": 'douyin', "name": "抖音"}]
-        opctioins = [
-            {
-                "key": "gotolive",
-                "name": "进入直播间",
-                "para": [
-                    {name: "roomid", key: "roomid"}
-                ]
-            },
-            {
-                "key": "continuelike",
-                "name": "连续点赞",
-                "para": [
-                    {name: "数量", key: "count"}
-                ]
-            },
-            {
-                "key": "automode",
-                "name": "自动浏览模式",
-                "para": [
+    ajaxGet("devices/list", null, function (result) {
+        if (result.success) {
+            window.devices = result.data
+        }
+    }, null);
+    ajaxGet("groups/tree2", null, function (result) {
+        if (result.success) {
+            window.groups = JSON.parse(result.data.tree)
+        }
+    }, null);
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                dataForm: {
+                    app: null,
+                    action: null,
+                    radioTarget: null,
+                    did: null,
+                    gid: null
+                },
+                timeset_plan_show: false,
+                select_device_model: null,
+                groups: window.groups,
+                devices: window.devices,
+                visible: false,
+                value: [],
+                apps: [
+                    {value: 'tiktok', label: "TikTok"},
+                    {value: 'douyin', label: "抖音"},
+                    {value: 'v2ray', label: "v2ray"}
+                ],
+                actions: [
                     {
-                        name: "mode",
-                        key: "mode",
-                        value: [{"key": 'open', "name": "打开"}, {"key": 'close', "name": "关闭"}]
+                        "key": "gotolive",
+                        "name": "进入直播间",
+                        "app": "tiktok,douyin",
+                        "para": [
+                            {name: "roomid", key: "roomid"}
+                        ]
+                    },
+                    {
+                        "key": "continuelike",
+                        "name": "连续点赞",
+                        "app": "tiktok,douyin",
+                        "para": [
+                            {name: "数量", key: "count"}
+                        ]
+                    },
+                    {
+                        "key": "automode",
+                        "name": "自动浏览模式",
+                        "app": "tiktok,douyin",
+                        "para": [
+                            {
+                                name: "mode",
+                                key: "mode",
+                                value: [{"key": 'open', "name": "打开"}, {"key": 'close', "name": "关闭"}]
+                            }
+                        ]
+                    },
+                    {
+                        "key": "like",
+                        "name": "点赞",
+                        "app": "tiktok,douyin"
+                    },
+                    {
+                        "key": "upswip",
+                        "name": "上滑",
+                        "app": "tiktok,douyin"
+                    },
+                    {
+                        "key": "downswip",
+                        "name": "下滑",
+                        "app": "tiktok,douyin"
+                    },
+                    {
+                        "key": "livefollow",
+                        "name": "关注",
+                        "app": "tiktok,douyin"
+                    },
+                    {
+                        "key": "pointclick",
+                        "name": "点击指定坐标",
+                        "app": "tiktok,douyin",
+                        "para": [
+                            {name: "xp", key: "xp"},
+                            {name: "yp", key: "yp"}
+                        ]
+                    }, {
+                        "key": "tklogin",
+                        "app": "tiktok,douyin",
+                        "name": "换账号"
+                    }, {
+                        "key": "clipboard",
+                        "app": "tiktok,douyin",
+                        "name": "剪贴板",
+                        "para": [
+                            {name: "内容", key: "text"}
+                        ]
+                    }, {
+                        "key": "install",
+                        "name": "安装APK",
+                        "app": "tiktok,douyin",
+                        "para": [
+                            {name: "URL", key: "url"}
+                        ]
+                    }, {
+                        "key": "vpn",
+                        "name": "VPN",
+                        "app": "v2ray",
+                        "para": [
+                            {
+                                name: "开关", key: "cmd", value: [
+                                    {
+                                        "key": "open",
+                                        "name": "打开"
+                                    },
+                                    {
+                                        "key": "close",
+                                        "name": "关闭"
+                                    }
+                                ]
+                            },
+                            {
+                                name: "线路",
+                                key: "lid",
+                                value: [
+                                    {"key": '1', "name": "线路1"},
+                                    {"key": '2', "name": "线路2"},
+                                    {"key": '3', "name": "线路3"},
+                                    {"key": '4', "name": "线路4"},
+                                    {"key": '5', "name": "线路5"},
+                                    {"key": '6', "name": "线路6"},
+                                    {"key": '7', "name": "线路7"},
+                                    {"key": '8', "name": "线路8"},
+                                    {"key": '9', "name": "线路9"},
+                                    {"key": '10', "name": "线路10"}
+                                ]
+                            },
+                        ]
+                    }, {
+                        "key": "gototop",
+                        "name": "返回群控页面",
+                        "app": "tiktok,douyin"
+                    }, {
+                        "key": "killtk",
+                        "name": "退出App",
+                        "app": "tiktok"
+                    }, {
+                        "key": "languages",
+                        "name": "切换语言",
+                        "app": "tiktok",
+                        "para": [
+                            {
+                                name: "语言", key: "lang", value: [
+                                    {
+                                        "key": "English",
+                                        "name": "英语"
+                                    },
+                                    {
+                                        "key": "中文 (繁體)",
+                                        "name": "中文 (繁體)"
+                                    },
+                                    {
+                                        "key": "Other",
+                                        "name": "其他"
+                                    }
+                                ],
+                                update: function () {
+                                    let ele_div = $('#OtherLanguageName_div')
+                                    let ele = $('#lang')
+                                    if (ele.val() == 'Other') {
+                                        ele_div.show()
+                                    } else {
+                                        ele_div.hide()
+                                    }
+                                }
+                            },
+                            {
+                                name: "其他",
+                                key: "OtherLanguageName",
+                                display: "none"
+                            }
+                        ]
+                    }, {
+                        "key": "timezone",
+                        "name": "切换时区",
+                        "app": "tiktok",
+                        "para": [
+                            {
+                                name: "时区", key: "region", value: [
+                                    {
+                                        "key": "losAngeles",
+                                        "name": "洛杉矶"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, {
+                        "key": "poweroff",
+                        "name": "远程关机",
+                        "app": "tiktok",
+                        "para": [
+                            {
+                                name: "指令", key: "cmd", value: [
+                                    {key:"shutdown", name: "立即关机"},
+                                    {key:"reboot", name: "立即重启"}
+                                ]
+                            }
+                            // ,{
+                            //     name: "Boot", key: "boot"
+                            // },{
+                            //     name: "Down", key: "down"
+                            // }
+                        ]
                     }
-                ]
-            },
-            {
-                "key": "like",
-                "name": "点赞"
-            },
-            {
-                "key": "upswip",
-                "name": "上滑"
-            },
-            {
-                "key": "downswip",
-                "name": "下滑",
-            },
-            {
-                "key": "livefollow",
-                "name": "关注"
-            },
-            {
-                "key": "pointclick",
-                "name": "点击指定坐标",
-                "para": [
-                    {name: "xp", key: "xp"},
-                    {name: "yp", key: "yp"}
-                ]
-            }, {
-                "key": "tklogin",
-                "name": "换账号"
-            }
-        ]
+                ],
+                action_select_option: []
+            };
+        },
+        created() {
+            // console.log(JSON.stringify(this.groups))
+            // console.log(JSON.stringify(this.devices))
+        },
+        methods: {
+            addReleasev2() {
+                // console.log(JSON.stringify(this.dataForm))
+                function vueAjaxSubmit(url, dataPara, fns, fne) {
+                    let token = getToken();
+                    let feh = accessErrorHandle;
+                    if (fne != null)
+                        feh = fne;
+                    jQuery.support.cors = true;
+                    $.ajax({
+                        url: getRootUrl() + url,
+                        type: "post",
+                        headers: {'X-Access-Token': token},
+                        data: dataPara,
+                        async: false,
+                        dataType: 'json',
+                        success: fns,
+                        error: feh
+                    });
+                }
 
-        function genSelectHtml(data) {
-            // let html = "<option >---请选择---</option>"
-            let html = ""
-            for (index in data) {
-                let item = data[index]
-                html = html + '<option value="' + item.key + '" ' + (index == 0 ? 'selected' : '') + ' >' + item.name + '</option>\n'
-            }
-            return html
-        }
+                let postData = JSON.parse(JSON.stringify(this.dataForm))
+                let dataPara = getFormJson('#addReleaseModalForm');
+                Object.keys(dataPara).forEach(function (data, index) {
+                    postData[data] = dataPara[data]
+                })
 
-        function initSelectEle(path, data) {
-            document.querySelector(path).innerHTML = genSelectHtml(data);
-        }
+                // console.log('postData:', postData)
 
-        function initSelectParaEle(path, data) {
-            var selectValue = document.querySelector(path).value;
+                if (postData['radioTarget'] === '1') {
+                    postData['did'] = postData['did'].join(',')
+                } else {
+                    let gids = []
 
-            $("#timeset_plan").hide();
-
-            for (index in data) {
-                let item = data[index]
-                let para = item['para']
-                if (item.key == selectValue && para != undefined) {
-                    let html = "";
-                    let b = para.length > 1
-                    for (const paraKey in para) {
-                        let paraItem = para[paraKey]
-                        let value = paraItem['value']
-                        html = html + '<label class="col-sm-3 control-label">' + paraItem.name + '<span class="asterisk">*</span></label>\n';
-                        let eleHtml = ""
-                        if (value === undefined) {
-                            eleHtml = '<input id="roomid" name="' + paraItem.key + '" type="text" class="form-control ' + (b ? '' : 'mb15 required') + '"/>\n';
-                        } else {
-                            eleHtml = '<select class="form-control mb15 required" name="' + paraItem.key + '">\n' + genSelectHtml(value) +
-                                '                                    </select>'
-                            // eleHtml = '<input id="roomid" name="' + paraItem.key + '" type="text" class="form-control ' + (b ? '' : 'mb15 required') + '"/>\n' ;
+                    function substr(data, key) {
+                        // console.log('data:', data)
+                        let index = data.indexOf(key)
+                        // console.log(index, index + key.length)
+                        if (index > -1) {
+                            let result = data.substring(index + key.length)
+                            // console.log('result:', result)
+                            return result
                         }
-                        html = html + '<div class="col-sm-' + (b ? '3' : '6') + '">\n' + eleHtml + '</div>'
-
-                        // console.log(paraItem)
+                        return undefined
                     }
-                    $('#timeset_plan').show()
-                    let timeset_plan_ele = document.querySelector('#timeset_plan')
-                    timeset_plan_ele.setAttribute('class', ('form-group ' + (b ? 'form-inline' : '')))
-                    timeset_plan_ele.innerHTML = html;
 
+                    postData['gid'].forEach(function (data, index) {
+                        let deviceName = data[data.length - 1]
+                        let result = substr(deviceName, 'device_')
+                        if (result) {
+                            gids.push(result)
+                        }
+
+                    })
+                    // postData['gid'] = gids
+                    postData['did'] = gids.join(',')
+                    postData['gid'] = null
+                }
+
+                vueAjaxSubmit("release/program", postData, function (result) {
+
+
+
+                    if (result.success) {
+                        let html = undefined;
+                        if(result.data['failDeviceNames']){
+                            html = ""
+                            result.data['failDeviceNames'].forEach(function (data, index) {
+                                html += '<li>' + data + '</li>'
+                            })
+                            html = '以下设备离线【弹框将在30秒之后关闭！！！】：</br><ul>' + html + '</ul>'
+                        }
+
+                        let dialogData = html == undefined ? {
+                            message: "发送成功",
+                            closeButton: false
+                        } : {
+                            message: html,
+                            closeButton: true,
+                            title: "发送成功",
+                        }
+                        let closeTimeout = 1000 * (html == undefined ? 1 : 30)
+                        window['dialog'] = bootbox.dialog(dialogData);
+                        setTimeout(function () {
+                            window['dialog'].modal('hide');
+                        }, closeTimeout)
+                        // $('.addReleaseModal').modal('hide');
+                        // $("#timeset_plan").hide();
+                        // clearForm($(formname));
+                        // $("#mutidid").select2("val", "");
+                        // releaseTablerefresh();
+                    } else {
+                        bootbox.alert({
+                            buttons: {
+                                ok: {
+                                    label: '确认',
+                                    className: 'btn btn-warning'
+                                }
+                            },
+                            message: result.msg,
+                            title: "访问出错",
+                        });
+                    }
+                }, null);
+
+            },
+            select_device_model_change(value) {
+                this.dataForm.did = null
+                this.dataForm.gid = null
+                this.select_device_model = value != 1
+            },
+            appAction(value) {
+                this.dataForm.action = null
+                this.initSelectEle("#ptype", this.actions)
+                this.initSelectParaEle("#ptype", this.actions)
+            },
+            action(value) {
+                this.initSelectParaEle("#ptype", this.actions)
+            },
+            genSelectHtml(data) {
+                let html = ""
+                for (var index in data) {
+                    let item = data[index]
+                    if (item['app'] != undefined) {
+                        let itemVal = item['app'].split(',')
+                        // console.log('item:', document.getElementById("app").value, item, itemVal)
+                        if (item['app'] == "*" || itemVal.indexOf(this.dataForm.app) > -1) {
+                            // console.log('继续a')
+                        } else {
+                            // console.log('跳过')
+                            continue
+                        }
+                    }
+                    // else{
+                    //     console.log('继续')
+                    // }
+                    html = html + '<option value="' + item.key + '" ' + (index == 0 ? 'selected' : '') + ' >' + item.name + '</option>\n'
+                }
+                return html
+            },
+            initSelectEle(path, data) {
+                this.action_select_option = []
+                for (var index in data) {
+                    let item = data[index]
+                    if (item['app'] != undefined) {
+                        let itemVal = item['app'].split(',')
+                        // console.log('item:', document.getElementById("app").value, item, itemVal)
+                        if (item['app'] == "*" || itemVal.indexOf(this.dataForm.app) > -1) {
+                            // console.log('继续a')
+                        } else {
+                            continue
+                        }
+                    }
+                    // else{
+                    //     console.log('继续')
+                    // }
+                    this.action_select_option.push({
+                        value: item.key,
+                        label: item.name
+                    })
+                }
+
+            },
+            initSelectParaEle(path, data) {
+                var selectValue = this.dataForm.action;
+
+                // $("#timeset_plan").hide();
+                this.timeset_plan_show = false
+
+                for (index in data) {
+                    let item = data[index]
+                    let para = item['para']
+                    if (item.key == selectValue && para != undefined) {
+                        let html = "";
+                        let b = para.length > 1
+                        for (const paraKey in para) {
+                            let paraItem = para[paraKey]
+                            let value = paraItem['value']
+                            html = html + '<div id="' + paraItem.key + '_div' + '"  ' + (paraItem.display != undefined || paraItem.display ? 'style="display: none;"' : '') + ' ><label class="col-sm-3 control-label">' + paraItem.name + '<span class="asterisk">*</span></label>\n';
+                            let eleHtml = ""
+                            if (value === undefined) {
+                                eleHtml = '<input id="' + paraItem.key + '" name="' + paraItem.key + '" type="text" class="form-control ' + (b ? '' : 'mb15 required') + '"/>\n';
+                            } else {
+                                eleHtml = '<select id="' + paraItem.key + '" class="form-control mb15 required" name="' + paraItem.key + '">\n' + this.genSelectHtml(value) +
+                                    '                                    </select>'
+                                // eleHtml = '<input id="roomid" name="' + paraItem.key + '" type="text" class="form-control ' + (b ? '' : 'mb15 required') + '"/>\n' ;
+                            }
+                            html = html + '<div class="col-sm-' + (b ? '3' : '6') + '">\n' + eleHtml + '</div></div>'
+
+                            // console.log(paraItem)
+                        }
+                        // $('#timeset_plan').show()
+                        this.timeset_plan_show = true
+                        let timeset_plan_ele = document.querySelector('#timeset_plan')
+                        timeset_plan_ele.setAttribute('class', ('form-group ' + (b ? 'form-inline' : '')))
+                        timeset_plan_ele.innerHTML = html;
+                        for (const paraKey in para) {
+                            let paraItem = para[paraKey]
+                            if(paraItem.update){
+                                $('#' + paraItem.key).on('change', paraItem.update)
+                            }
+                        }
+                    }
                 }
             }
         }
-
-        $("#app").change(function () {
-            initSelectParaEle("#ptype", opctioins)
-            // if ($("#ptype").val() == "0") {
-            //     $("#timeset_plan").show();
-            // } else
-            //     $("#timeset_plan").hide();
-        });
-
-
-        $("#ptype").change(function () {
-            initSelectParaEle("#ptype", opctioins)
-            // if ($("#ptype").val() == "0") {
-            //     $("#timeset_plan").show();
-            // } else
-            //     $("#timeset_plan").hide();
-        });
-
-        initSelectEle("#app", apps)
-        initSelectEle("#ptype", opctioins)
-        initSelectParaEle("#ptype", opctioins)
-        window.initEle = function () {
-            // initSelectEle("#app", apps)
-            // initSelectEle("#ptype", opctioins)
-            // initSelectParaEle("#ptype", opctioins)
-        }
-
-
-        $("#group_plane").hide();
-        // $("#timeset_plan").hide();
-        $('#searchRelBtn').click(function () {
-            releaseTablerefresh();
-        });
-
-        $("input[name=radioTarget]").click(function () {
-            var value = $('input[id=radioSetGroup]:checked').val();
-            if (value != null) {
-                $('#group_plane').show();
-                $('#device_plane').hide();
-            } else {
-                $('#group_plane').hide();
-                $('#device_plane').show();
-            }
-        });
-
-        initProgramSelect($("#pid"));
-        initDevicesSelect($("#mutidid"));
-        // $('#mutidid').multipleSelect()
-        console.log(window.errDevicces)
-
-        function log(text) {
-            console.log(text)
-            // $log.append(text)
-            // $log.scrollTop($log[0].scrollHeight - $log.height())
-        }
-
-        window.did_ms = $('#mutidid').multipleSelect({
-            "locale": "zh",
-            "showClear": true,
-            "minimumCountSelected": 6,
-            styler: function (row) {
-                // console.log(row.value, JSON.stringify(row))
-                if (window.errDevicces.indexOf(row.value) > -1) {
-                    return 'background-color: #ffee00; color: #ff0000;'
-                }
-            },
-            textTemplate (n, $el) {
-                // console.log(n.getAttribute('data'))
-                if(n.getAttribute('data') === '1'){
-                    return  $el.html() + '</span> <span style="float: right">账号异常</span>'
-                }
-                return  $el.html()
-            },
-            // onOpen: function () {
-            //     log('onOpen event fire!\n')
-            // },
-            // onClose: function () {
-            //     log('onClose event fire!\n')
-            // },
-            // onCheckAll: function () {
-            //     log('onCheckAll event fire!\n')
-            // },
-            // onUncheckAll: function () {
-            //     log('onUncheckAll event fire!\n')
-            // },
-            // onFocus: function () {
-            //     log('onFocus event fire!\n')
-            // },
-            // onBlur: function () {
-            //     log('onBlur event fire!\n')
-            // },
-            // onOptgroupClick: function (view) {
-            //     log('onOptgroupClick event fire! view: ' + JSON.stringify(view) + '\n')
-            // },
-            // onClick: function (view) {
-            //     // debugger
-            //     log('onClick event fire! view: ' + JSON.stringify(view) + '\n')
-            // },
-            // onFilter: function (text) {
-            //     log('onFilter event fire! text: ' + text + '\n')
-            // },
-            // onAfterCreate: function () {
-            //     log('onAfterCreate event fire!\n')
-            // }
-
-        })
-        // $('#mutidid').multipleSelect({
-        // noneSelectedText : "--请选择--", //当没有内容选中时候显示的文本
-        // checkAllText : "全选", //全选按钮显示的文本
-        // uncheckAllText : "全不选", //全不选按钮显示的文本
-        // minWidth : 800, //select框的宽度，根据option的内容长短设置
-        // selectedList : 2 //当选中的内容超过2条时，显示“n已选择”
-        // });
-        // $("#begin_date").timepicker({defaultTIme: false});
-        // $("#end_date").timepicker({defaultTIme: false});
-        // $(".select2").select2({
-        //     width: '100%'
-        // });
-
-        // var obj= $("#table2_Id").select2();
-        // obj.val("XXXXX").trigger("change");
-        setGroupTreeView('#grouptree', "#addReleaseModalForm");
-    });
-
-    function treeviewSelectHandler(tvform, data) {
-        $(tvform).contents().find("#gid").val(data.id);
-    }
-
-    function treeviewunSelectHandler(tvform, data) {
-        $(tvform).contents().find("#gid").val(0);
-    }
+    })
 </script>
 
 </body>

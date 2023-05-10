@@ -38,10 +38,10 @@ import com.adsys.util.json.JsonResponse;
 @Controller
 @RequestMapping(value="/reset")
 public class ResetPasswordController extends BaseController{
-	
+
 	@Resource(name="appuserService")
 	private AppUserService appuserservice;
-	
+
 	//重置密码
 	@RequestMapping(value = "/passwd",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
@@ -56,28 +56,28 @@ public class ResetPasswordController extends BaseController{
 			if (userpd == null){
 				return ajaxFailure(Constants.REQUEST_05,"用户不存在");
 			}
-				
+
 			if(!user.getTel().equals(userpd.getString("tel"))) {
 				return ajaxFailure(Constants.REQUEST_05,"与系统记录的手机号码不符");
 			}
-			
+
 			if(!user.getCheck().equals(userpd.getString("checkcode"))) {
 				return ajaxFailure(Constants.REQUEST_05,"验证码不正确");
 			}
-			
-			if (DateUtil.getDiffMin(DateUtil.formatSdfTimes((Timestamp)userpd.get("checkdate")), DateUtil.getTime()) > 3)
+
+			if (DateUtil.getDiffMin(DateUtil.formatSdfTimes((Timestamp)userpd.get("checkdate")), DateUtil.getTime()) > 3 * (1000 * 60))
 				return ajaxFailure(Constants.REQUEST_05,"验证码已过期");
-			
+
 			userpd.put("password", new SimpleHash("SHA-1", user.getUsername(), user.getPassword()).toString());
 			appuserservice.editU(userpd);
-			
+
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
-	
+
 	//获取验证码
 	@RequestMapping(value = "/checkcode",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
@@ -95,7 +95,7 @@ public class ResetPasswordController extends BaseController{
 			pd.put("checkcode", codes.toString());
 			appuserservice.updateCheckCode(pd);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,"用户名或手机号码不存在");
 		}
 		Sendsms.sendsms(codes, tel);

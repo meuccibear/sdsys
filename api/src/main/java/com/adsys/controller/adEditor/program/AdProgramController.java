@@ -187,7 +187,7 @@ public class AdProgramController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("add role error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -250,7 +250,7 @@ public class AdProgramController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("copy program error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -280,7 +280,7 @@ public class AdProgramController extends BaseController {
 			}
 
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 		}
 		
 		try {
@@ -565,7 +565,7 @@ public class AdProgramController extends BaseController {
 				adProgramService.updateZipPath(param);
 			}catch (Exception ex){
 				logger.info("Compressed File fail!!!");
-				logger.info(ex.getMessage());
+				logger.error(ex);
 				return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 			}
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
@@ -703,7 +703,7 @@ public class AdProgramController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("add role error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -727,7 +727,7 @@ public class AdProgramController extends BaseController {
 			List<PageData> result = adProgramItemService.findByPid(pd);
 			return ajaxSuccess(result,Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -750,7 +750,7 @@ public class AdProgramController extends BaseController {
 			List<PageData> templates = templateservice.listAll(pd);
 			return ajaxSuccess(templates,Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -902,7 +902,7 @@ public class AdProgramController extends BaseController {
 			}
 			return ajaxSuccess(result,Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -924,7 +924,7 @@ public class AdProgramController extends BaseController {
 			List<PageData> result = adProgramService.listProgram(pd);
 			return ajaxSuccess(result, Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -952,7 +952,7 @@ public class AdProgramController extends BaseController {
 			List<PageData> result = adProgramService.pageList(page);
 			return ajaxSuccessPage("program", result, page, Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -1027,7 +1027,7 @@ public class AdProgramController extends BaseController {
 			
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}

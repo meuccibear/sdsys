@@ -76,7 +76,7 @@ public class TemplateController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("add template error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -102,7 +102,7 @@ public class TemplateController extends BaseController {
 			List<PageData> result = templateservice.list(page);
 			return ajaxSuccessPage("template", result, page, Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -126,7 +126,7 @@ public class TemplateController extends BaseController {
 			PageData pageData = templateservice.findById(pd);
 			return ajaxSuccess(pageData,Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -154,7 +154,7 @@ public class TemplateController extends BaseController {
 			templateservice.delete(pd);
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}

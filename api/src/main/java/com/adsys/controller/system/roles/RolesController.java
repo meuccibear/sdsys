@@ -71,7 +71,7 @@ public class RolesController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("add role error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -95,11 +95,12 @@ public class RolesController extends BaseController {
 				pd.put("keywords", pd.getString("keywords"));
 			
 			Page page = new Page();
-			page.setPd(pd);			page.setOffset(Integer.parseInt(pd.getString("offset")));
+			page.setPd(pd);
+			page.setOffset(Integer.parseInt(pd.getString("offset")));
 			List<PageData> result = roleservice.list(page);
 			return ajaxSuccessPage("role", result, page, Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -122,7 +123,7 @@ public class RolesController extends BaseController {
 			List<PageData> result = roleservice.listAll(pd);
 			return ajaxSuccess(result, Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -152,7 +153,7 @@ public class RolesController extends BaseController {
 			roleservice.edit(pd);
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -177,7 +178,7 @@ public class RolesController extends BaseController {
 			PageData pageData = roleservice.findById(pd);
 			return ajaxSuccess(pageData,Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -208,7 +209,7 @@ public class RolesController extends BaseController {
 			roleservice.delete(pd);
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}

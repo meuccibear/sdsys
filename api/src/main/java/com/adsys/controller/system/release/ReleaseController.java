@@ -1,8 +1,8 @@
 package com.adsys.controller.system.release;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 
 import com.adsys.dao.redis.RedisDao;
@@ -137,6 +137,8 @@ public class ReleaseController extends BaseController {
                 }
 
 
+                List<String> failDids = new ArrayList<>();
+
                 if (devlist != null && devlist.size() > 0) {
 
 
@@ -171,12 +173,40 @@ public class ReleaseController extends BaseController {
                             getAccountsPD.put("accounttype", app);
                             accounts = accountService.getAccounts(getAccountsPD);
                             break;
+                        case "clipboard":
+                            dataP.element("text", pd.getString("text"));
+                            break;
+                        case "install":
+                            dataP.element("url", pd.getString("url"));
+                            break;
+                        case "vpn":
+                            dataP.element("cmd", pd.getString("cmd"));
+                            Integer lid = 0;
+                            if(null != pd.getString("lid")){
+                                lid = Integer.valueOf(pd.getString("lid"));
+                            }
+                            dataP.element("lid", lid);
+                            break;
+                        case "languages":
+                            String lang = pd.getString("lang");
+                            if(lang.equals("Other")){
+                                lang = pd.getString("OtherLanguageName");
+                            }
+                            dataP.element("lang", lang);
+                            break;
+                        case "timezone":
+                            dataP.element("region", pd.getString("region"));
+                            break;
+                        case "poweroff":
+                            dataP.element("cmd", pd.getString("cmd"));
+                            dataP.element("boot", pd.getString("boot"));
+                            dataP.element("down", pd.getString("down"));
+                            break;
                     }
 
                     if (samebatch) {
-                        sendMessages(action, devlist, dataP);
+                        failDids = sendMessages(action, devlist, dataP);
                     } else {
-                        List<String> failDids = new ArrayList<>();
                         String did = null;
 
                         PageData appSendMessageData = new PageData();
@@ -186,11 +216,10 @@ public class ReleaseController extends BaseController {
                         int accountIndex = 0;
                         String key = null;
                         for (int ds = 0; ds < devlist.size(); ds++) {
-                            accountIndex = ds + accountShiftingIndex;
                             did = devlist.get(ds);
                             if ("tklogin".equals(action)) {
+                                accountIndex = ds + accountShiftingIndex;
                                 // 1. 发送账号 redis限制
-                                // 2.
                                 // 2.
                                 if (accountIndex < accounts.size()) {
                                     key = String.format("%s%s_%s", Constants.REDIS_USE_ACCOUNT, app, accounts.get(accountIndex).get("account"));
@@ -217,12 +246,23 @@ public class ReleaseController extends BaseController {
                                     sendMessage(appSendMessageData, action, did, dataP, false);
                                     failDids.add(did);
                                 }
+                            } else {
+                                sendMessage(appSendMessageData, action, did, dataP, true);
+                                failDids.add(did);
                             }
+
                         }
+
                     }
                 }
 
-                return ajaxSuccess(Constants.REQUEST_01, Constants.REQUEST_OK);
+                PageData rst = new PageData();
+                logger.info("failDids:"+JSON.toJSONString(failDids));
+                List<String> deviceNameByGid = deviceservice.findDeviceNameByDid(failDids);
+                if(null != deviceNameByGid){
+                    rst.put("failDeviceNames", deviceNameByGid);
+                }
+                return ajaxSuccess(rst, Constants.REQUEST_01, Constants.REQUEST_OK);
             } else {
                 return ajaxFailure(Constants.REQUEST_03, Constants.REQUEST_PARAM_ERROR);
             }
@@ -230,7 +270,7 @@ public class ReleaseController extends BaseController {
         } catch (Exception ex) {
             ex.printStackTrace();
 //            logger.info("add schedule error !!!");
-//            logger.info(ex.getMessage());
+//            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -252,16 +292,14 @@ public class ReleaseController extends BaseController {
         return status;
     }
 
-    void sendMessages(String action, List<String> devlist, JSONObject dataP) throws Exception {
+    List<String> sendMessages(String action, List<String> devlist, JSONObject dataP) throws Exception {
         List<String> failDidList = new ArrayList<>();
         String did = "";
 
         for (int ds = 0; ds < devlist.size(); ds++) {
             did = devlist.get(ds);
-            if ("changeAccount".equals(action)) {
-                if (!OnlinePushCommand.pushMessageToApp(did, action, dataP)) {
-                    failDidList.add(did);
-                }
+            if (!OnlinePushCommand.pushMessageToApp(did, action, dataP)) {
+                failDidList.add(did);
             }
         }
 
@@ -276,9 +314,10 @@ public class ReleaseController extends BaseController {
         String[] failDids = com.alibaba.fastjson.JSONObject.parseObject(JSON.toJSONString(failDidList), new TypeReference<String[]>() {
         });
         appSendMessageData.put("dids", String.join(",", dids));
-        appSendMessageData.put("fail_did", String.join(",", failDids));
+        appSendMessageData.put("fail_did", failDids.length > 0 ? String.join(",", failDids) : null);
         appSendMessageData.put("addDate", DateUtil.getTime());
         appSendMessageManager.save(appSendMessageData);
+        return failDidList;
     }
 
     /**
@@ -380,7 +419,7 @@ public class ReleaseController extends BaseController {
 
         } catch (Exception ex) {
             logger.info("add schedule error !!!");
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -492,7 +531,7 @@ public class ReleaseController extends BaseController {
 
         } catch (Exception ex) {
             logger.info("add schedule error !!!");
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -554,19 +593,19 @@ public class ReleaseController extends BaseController {
                     pd_i.put("plist", new ArrayList());
 
                 //判断心跳是否超时，如果超时将状态设为离线
-                int mins = DateUtil.getDiffMin(DateUtil.formatSdfTimes((Timestamp) pd_i.get("beatdate")), DateUtil.getTime());
-
-                if (mins > 1 && "online".equals(pd_i.getString("dstatus"))) {
-                    pd_i.put("dstatus", "offline");
-                    deviceservice.updateState(pd_i);
-                }
+//                int mins = DateUtil.getDiffMin(DateUtil.formatSdfTimes((Timestamp) pd_i.get("beatdate")), DateUtil.getTime());
+//
+//                if (mins > 1 && "online".equals(pd_i.getString("dstatus"))) {
+//                    pd_i.put("dstatus", "offline");
+//                    deviceservice.updateState(pd_i);
+//                }
 
                 result.set(i, pd_i);
             }
 
             return ajaxSuccessPage("release", result, page, Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -590,7 +629,7 @@ public class ReleaseController extends BaseController {
             List<PageData> result = scheduleService.listByDid(pd);
             return ajaxSuccess(result, Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -625,7 +664,7 @@ public class ReleaseController extends BaseController {
             }
             return ajaxSuccess(result, Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -683,7 +722,7 @@ public class ReleaseController extends BaseController {
                 return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
 
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -729,7 +768,7 @@ public class ReleaseController extends BaseController {
             } else
                 return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -819,7 +858,7 @@ public class ReleaseController extends BaseController {
 
         } catch (Exception ex) {
             logger.info("add schedule error !!!");
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -899,7 +938,7 @@ public class ReleaseController extends BaseController {
 
         } catch (Exception ex) {
             logger.info("add schedule error !!!");
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -980,7 +1019,7 @@ public class ReleaseController extends BaseController {
 
         } catch (Exception ex) {
             logger.info("add schedule error !!!");
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -1019,7 +1058,7 @@ public class ReleaseController extends BaseController {
             }
             return ajaxSuccessPage("release", result, page, Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -1043,7 +1082,7 @@ public class ReleaseController extends BaseController {
             List<PageData> result = scheduleService.listByDid(pd);
             return ajaxSuccess(result, Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -1078,7 +1117,7 @@ public class ReleaseController extends BaseController {
             }
             return ajaxSuccess(result, Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -1108,7 +1147,7 @@ public class ReleaseController extends BaseController {
 
             return ajaxSuccess(Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }

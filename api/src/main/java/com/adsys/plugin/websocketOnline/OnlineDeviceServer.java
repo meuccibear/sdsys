@@ -131,7 +131,7 @@ public class OnlineDeviceServer extends WebSocketServer {
         devicetimeprefservice = (DeviceTimePrefService) ContextLoader.getCurrentWebApplicationContext().getBean("deviceTimePrefService");
 
         message = message.toString();
-        logger.info("req msg=" + message);
+        logger.info("onMessage:\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n" + message);
         Map cmdMap = (Map) JSONArray.parse(message);
         String action = cmdMap.get("action").toString();
         String did = cmdMap.get("did").toString();
@@ -173,10 +173,12 @@ public class OnlineDeviceServer extends WebSocketServer {
                         dev_redis.put("dtoken", dev.getString("dtoken"));
                         dev_redis.put("dname", dev.getString("dname"));
                     }
+                    dev_redis.put("time", DateUtil.getTime());
                     redisDaoImpl.addMap(did, dev_redis);
-                    redisDaoImpl.setExpire(did, 1800);//30min timeout
+                    // 30min timeout
+                    redisDaoImpl.setExpire(did, 60 * 5);
                 } catch (Exception e) {
-                    System.out.println(e);
+                    logger.error(e);
                     resultResp(conn, action, rep_event, cmdMap.get("seq_id"), -1, "auth", null);
                     return;
                 }
@@ -184,24 +186,6 @@ public class OnlineDeviceServer extends WebSocketServer {
         }
 
         if ("login".equals(action)) {
-//            PageData cs_p = new PageData();
-//            cs_p.put("uuid", dev_redis.get("uuid"));
-//            PageData cs;
-//            try {
-//                cs = customerService.findById(cs_p);
-//                if (cs != null) {
-//                    if (cs.getString("expriedate") != null && cs.getString("expriedate") != "") {
-//                        Date exprie = DateUtil.fomatDateTime(cs.getString("expriedate"));
-//                        if (System.currentTimeMillis() > exprie.getTime()) {
-//                            resultResp(conn, action, rep_event, cmdMap.get("seq_id"), -1, "fail", null);
-//                            return;
-//                        }
-//                    }
-//                }
-//            } catch (Exception e1) {
-//                e1.printStackTrace();
-//            }
-
             PageData parma = new PageData();
             parma.put("did", did);
             parma.put("dstatus", "online");
@@ -218,25 +202,13 @@ public class OnlineDeviceServer extends WebSocketServer {
         } else if ("heartbeat".equals(action)) {
             PageData parma = new PageData();
             parma.put("did", did);
-//            String token = "";
-//            boolean islive = false;
-//            if (reqMap != null) {
-//                parma.put("did", did);
-//                token = reqMap.get("token").toString();
-//                islive = (boolean) reqMap.get("live");
-//            }
             try {
-//                if (dev_redis.get("dtoken").equals(token)) {
                     parma.put("dstatus", "online");
                     deviceservice.updateState(parma);
-
-//                    if (islive) {
-//                        parma.put("dlive", "start");
-//                    } else {
-//                        parma.put("dlive", "stop");
-//                    }
                     deviceservice.updateBeat(parma);
-                    resultResp(conn, action, rep_event, cmdMap.get("seq_id"), 0, "ok", null);
+                    Map<String, String> data = new PageData();
+                    data.put("dname", dev_redis.get("dname"));
+                    resultResp(conn, action, rep_event, cmdMap.get("seq_id"), 0, "ok", data);
 //                }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -262,10 +234,8 @@ public class OnlineDeviceServer extends WebSocketServer {
                     PageData updateErrStatusPD = new PageData();
                     updateErrStatusPD.put("did", did);
                     updateErrStatusPD.put("errStatus", Constants.STATUS_ONE);
-
                     deviceservice.updateErrStatus(updateErrStatusPD);
                 }
-
             }
                 resultResp(conn, action, rep_event, cmdMap.get("seq_id"), 0, "ok", null);
             } catch (Exception e) {

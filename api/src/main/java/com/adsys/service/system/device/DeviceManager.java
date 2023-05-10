@@ -39,6 +39,8 @@ public interface DeviceManager{
 	 */
 	public void updateState(PageData pd)throws Exception;
 
+	public void updateStates(PageData pd)throws Exception;
+
 	/**更新心跳时间
 	 * @param pd
 	 * @throws Exception
@@ -57,6 +59,8 @@ public interface DeviceManager{
 	 */
 	public List<PageData> list(Page page)throws Exception;
 
+	public List<PageData> devices() throws Exception;
+
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception
@@ -74,6 +78,8 @@ public interface DeviceManager{
 	 * @throws Exception
 	 */
 	public List<PageData> findDeviceByGid(String gid)throws Exception;
+
+	public List<String> findDeviceNameByDid(List<String> failDids )throws Exception;
 
 	/**批量删除
 	 * @param ArrayDATA_IDS

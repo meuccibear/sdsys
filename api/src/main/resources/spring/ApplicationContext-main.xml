@@ -17,6 +17,8 @@
 						http://www.springframework.org/schema/task/spring-task-3.0.xsd
 	">
 
+	<context:property-placeholder location="classpath:jdbc.properties, classpath:redis.properties" />
+
 	<!-- 启用注解 -->
 	<context:annotation-config />
 
@@ -25,20 +27,63 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
+	<!-- 配置事物处理 -->
+	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false"
+					   rollback-for="java.lang.Exception"/>
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false"
+					   rollback-for="java.lang.Exception" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false"
+					   rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false"
+					   rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="pc" expression="execution(* com.adsys.service..*(..))" />
+		<aop:advisor pointcut-ref="pc" advice-ref="txAdvice" />
+	</aop:config>
+
 	<task:executor id="executor" pool-size="5" />
 	<task:scheduler id="scheduler" pool-size="10" />
 	<task:annotation-driven executor="executor" scheduler="scheduler" />
 
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
-	<!-- 读取参数配置 -->
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
+
+
+	<!-- 配置需要定时的bean类 -->
+	<bean id="startWorkJob" class="com.adsys.job.StartWorkJob"></bean>
+
+	<!-- 配置任务的具体类和方法 -->
+	<bean id="startWorkTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 要调用的bean -->
+		<property name="targetObject" ref="startWorkJob"></property>
+		<!-- 要调用的Method -->
+		<property name="targetMethod" value="startWork"></property>
+		<!-- 是否并发,false表示 如果发生错误也不影响下一次的调用 -->
+		<property name="concurrent" value="false"></property>
+	</bean>
+
+	<!-- 配置一个触发器 -->
+	<bean id="startWorkTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="startWorkTask"></property>
+<!--		<property name=" cronExpression" value="0 * 13 * * ?"></property> &lt;!&ndash;每天的下午1点的每分钟的0秒都执行一次&ndash;&gt;-->
+<!--		<property name="cronExpression" value="0/10 * * * * ?"></property>-->
+		<property name="cronExpression" value="0 0/1 * * * ?"></property>
+	</bean>
+
+	<!-- 总调度,用于启动定时器 -->
+	<bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers" >
 			<list>
-                 <value>/WEB-INF/dbconfig.properties</value>
-                 <value>/WEB-INF/redis.properties</value>
-            </list>
-        </property>
+				<ref bean="startWorkTrigger"/>
+			</list>
+		</property>
 	</bean>
 
 </beans>

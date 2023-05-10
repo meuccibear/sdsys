@@ -9,6 +9,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MD5 {
+	protected static Logger logger = Logger.getLogger(MD5.class);
+
 
 	public static String md5(String str) {
 		try {
@@ -29,16 +31,16 @@ public class MD5 {
 			}
 			str = buf.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 
 		}
 		return str;
 	}
-	
+
 	public static String md5sum(String filepath){
 		return md5_byte(getBytes(filepath));
 	}
-	
+
 	public static String md5_byte( byte[] key) {
 		String cacheKey;
 		try {
@@ -50,7 +52,7 @@ public class MD5 {
 		}
 		return cacheKey;
 	}
-	
+
 	private static String bytesToHexString(byte[] bytes) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < bytes.length; i++) {
@@ -62,7 +64,7 @@ public class MD5 {
 		}
 		return sb.toString();
 	}
-	
+
 	private static byte[] getBytes(String filePath){
 		byte[] buffer = null;
 		try {
@@ -86,6 +88,6 @@ public class MD5 {
 	}
 
 	public static void main(String[] args) {
-		
+
 	}
 }

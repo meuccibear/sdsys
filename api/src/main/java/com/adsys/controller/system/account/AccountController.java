@@ -52,7 +52,7 @@ public class AccountController extends BaseController {
             }
             return ajaxSuccessPage("appuser", result, page, Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -96,7 +96,7 @@ public class AccountController extends BaseController {
 
         } catch (Exception ex) {
             logger.info("add user error !!!");
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -123,7 +123,7 @@ public class AccountController extends BaseController {
             pageData.put("password", "******");//把密码屏蔽
             return ajaxSuccess(pageData, Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -154,7 +154,7 @@ public class AccountController extends BaseController {
             accountService.editU(pd);
             return ajaxSuccess(Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }
@@ -180,7 +180,7 @@ public class AccountController extends BaseController {
             accountService.deleteU(pd);
             return ajaxSuccess(Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }

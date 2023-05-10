@@ -85,7 +85,7 @@ public class WeixinCommon {
 			JSONObject jsonObject = httpRequst(requestUrl, "GET", null);
 			return jsonObject.getString("access_token");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return "errer";
 		}
 	}
@@ -103,7 +103,7 @@ public class WeixinCommon {
 			JSONObject jsonObject = httpRequst(requestUrl, "GET", null);
 			return jsonObject.getString("ticket");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return "errer";
 		}
 	}
@@ -160,7 +160,7 @@ public class WeixinCommon {
 			ce.printStackTrace();
 			return null;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 		return jsonobject;

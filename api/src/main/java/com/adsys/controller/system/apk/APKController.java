@@ -60,7 +60,7 @@ public class APKController extends BaseController {
 			List<APK> apkList = apkService.getAPKList();
 			return ajaxSuccess(apkList, Constants.REQUEST_01,Constants.REQUEST_OK);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return ajaxFailure(Constants.REQUEST_03, Constants.REQUEST_FAILL);
 		}
 	}
@@ -152,7 +152,7 @@ public class APKController extends BaseController {
 			}
 			return ajaxSuccess(Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -181,7 +181,7 @@ public class APKController extends BaseController {
 			}
 
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 		}
 		
 		try {
@@ -220,7 +220,7 @@ public class APKController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("add role error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}

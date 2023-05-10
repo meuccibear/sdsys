@@ -9,21 +9,21 @@
 			<param name="ConversionPattern" value="%d{yyyy HH:mm:ss} %-5p %c - %m%n" />
 		</layout>
 	</appender>
-	
+
 	<!-- Application Loggers -->
 	<logger name="com.fh">
 		<level value="info" />
 	</logger>
-	
+
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
-	</logger>	
-	
+	</logger>
+
 	<logger name="org.springframework.beans">
 		<level value="info" />
 	</logger>
-	
+
 	<logger name="org.springframework.context">
 		<level value="info" />
 	</logger>
@@ -32,20 +32,20 @@
 		<level value="info" />
 	</logger>
 
-	<logger name="org.springframework.jdbc">
-		<level value="info" />
-	</logger>
+<!--	<logger name="org.springframework.jdbc">-->
+<!--		<level value="info" />-->
+<!--	</logger>-->
 
 	<logger name="org.mybatis.spring">
 		<level value="info" />
 	</logger>
-	<logger name="java.sql">
-		<level value="info" />
-	</logger>
+<!--	<logger name="java.sql">-->
+<!--		<level value="info" />-->
+<!--	</logger>-->
 	<!-- Root Logger -->
 	<root>
 		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
-	
+
 </log4j:configuration>

@@ -1,7 +1,6 @@
 package com.adsys.service.system.account.impl;
 
 import com.adsys.dao.DaoSupport;
-import com.adsys.dao.redis.RedisDao;
 import com.adsys.entity.Page;
 import com.adsys.service.system.account.AccountService;
 import com.adsys.util.PageData;
@@ -17,9 +16,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Resource(name = "daoSupport")
     private DaoSupport dao;
-
-    @Resource(name = "redisDaoImpl")
-    private RedisDao redisDaoImpl;
 
     /**
      * 列表

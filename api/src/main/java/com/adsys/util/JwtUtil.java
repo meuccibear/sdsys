@@ -72,7 +72,7 @@ public class JwtUtil {
 			obj.put("limit", 1000);
 			obj.put("exprie", 365);
 			String token = jwt.createJWT(Const.JWT_ID,obj.toString(),Const.JWT_TTL);
-			System.out.println("license=" + token);
+//			System.out.println("license=" + token);
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}

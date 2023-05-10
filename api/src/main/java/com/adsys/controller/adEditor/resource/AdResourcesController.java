@@ -94,7 +94,7 @@ public class AdResourcesController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("add role error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -120,7 +120,7 @@ public class AdResourcesController extends BaseController {
 
 		}catch (Exception ex){
 			logger.info("add role error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -182,7 +182,7 @@ public class AdResourcesController extends BaseController {
 			
 		}catch (Exception ex){
 			logger.info("add role error !!!");
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			JsonResponse json = ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 			JSONObject obj = JSONObject.fromObject(json);
 			out.write(JSONObject.fromObject(json).toString());
@@ -225,7 +225,7 @@ public class AdResourcesController extends BaseController {
 			List<PageData> result = adResourceService.listAll(pd);
 			return ajaxSuccess(result,Constants.REQUEST_01,Constants.REQUEST_OK);
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 			return ajaxFailure(Constants.REQUEST_05,Constants.REQUEST_FAILL);
 		}
 	}
@@ -256,7 +256,7 @@ public class AdResourcesController extends BaseController {
 			}
 
 		}catch (Exception ex){
-			logger.info(ex.getMessage());
+			logger.error(ex);
 		}
 		
 		try {
