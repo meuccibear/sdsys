@@ -1,38 +1,6 @@
-function send(data) {
-    if (window._connection) {
-        window._connection.send(JSON.stringify(data))
-    } else {
-        window._connection = new WebSocket('ws://192.168.0.29:8889');
-    }
-}
-
-
-
-window.option.send(
-    {
-        "did": "test123",
-        "action": "login",
-        "req": {
-            "dname": "",
-            "daddr": ""
-        },
-        "req_event": 1,
-        "seq_id": 1567087026
-    }
-)
-
-window.option.send({
-    "action": "heartbeat",
-    "did": "test123",
-    "req": {
-        "key": "4dafeb69dc1f98bda"
-    },
-    "req_event": 1,
-    "seq_id": 1567087026
-},true)
-
-
 window.option = {
+    "url_dev": "ws://127.0.0.1:8889",
+    "url_prod": "ws://165.154.134.182:8889",
     "sw":true,
     "timeout": 1000 * 30,
     "send": function (data, b) {
@@ -44,15 +12,15 @@ window.option = {
         }
     },
     "connection":function () {
-        window.option._connection = new WebSocket('ws://192.168.0.29:8889');
+        window.option._connection = new WebSocket(window.option.url_dev);
         setTimeout(function(){
             window.option.send(
                 {
-                    "did": "test123",
+                    "did": "test1",
                     "action": "login",
                     "req": {
-                        "dname": "",
-                        "daddr": ""
+                        "dname": "test1",
+                        "daddr": "test1"
                     },
                     "req_event": 1,
                     "seq_id": 1567087026
@@ -61,7 +29,7 @@ window.option = {
             setTimeout(function (){
                 window.option.send({
                     "action": "heartbeat",
-                    "did": "test123",
+                    "did": "test1",
                     "req": {
                         "key": "4dafeb69dc1f98bda"
                     },
