@@ -202,6 +202,9 @@ public class ReleaseController extends BaseController {
                             dataP.element("boot", pd.getString("boot"));
                             dataP.element("down", pd.getString("down"));
                             break;
+                        case "inputkey":
+                            dataP.element("key", pd.getString("key"));
+                            break;
                     }
 
                     if (samebatch) {

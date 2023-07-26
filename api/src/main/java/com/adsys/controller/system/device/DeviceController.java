@@ -371,12 +371,6 @@ public class DeviceController extends BaseController {
     @ResponseBody
     public JsonResponse toList() {
         try {
-
-//			boolean auth = AuthorityUtil.checkPermissionByRole(getRequest(), permissionEnum.Sys_Role_READ);
-//			if (auth == false)
-//				return ajaxFailure(Constants.REQUEST_404, Constants.PERMISSION_FAILL);
-
-
             PageData pd = this.getPageData();
             pd.put("uuid", AuthorityUtil.getRequesterUUID(getRequest()));
             List<PageData> result = deviceservice.listAll(pd);

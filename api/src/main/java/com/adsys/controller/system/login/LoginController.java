@@ -40,13 +40,13 @@ public class LoginController extends BaseController  {
 
 	@Resource(name="sysuserService")
 	private SysUserManager sysuserService;
-	
+
 	@Resource(name="appuserService")
 	private AppUserManager appuserService;
-	
+
 	private JwtUtil jwt;
-	
-	
+
+
 	/**请求登录，验证用户
 	 * @return
 	 * @throws Exception
@@ -83,7 +83,7 @@ public class LoginController extends BaseController  {
 			}else{
 				return ajaxFailure(Constants.REQUEST_03, "密码错误");
 //				logBefore(logger, USERNAME+"登录系统密码或用户名错误");
-			
+
 			}
 		}else{
 			return ajaxFailure(Constants.REQUEST_03, "用户不存在");
@@ -127,10 +127,16 @@ public class LoginController extends BaseController  {
 			}else{
 				return ajaxFailure(Constants.REQUEST_03, "密码错误");
 //				logBefore(logger, USERNAME+"登录系统密码或用户名错误");
-			
+
 			}
 		}else{
 			return ajaxFailure(Constants.REQUEST_03, "用户不存在");
 		}
+	}
+
+
+	public static void main(String[] args) {
+		String passwd = new SimpleHash("SHA-1", "admin", "123456").toString();
+		System.out.println(passwd);
 	}
 }

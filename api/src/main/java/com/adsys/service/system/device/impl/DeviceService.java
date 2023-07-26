@@ -152,8 +152,10 @@ public class DeviceService implements DeviceManager {
      * @param pd
      * @throws Exception
      */
-    public List<PageData> findDeviceByGid(String gid) throws Exception {
-        return (List<PageData>) dao.findForList("DevicesMapper.findDeviceByGid", gid);
+    public List<PageData> findDeviceByGid(Integer gid) throws Exception {
+        PageData pageData = new PageData();
+        pageData.put("gid", gid);
+        return (List<PageData>) dao.findForList("DevicesMapper.findDeviceByGid", pageData);
     }
 
 

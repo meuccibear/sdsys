@@ -239,7 +239,7 @@ public class GroupController extends BaseController {
 //            logger.info("groupNodes:" + JSON.toJSONString(groupNodes));
             List<PageData> devices = deviceservice.findDeviceByGid(null);
             PageData rst = new PageData();
-            rst.put("tree", JSON.toJSONString(getNodeById(devices, groupNodes, 0)).toString());
+            rst.put("tree", getNodeById(devices, groupNodes, 0));
 
             return ajaxSuccess(rst, Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
@@ -253,13 +253,15 @@ public class GroupController extends BaseController {
     List<ElTreeBuilder.NodeBuild> getNodeById(List<PageData> devices, List<ElTreeBuilder.Node> groupNodes, Integer id) {
         List<ElTreeBuilder.NodeBuild> nodeBuilds = new ArrayList<>();
         for (Node rootNode : groupNodes) {
-            if (rootNode.getPid() == id) {
+//            logger.info(String.format("id:%d pid:%d", id, rootNode.getPid()));
+            if (rootNode.getPid().equals(id)) {
                 List<ElTreeBuilder.NodeBuild> children = getNodeById(devices, groupNodes, rootNode.getId());
-//                logger.info("children:" + JSON.toJSONString(children) + (null == children || children.size() == 0));
-                if (children.size() == 0) {
+//                logger.info("   children:" + children.size() + " " + (null == children || children.size() == 0));
+                if (null == children || children.size() == 0) {
                     try {
                         for (PageData sonDevice : devices) {
-                            if (sonDevice.get("gid") == rootNode.getId()) {
+//                            logger.info(String.format("id:%d gid:%d", rootNode.getId(), sonDevice.get("gid")));
+                            if (sonDevice.get("gid").equals(rootNode.getId())) {
                                 children.add(new ElTreeBuilder.NodeBuild(String.format("device_%s", sonDevice.getString("did")), sonDevice.getString("dname"), null));
                             }
                         }
@@ -284,7 +286,7 @@ public class GroupController extends BaseController {
      */
     @RequestMapping(value = "/group/{id}", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonResponse deleteById(@PathVariable("id") String id) {
+    public JsonResponse deleteById(@PathVariable("id") Integer id) {
         try {
 
             boolean auth = AuthorityUtil.checkPermissionByRole(getRequest(), permissionEnum.Group_EDIT);
@@ -297,30 +299,31 @@ public class GroupController extends BaseController {
 
             PageData parma = new PageData();
             parma.put("gid", id);
-            parma.put("ugid", null);
+            parma.put("ugid", -1);
             deviceservice.updateGid(parma);
 //            List<PageData> devices = deviceservice.findDeviceByGid(id);
 //            if (devices.size() > 0) {
 //                return ajaxFailure(Constants.REQUEST_05, "该分组下有设备，请先删除设备");
 //            }
 
-            List<PageData> groups = groupsservice.findGroupByGpid(id);
+            List<PageData> groups = groupsservice.findGroupByGpid(String.valueOf(id));
             if (groups.size() > 0) {
-                for (PageData group : groups) {
-                    List<PageData> sonDevices = deviceservice.findDeviceByGid(String.valueOf((int) group.get("gid")));
-                    if (sonDevices.size() > 0) {
-                        return ajaxFailure(Constants.REQUEST_05, "该分组下的【" + group.getString("gname") + "】分组有设备，请先删除设备");
-                    }
-                }
+//                for (PageData group : groups) {
+//                    List<PageData> sonDevices = deviceservice.findDeviceByGid((int) group.get("gid"));
+//                    if (sonDevices.size() > 0) {
+//                        return ajaxFailure(Constants.REQUEST_05, "该分组下的【" + group.getString("gname") + "】分组有设备，请先删除设备");
+//                    }
+//                }
                 for (PageData group : groups) {
                     groupsservice.delGroupByGid(String.valueOf((int) group.get("gid")));
                 }
             }
-            groupsservice.delGroupByGid(id);
+            groupsservice.delGroupByGid(String.valueOf(id));
 
             return ajaxSuccess(Constants.REQUEST_01, Constants.REQUEST_OK);
         } catch (Exception ex) {
-            logger.error(ex);
+            ex.printStackTrace();
+//            logger.error(ex);
             return ajaxFailure(Constants.REQUEST_05, Constants.REQUEST_FAILL);
         }
     }

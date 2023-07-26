@@ -191,7 +191,7 @@
 	</select>
 
 	<!-- 通过gid查询所有设备-->
-	<select id="findDeviceByGid" parameterType="String" resultType="pd">
+	<select id="findDeviceByGid"  resultType="pd">
 		select
 		<include refid="GroupDeviceField"></include>
 		from

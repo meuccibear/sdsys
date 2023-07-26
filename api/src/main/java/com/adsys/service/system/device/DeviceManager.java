@@ -77,7 +77,7 @@ public interface DeviceManager{
 	 * @param pd
 	 * @throws Exception
 	 */
-	public List<PageData> findDeviceByGid(String gid)throws Exception;
+	public List<PageData> findDeviceByGid(Integer gid)throws Exception;
 
 	public List<String> findDeviceNameByDid(List<String> failDids )throws Exception;
 

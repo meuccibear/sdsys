@@ -353,7 +353,7 @@
     }, null);
     ajaxGet("groups/tree2", null, function (result) {
         if (result.success) {
-            window.groups = JSON.parse(result.data.tree)
+            window.groups = result.data.tree
         }
     }, null);
     new Vue({
@@ -561,6 +561,18 @@
                             // },{
                             //     name: "Down", key: "down"
                             // }
+                        ]
+                    }, {
+                        "key": "inputkey",
+                        "name": "发送按键",
+                        "app": "tiktok",
+                        "para": [
+                            {
+                                name: "按键", key: "key", value: [
+                                    {key:"home", name: "Home"},
+                                    {key:"menu", name: "返回"}
+                                ]
+                            }
                         ]
                     }
                 ],
